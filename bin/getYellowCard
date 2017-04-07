@@ -1,0 +1,22 @@
+OIID=$1
+PIN=$2
+RELATION=$3
+
+CONTEXT=$(NODE_PATH=`npm config get prefix`/lib/node_modules ./encodePin $PIN)
+ENDPOINT="${baseUrl}yellowCard?relationshipToClient=$RELATION"
+
+echo "Pin: $PIN"
+echo "Context: $CONTEXT"
+echo "Oiid: $OIID"
+echo "Relationship to client: $RELATION"
+echo "Endpoint: $ENDPOINT"
+
+curl -X GET \
+  -vvv \
+  -H "session-token: $SESSION_TOKEN" \
+  -H "x-access-token: $SUBMISSION_TOKEN" \
+  -H "Content-Type:application/json" \
+  -H "Accept:application/json, text/plain, */*" \
+  -H "OIID: $OIID" \
+  -H "immunizations-context: $CONTEXT" \
+  $ENDPOINT

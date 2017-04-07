@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const crypto=require('crypto-js')
+const pin=process.argv[1]
+
+if(pin) {
+  return encryptPin(pin)
+}
+
+function encryptPin(userPin) {
+  //envrypt pin with SHA256
+  var CryptoJS = require('crypto-js');
+  var encryptedPin = CryptoJS.SHA256(userPin);
+
+  //create JSON object containing pin
+  var pinObj = { 'pin': encryptedPin.toString() };
+
+  //convert json object to string
+  var stringObj = JSON.stringify(pinObj);
+
+  //return base64 encoded string of json object
+  console.log(new Buffer(stringObj).toString('base64'));
+}
+
+

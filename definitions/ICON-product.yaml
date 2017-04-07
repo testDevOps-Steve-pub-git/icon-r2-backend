@@ -1,0 +1,20 @@
+product: 2.0.0
+info:
+  name: icon-api-product
+  title: ICON
+  version: 1.0.0
+apis:
+  icon-api:
+    $ref: ICON.yaml
+visibility:
+  view:
+    type: public
+  subscribe:
+    type: authenticated
+plans:
+  default:
+    title: Default Plan
+    description: Default Plan
+    approval: false
+    rate-limit:
+      value: unlimited

@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "postgres": {
+    "url": "${postgresWriter}",
+    "name": "postgres",
+    "connector": "loopback-connector-postgresql"
+  },
+  "postgresLookup": {
+    "url": "${postgresReader}",
+    "name": "postgresLookup",
+    "connector": "loopback-connector-postgresql"
+  }
+}

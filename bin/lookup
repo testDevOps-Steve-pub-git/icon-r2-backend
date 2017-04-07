@@ -1,0 +1,69 @@
+#############################################################################################                                                    ###
+###                                                                                       ###
+### EXAMPLE USAGE:                                                                        ###
+### default values -    ./lookup [lookup-name]                                            ###
+###                                 OR                                                    ###
+### custom values  -    ./lookup [lookup-name] [first-param-name] [first-param-value] ... ###
+###                                                                                       ###
+#############################################################################################
+
+source 'baseUrl'
+source 'tokens'
+
+if [ $1 == "address" ]; then
+  uri="lookup/address?filter[postalCode]=l8n"
+fi
+
+if [ $1 == "agent-trade-pair" ]; then
+  uri="lookup/agent-trade?filter[snomed]=125690004,6921000087107"
+fi
+
+if [ $1 == "agent" ]; then
+  uri="lookup/agent?filter[immun]=ra&filter[lang]=fr"
+fi
+
+if [ $1 == "city" ]; then
+  uri="lookup/city?filter[city]=ham"
+fi
+
+if [ $1 == "disease" ]; then
+  uri="lookup/disease?filter[snomed]=63650001,14189004"
+fi
+
+if [ $1 == "immunization" ]; then
+  uri="lookup/immunization?filter[immun]=ra&filter[lang]=en"
+fi
+
+if [ $1 == "lot-lookup" ]; then
+  uri="lookup/lots?filter[snomed]=3526007"
+fi
+
+if [ $1 == "lot" ]; then
+  uri="lookup/lot?filter[number]=c43"
+fi
+
+if [ $1 == "school" ]; then
+  uri="lookup/school?filter[name]=playh"
+fi
+
+if [ $1 == "trade" ]; then
+  uri="lookup/trade?filter[snomed]=7481000087104"
+fi
+
+if [ $# == 3 ]; then
+  uri="lookup/$1?filter[$2]=$3"
+fi
+
+if [ $# == 5 ]; then
+  uri="lookup/$1?filter[$2]=$3&filter[$4]=$5"
+fi
+
+echo $uri
+
+curl -g -X GET \
+  -H "session-token:$SESSION_TOKEN" \
+  -H "authorization:$SUBMISSION_TOKEN" \
+  -H "Accept:application/json" \
+  -H "Accept-Language:en-US,en;q=0.8" \
+  $baseUrl$uri
+  

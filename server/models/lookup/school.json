@@ -1,0 +1,129 @@
+{
+  "name": "LookupSchool",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "http": {
+    "path": "/lookup/school"
+  },
+  "options": {
+    "postgresql": {
+      "schema": "public",
+      "table": "schools_daycares_index"
+    }
+  },
+  "scope": {
+    "limit": "10"
+  },
+  "properties": {
+    "identifier": {
+      "type": "String",
+      "id": 1,
+      "required": false,
+      "length": 50,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "identifier",
+        "dataType": "character varying",
+        "dataLength": 50,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "phu": {
+      "type": "String",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "phu",
+        "dataType": "character varying",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "orgType": {
+      "type": "String",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "org_type",
+        "dataType": "character varying",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "name": {
+      "type": "String",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "name",
+        "dataType": "character varying",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "address": {
+      "type": "String",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "address",
+        "dataType": "character varying",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "postalCode": {
+      "type": "String",
+      "required": false,
+      "length": 8,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "postal_code",
+        "dataType": "character varying",
+        "dataLength": 8,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "city": {
+      "type": "String",
+      "required": false,
+      "length": 100,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "city",
+        "dataType": "character varying",
+        "dataLength": 100,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

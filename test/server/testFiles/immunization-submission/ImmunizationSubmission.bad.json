@@ -1,0 +1,309 @@
+{
+    "resourceType": "Communication",
+    "meta": {
+        "lastUpdated": "2017-01-19T19:18:32.317Z"
+    },
+    "contained": [
+        {
+            "resourceType": "Patient",
+            "id": "Patient/1",
+            "identifier": [
+                {
+                    "use": "official",
+                    "system": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-patient-hcn",
+                    "value": "4689-201-194"
+                },
+                {
+                    "use": "secondary",
+                    "system": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-panorama-immunization-id",
+                    "value": "5WDS-B85-WC2"
+                }
+            ],
+           "gender": "male",
+            "birthDate": "2011-12-22",
+            "address": [
+                {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber",
+                            "valueString": "456"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName",
+                            "valueString": "Alpha"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetNameType",
+                            "valueString": "Street"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-direction",
+                            "valueString": "North"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-unitID",
+                            "valueString": "Apt 13"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-postBox",
+                            "valueString": "123"
+                        },
+                        {
+                            "url": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-address-retail-post-office",
+                            "valueString": "Little Italy"
+                        },
+                        {
+                            "url": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-address-station",
+                            "valueString": "A"
+                        },
+                        {
+                            "url": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-address-rural-route",
+                            "valueString": "RR5"
+                        }
+                    ],
+                    "use": "home",
+                    "line": [
+                        "Line 2"
+                    ],
+                    "city": "Owen Sound",
+                    "state": "ON",
+                    "postalCode": "N4K3Y8"
+                }
+            ],
+            "contact": [
+                {
+                    "organization": {
+                        "reference": "#Organization/1"
+                    }
+                }
+            ]
+        },
+        {
+            "resourceType": "RelatedPerson",
+            "id": "RelatedPerson/1",
+            "patient": {
+                "reference": "#Patient/1"
+            },
+            "relationship": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/v3/RoleCode",
+                        "code": "PRN"
+                    }
+                ]
+            },
+            "name": {
+                "family": [
+                    "Smith"
+                ],
+                "given": [
+                    "Sam"
+                ]
+            },
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "(226) 237-1196",
+                    "use": "mobile"
+                },
+                {
+                    "system": "phone",
+                    "value": "(226) 123-3456 x789",
+                    "use": "home"
+                },
+                {
+                    "system": "email",
+                    "value": "sam.smith@gmail.com"
+                }
+            ]
+        },
+        {
+            "resourceType": "Organization",
+            "id": "Organization/2",
+            "identifier": [
+                {
+                    "system": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-panorama-phu-id",
+                    "value": "6"
+                }
+            ],
+            "name": "Grey Bruce Health Unit"
+        },
+        {
+            "resourceType": "Organization",
+            "id": "Organization/1",
+            "identifier": [
+                {
+                    "system": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-panorama-school-id",
+                    "value": "291030"
+                }
+            ],
+            "name": "Keppel-Sarawak Elementary"
+        },
+        {
+            "resourceType": "Immunization",
+            "id": "Immunization/1",
+            "status": "completed",
+            "date": "2003-03-03T00:00:00.000Z",
+            "_date": {
+                "extension": [
+                    {
+                        "url": "https://wsgateway.prod.ehealthontario.ca/API/FHIR/Immunizations/v1/StructureDefinition/ca-on-estimated",
+                        "valueBoolean": false
+                    }
+                ]
+            },
+            "vaccineCode": {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "123",
+                        "display": "ABC"
+                    }
+                ],
+                "text": ""
+            },
+            "patient": {
+                "reference": "#Patient/1"
+            },
+            "wasNotGiven": false,
+            "reported": true,
+            "note": [
+                {
+                    "text": "Dr. Strange"
+                }
+            ]
+        },
+        {
+            "resourceType": "Immunization",
+            "id": "Immunization/2",
+            "status": "completed",
+            "date": "2001-01-01T00:00:00.000Z",
+            "_date": {
+                "extension": [
+                    {
+                        "url": "https://wsgateway.prod.ehealthontario.ca/API/FHIR/Immunizations/v1/StructureDefinition/ca-on-estimated",
+                        "valueBoolean": false
+                    }
+                ]
+            },
+            "vaccineCode": {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "123",
+                        "display": "ABC"
+                    }
+                ],
+                "text": ""
+            },
+            "patient": {
+                "reference": "#Patient/1"
+            },
+            "wasNotGiven": false,
+            "reported": true,
+            "note": [
+                {
+                    "text": "Dr. Evil"
+                }
+            ]
+        },
+        {
+            "resourceType": "Immunization",
+            "id": "Immunization/3",
+            "status": "completed",
+            "date": "2005-05-05T00:00:00.000Z",
+            "_date": {
+                "extension": [
+                    {
+                        "url": "https://wsgateway.prod.ehealthontario.ca/API/FHIR/Immunizations/v1/StructureDefinition/ca-on-estimated",
+                        "valueBoolean": true
+                    }
+                ]
+            },
+            "vaccineCode": {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "123",
+                        "display": "ABC"
+                    }
+                ],
+                "text": ""
+            },
+            "patient": {
+                "reference": "#Patient/1"
+            },
+            "wasNotGiven": false,
+            "reported": true,
+            "note": [
+                {
+                    "text": "Dr. Octopus"
+                }
+            ]
+        },
+        {
+            "resourceType": "Immunization",
+            "id": "Immunization/4",
+            "status": "completed",
+            "date": "2001-01-01T00:00:00.000Z",
+            "_date": {
+                "extension": [
+                    {
+                        "url": "https://wsgateway.prod.ehealthontario.ca/API/FHIR/Immunizations/v1/StructureDefinition/ca-on-estimated",
+                        "valueBoolean": false
+                    }
+                ]
+            },
+            "vaccineCode": {
+                "coding": [
+                    {
+                        "system": "http://snomed.info/sct",
+                        "code": "123",
+                        "display": "ABC"
+                    }
+                ],
+                "text": ""
+            },
+            "patient": {
+                "reference": "#Patient/1"
+            },
+            "wasNotGiven": false,
+            "reported": true,
+            "note": [
+                {
+                    "text": "Dr. Evil"
+                }
+            ]
+        }
+    ],
+    "identifier": [
+        {
+            "system": "https://ehealthontario.ca/API/FHIR/NamingSystem/ca-on-panorama-imm-submission-id",
+            "value": "GBHU-3RXF56WYB"
+        }
+    ],
+    "sender": {
+        "reference": "#RelatedPerson/1"
+    },
+    "recipient": [
+        {
+            "reference": "#Organization/2"
+        }
+    ],
+    "payload": [
+        {
+            "contentString": "Fake payload to pass validation."
+        },
+        {
+            "contentReference": {
+                "reference": "#Immunization/1"
+            }
+        }
+    ],
+    "status": "completed",
+    "sent": "2017-01-19T19:18:32.319Z",
+    "received": "2017-01-19T19:18:32.319Z",
+    "subject": {
+        "reference": "#Patient/1"
+    }
+}

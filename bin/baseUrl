@@ -1,0 +1,7 @@
+#baseUrl='https://xxsupportphu1.mybluemix.net/api/'
+#baseUrl='http://gbhu.vcap.me:3001/api/'
+baseUrl='http://gbhu.vcap.me:6004/api/'
+#baseUrl='http://xxsupportphu1.mybluemix.net/api/'
+
+
+echo "baseUrl: $baseUrl"

@@ -1,0 +1,11 @@
+curl -X POST \
+  -vvv \
+  -H "session-token: $SESSION_TOKEN" \
+  -H "x-access-token: $SUBMISSION_TOKEN" \
+  -H "Content-Type: multipart/form-data" \
+  -H "Accept:application/json, text/plain, */*" \
+  -F "data=@virus.txt;type=plain/text" \
+  -F "name=file" \
+  -F "filename=virus.txt" \
+  http://gbhu.localhost.test:3000/api/SubmissionAttachments
+

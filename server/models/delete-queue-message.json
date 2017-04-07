@@ -1,0 +1,14 @@
+{
+  "name": "DeleteQueueMessage",
+  "plural": "delete-queue-message",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

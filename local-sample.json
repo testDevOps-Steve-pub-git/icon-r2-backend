@@ -1,0 +1,15 @@
+{
+  "icon-rabbitmq": "amqps://admin:JJBAZRODCHNKETLH@sl-us-dal-9-portal.0.dblayer.com:17675/bmix_dal_yp_6b983bb0_058a_4b6c_ad48_f1663a7f10df",
+  "icon-postgresql": "postgres://admin:DCGKBBJKUVXBDJLQ@sl-us-dal-9-portal.4.dblayer.com:17673/compose",
+  "icon-elasticsearch": "https://admin:ZMCJVIFVNBERKMKU@sl-us-dal-9-portal3.dblayer.com:18816/",
+
+  "JWT_TOKEN_SECRET_KEY": "1234123412341234123412412341234123412341234123412341234124123412",
+  "CRYPTO_PASSWORD": "123412341234123421342134123412341234123412341234123412341234123412341234123423",
+  "POSTGRES_READONLY_ROLE": "readonly:WERJFIRWJWNEDJASDF",
+  "PHIX_ENDPOINT_DICTIONARY": "http://panorama-simulator.mybluemix.net/Dictionary?domain=",
+  "CLAMAV_ENDPOINT": "169.46.21.13",
+  "PHIX_ENDPOINT_SUBMISSION": "https://panorama-simulator.mybluemix.net/Communication",
+  "PHIX_ENDPOINT_SUBMISSION_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0OTcxMTE1OTAsInN1YiI6ImFzZGZzZGFmIiwiaXNzIjoiYXNkZmFzZGYiLCJhdWQiOiJhc2RmYXNkZiIsImp0aSI6ImFzZGZhc2RmIiwiaWF0IjoxNDY1NTc1NTkwfQ.asdfasdfasdfasdfasdfasdfasdfasdfasdf",
+  "PHIX_ENDPOINT_RETRIEVAL": "https://panorama-simulator.mybluemix.net/Immunization",
+  "PHIX_ENDPOINT_RETRIEVAL_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0OTcxMTE1OTAsInN1YiI6ImFzZGZzZGFmIiwiaXNzIjoiYXNkZmFzZGYiLCJhdWQiOiJhc2RmYXNkZiIsImp0aSI6ImFzZGZhc2RmIiwiaWF0IjoxNDY1NTc1NTkwfQ.asdfasdfasdfasdfasdfasdfasdfasdfasdf"
+}

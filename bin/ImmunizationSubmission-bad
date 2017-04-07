@@ -1,0 +1,10 @@
+endpoint='ImmunizationSubmissions'
+
+curl -X POST \
+  -vvv \
+  -H "session-token: $SESSION_TOKEN" \
+  -H "x-access-token: $SUBMISSION_TOKEN" \
+  -H "Content-Type:application/json" \
+  -H "Accept:application/json, text/plain, */*" \
+  -d @"ImmunizationSubmission.bad.json" \
+  $baseUrl$endpoint

@@ -1,0 +1,15 @@
+sessionEndpoint='token/session'
+submissionEndpoint='token/submission'
+
+SESSION_TOKEN=`curl -X GET $baseUrl$sessionEndpoint 2> /dev/null | jq .token | sed 's/\"//g'`
+echo "session-token: $SESSION_TOKEN"
+
+SUBMISSION_TOKEN=`curl -X GET -H "session-token: $SESSION_TOKEN" $baseUrl$submissionEndpoint 2> /dev/null | jq .token | sed 's/\"//g'`
+echo "x-access-token: $SUBMISSION_TOKEN"
+
+# this requires jwt-cli to be installed
+# npm install -g jwt-cli
+
+jwt $SUBMISSION_TOKEN
+
+TX_ID=`jwt $SUBMISSION_TOKEN | awk '/txId/' | cut -d '"' -f4`

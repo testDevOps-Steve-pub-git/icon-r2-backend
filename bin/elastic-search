@@ -1,0 +1,7 @@
+// curl -XGET http://localhost:9200/logs*/log/_count
+// curl -XGET 'http://localhost:9200/logs*/log/_search?pretty=true' -d '{ "query": { "match_all": { } } }'
+// curl -XDELETE http://localhost:9200/logs*
+
+// curl -XGET https://admin:ZMCJVIFVNBERKMKU@sl-us-dal-9-portal1.dblayer.com:18816/logs*/log/_count
+// curl -XGET 'https://admin:ZMCJVIFVNBERKMKU@sl-us-dal-9-portal1.dblayer.com:18816/logs*/log/_search?pretty=true' -d '{ "query": { "match_all": { } } }'
+// curl -XDELETE https://admin:ZMCJVIFVNBERKMKU@sl-us-dal-9-portal1.dblayer.com:18816/logs*

@@ -1,0 +1,6 @@
+curl -g -X GET \
+  -H "session-token:$SESSION_TOKEN" \
+  -H "authorization:$SUBMISSION_TOKEN" \
+  -H "Accept:application/json" \
+  -H "Accept-Language:en-US,en;q=0.8" \
+  http://localhost:6004/api/lookup/school?filter[name]=s

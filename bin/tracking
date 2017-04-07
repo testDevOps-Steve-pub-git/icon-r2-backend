@@ -1,0 +1,8 @@
+endpoint='tracking'
+
+curl -X POST \
+  -vvvv \
+  -H "session-token: $SESSION_TOKEN" \
+  -H "Accept:application/json, text/plain, */*" \
+  -d {"transitionPage":"/welcome"} \
+  $baseUrl$endpoint

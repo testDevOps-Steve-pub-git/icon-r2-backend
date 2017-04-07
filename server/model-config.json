@@ -1,0 +1,70 @@
+{
+  "_meta": {
+    "sources": [
+      "./models",
+      "./models/lookup"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "Token": {
+    "dataSource": "db",
+    "public": true
+  },
+  "DeleteQueueMessage": {
+    "dataSource": "db",
+    "public": true
+  },
+  "SubmissionAttachment": {
+    "dataSource": "postgres",
+    "public": true
+  },
+  "LookupCity": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "LookupAddress": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "LookupSchool": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "LookupAgent": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "ImmunizationSubmission": {
+    "dataSource": "postgres",
+    "public": true
+  },
+  "LookupDisease": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "LookupImmunization": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "LookupLots": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "LookupAgentAndTrade": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "LookupLot": {
+    "dataSource": "postgresLookup",
+    "public": true
+  },
+  "LookupTrade": {
+    "dataSource": "postgresLookup",
+    "public": true
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "name": "SubmissionAttachment",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "postgresql": {
+      "table": "Submission_Attachment"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": false,
+      "defaultFn": "uuid",
+      "postgresql": {
+        "columnName": "Id",
+        "dataType": "uuid"
+      }
+    },
+    "transactionId": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "columnName": "Transaction_Id",
+        "dataType": "character varying",
+        "dataLength": 50
+      }
+    },
+    "originalFilename": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "columnName": "Original_Filename",
+        "dataType": "character varying",
+        "dataLength": 260
+      }
+    },
+    "fileMimeType": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "columnName": "File_Mime_Type",
+        "dataType": "character varying",
+        "dataLength": 130
+      }
+    },
+    "fileContent": {
+      "type": "buffer",
+      "required": true,
+      "postgresql": {
+        "columnName": "File_Content",
+        "dataType": "bytea"
+      }
+    },
+    "createdAt": {
+      "type": "date",
+      "required": false,
+      "postgresql": {
+        "columnName": "Created_At",
+        "dataType": "timestamp with time zone"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

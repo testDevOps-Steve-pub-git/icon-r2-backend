@@ -1,0 +1,123 @@
+paths:
+  /ImmunizationSubmission:
+    post:
+      responses:
+        '200':
+          description: 200 OK
+  /Token/session:
+    get:
+      responses:
+        '200':
+          description: 200 OK
+      tags:
+        - Token
+  /Token/submission:
+    get:
+      responses:
+        '200':
+          description: 200 OK
+      tags:
+        - Token
+  /delete-queue-message:
+    post:
+      responses:
+        '200':
+          description: 200 OK
+      tags:
+        - DeleteQueueMessage
+  /SubmissionAttachments:
+    post:
+      tags:
+        - SubmissionAttachment
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: SubmissionAttachment.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/SubmissionAttachment'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/SubmissionAttachment'
+      deprecated: false
+definitions:
+  ImmunizationSubmission:
+    properties:
+      createdAt:
+        type: string
+        format: date
+      immunObject:
+        type: string
+      objectVersion:
+        type: string
+      sessionId:
+        type: string
+      transactionId:
+        type: string
+      transactionToken:
+        type: string
+      id:
+        type: string
+    additionalProperties: false
+    required:
+      - immunObject
+      - objectVersion
+      - sessionId
+      - transactionId
+      - transactionToken
+  SubmissionAttachment:
+    properties:
+      id:
+        type: string
+      transactionId:
+        type: string
+      originalFilename:
+        type: string
+      fileMimeType:
+        type: string
+      fileContent:
+        type: buffer
+      createdAt:
+        type: date
+    required:
+      - transactionId
+      - originalFilename
+      - fileMimeType
+      - fileContent
+    additionalProperties: false
+basePath: /api
+swagger: '2.0'
+info:
+  version: 2.0.0
+  title: ICON
+  x-ibm-name: icon-api
+schemes:
+  - http
+  - https
+host: $(catalog.host)
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions: {}
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  catalogs:
+    apic-dev:
+      properties:
+        runtime-url: $(TARGET_URL)
+    sb:
+      properties:
+        runtime-url: 'http://localhost:4001'
+  assembly:
+    execute:
+      - invoke:
+          target-url: $(runtime-url)$(request.path)$(request.search)

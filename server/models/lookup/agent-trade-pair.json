@@ -1,0 +1,51 @@
+{
+  "name": "LookupAgentAndTrade",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "http": {
+    "path": "/lookup/agent-trade"
+  },
+  "options": {
+    "postgresql": {
+      "schema": "public",
+      "table": "retrieval_lookups"
+    }
+  },
+  "properties": {
+    "snomed": {
+      "type": "Number",
+      "id": 1,
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "snomed",
+        "dataType": "bigint",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "json": {
+      "type": "String",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "json",
+        "dataType": "json",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

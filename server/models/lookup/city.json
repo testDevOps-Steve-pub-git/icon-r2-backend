@@ -1,0 +1,39 @@
+{
+  "name": "LookupCity",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "http": {
+    "path": "/lookup/city"
+  },
+  "options": {
+    "postgresql": {
+      "schema": "public",
+      "table": "cities_index"
+    }
+  },
+  "scope": {
+    "limit": 10
+  },
+  "properties": {
+    "city": {
+      "type": "String",
+      "id": 1,
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "city",
+        "dataType": "text",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "postgres": {
+    "url": "${postgresWriter}",
+    "name": "postgres",
+    "connector": "memory"
+  },
+  "postgresLookup": {
+    "url": "${postgresReader}",
+    "name": "postgresLookup",
+    "connector": "memory"
+  }
+}

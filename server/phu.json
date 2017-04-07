@@ -1,0 +1,187 @@
+[
+    {
+      "id": "8871",
+      "name": "XXSupportPHU1",
+      "acronym": "XXSUPPORTPHU1"
+    },
+    {
+        "id": "33",
+        "name": "Algoma Public Health Unit",
+        "acronym": "APH"
+    },
+    {
+        "id": "15",
+        "name": "Brant County Health Unit",
+        "acronym": "BCHU"
+    },
+    {
+        "id": "17",
+        "name": "Chatham-Kent Health Unit",
+        "acronym": "CKPHU"
+    },
+    {
+        "id": "57",
+        "name": "Durham Region Health Department",
+        "acronym": "DRHD"
+    },
+    {
+        "id": "18",
+        "name": "Eastern Ontario Health Unit",
+        "acronym": "EOHU"
+    },
+    {
+        "id": "35",
+        "name": "Elgin-St. Thomas Health Unit",
+        "acronym": "ESTHU"
+    },
+    {
+        "id": "6",
+        "name": "Grey Bruce Health Unit",
+        "acronym": "GBHU"
+    },
+    {
+        "id": "34",
+        "name": "Haldimand-Norfolk Health Unit",
+        "acronym": "HNHU"
+    },
+    {
+        "id": "32",
+        "name": "Haliburton, Kawartha, Pine Ridge District Health Unit",
+        "acronym": "HKPR"
+    },
+    {
+        "id": "27",
+        "name": "Halton Region Health Department",
+        "acronym": "HRHD"
+    },
+    {
+        "id": "20",
+        "name": "Hamilton Public Health & Social Services",
+        "acronym": "HPH"
+    },
+    {
+        "id": "13",
+        "name": "Hastings and Prince Edward Counties Health Unit",
+        "acronym": "HPECHU"
+    },
+    {
+        "id": "9",
+        "name": "Huron County Health Unit",
+        "acronym": "HCHU"
+    },
+    {
+        "id": "22",
+        "name": "Kingston, Frontenac and Lennox & Addington Health Unit",
+        "acronym": "KFLA"
+    },
+    {
+        "id": "31",
+        "name": "Lambton Health Unit",
+        "acronym": "LPH"
+    },
+    {
+        "id": "16",
+        "name": "Leeds, Grenville and Lanark District Health Unit",
+        "acronym": "LGL"
+    },
+    {
+        "id": "23",
+        "name": "Middlesex-London Health Unit",
+        "acronym": "MLHU"
+    },
+    {
+        "id": "41",
+        "name": "Niagara Region Public Health Department",
+        "acronym": "NRPH"
+    },
+    {
+        "id": "26",
+        "name": "North Bay Parry Sound District Health Unit",
+        "acronym": "NBPSDHU"
+    },
+    {
+        "id": "21",
+        "name": "Northwestern Health Unit",
+        "acronym": "NWHU"
+    },
+    {
+        "id": "28",
+        "name": "Ottawa Public Health",
+        "acronym": "OPH"
+    },
+    {
+        "id": "11",
+        "name": "Oxford County Public Health",
+        "acronym": "OCPH"
+    },
+    {
+        "id": "14",
+        "name": "Peel Public Health",
+        "acronym": "PEEL"
+    },
+    {
+        "id": "36",
+        "name": "Perth District Health Unit",
+        "acronym": "PDHU"
+    },
+    {
+        "id": "30",
+        "name": "Peterborough County-City Health Unit",
+        "acronym": "PCCHU"
+    },
+    {
+        "id": "54",
+        "name": "Porcupine Health Unit",
+        "acronym": "PO"
+    },
+    {
+        "id": "56",
+        "name": "Region of Waterloo, Public Health",
+        "acronym": "ROWPH"
+    },
+    {
+        "id": "29",
+        "name": "Renfrew County and District Health Unit",
+        "acronym": "RE"
+    },
+    {
+        "id": "12",
+        "name": "Simcoe Muskoka District Health Unit",
+        "acronym": "SMDHU"
+    },
+    {
+        "id": "40",
+        "name": "Sudbury and District Health Unit",
+        "acronym": "SDHU"
+    },
+    {
+        "id": "46",
+        "name": "Thunder Bay District Health Unit",
+        "acronym": "TBDHU"
+    },
+    {
+        "id": "24",
+        "name": "Timiskaming Health Unit",
+        "acronym": "TIMHU"
+    },
+    {
+        "id": "55",
+        "name": "Toronto Public Health",
+        "acronym": "TPH"
+    },
+    {
+        "id": "19",
+        "name": "Wellington-Dufferin-Guelph Health Unit",
+        "acronym": "WDGPH"
+    },
+    {
+        "id": "58",
+        "name": "Windsor-Essex County Health Unit",
+        "acronym": "WECHU"
+    },
+    {
+        "id": "25",
+        "name": "York Region Public Health Services",
+        "acronym": "YRPHU"
+    }
+]

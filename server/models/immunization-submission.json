@@ -1,0 +1,107 @@
+{
+  "name": "ImmunizationSubmission",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "postgresql": {
+      "schema": "public",
+      "table": "Immun_Submission"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "defaultFn": "uuid",
+      "postgresql": {
+        "columnName": "Id",
+        "dataType": "uuid"
+      }
+    },
+    "transactionId": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "columnName": "Transaction_Id",
+        "dataType": "character varying",
+        "dataLength": 50
+      }
+    },
+    "sessionId": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "columnName": "Session_Id",
+        "dataType": "character varying",
+        "dataLength": 50
+      }
+    },
+    "objectVersion": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "columnName": "Object_Version",
+        "dataType": "character varying",
+        "dataLength": 50
+      }
+    },
+    "objectProfile": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "columnName": "Object_Profile",
+        "dataType": "character varying",
+        "dataLength": 50
+      }
+    },
+    "immunObject": {
+      "type": "buffer",
+      "required": true,
+      "postgresql": {
+        "columnName": "Immun_Object",
+        "dataType": "bytea"
+      }
+    },
+    "transactionToken": {
+      "type": "string",
+      "required": true,
+      "postgresql": {
+        "columnName": "Transaction_Token",
+        "dataType": "character varying",
+        "dataLength": 500
+      }
+    },
+    "createdAt": {
+      "type": "date",
+      "generated": true,
+      "required": false,
+      "postgresql": {
+        "columnName": "Created_At",
+        "dataType": "timestamp with time zone"
+      }
+    },
+    "failedValidation": {
+      "type": "Boolean",
+      "generated": true,
+      "required": false,
+      "postgresql": {
+        "columnName": "Failed_Validation",
+        "dataType": "boolean"
+      }
+    },
+    "attemptHistory": {
+      "type": "string",
+      "generated": true,
+      "required": false,
+      "postgresql": {
+        "columnName": "Attempt_History",
+        "dataType": "text"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
