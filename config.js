@@ -16,8 +16,10 @@ function getService (serviceName, userProvidedKey) {
     if (serviceDetails) {
       if (!userProvidedKey) {
         uri = serviceDetails['credentials']['uri']
+        console.log('service uri', uri)
       } else {
         uri = serviceDetails['credentials'][userProvidedKey]
+        console.log('uri', uri)
       }
     }
   }
