@@ -9,7 +9,7 @@ const nconf = require('nconf')
 
 function getService (serviceName) {
   let uri
-  if (appEnv.isLocal) {
+  if (appEnv.isLocal || process.env.TESTING_ENV) {
     uri = nconf.get(serviceName)
   } else {
     let serviceDetails = appEnv.getService(serviceName)

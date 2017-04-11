@@ -24,6 +24,7 @@
     "cors": "2.5.2",
     "diehard": "1.5.1",
     "express-useragent": "1.0.7",
+    "fs": "0.0.1-security",
     "geoip-lite": "1.1.9",
     "helmet": "2.1.0",
     "jsen": "0.6.4",
