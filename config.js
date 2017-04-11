@@ -7,14 +7,18 @@ const nconf = require('nconf')
   .env('__')
   .file(`${__base}/local.json`)
 
-function getService (serviceName) {
+function getService (serviceName, userProvidedKey) {
   let uri
   if (appEnv.isLocal || process.env.TESTING_ENV) {
     uri = nconf.get(serviceName)
   } else {
     let serviceDetails = appEnv.getService(serviceName)
     if (serviceDetails) {
-      uri = serviceDetails['credentials']['uri']
+      if (!userProvidedKey) {
+        uri = serviceDetails['credentials']['uri']
+      } else {
+        uri = serviceDetails['credentials'][userProvidedKey]
+      }
     }
   }
   if (!uri) {
@@ -28,7 +32,7 @@ module.exports = {
     enabled: true // validate fhir message vs. the json schema
   },
   token: {
-    'secretKey': nconf.get('JWT_TOKEN_SECRET_KEY'),
+    'secretKey': nconf.get('JWT_TOKEN_SECRET_KEY') || getService('env_setup', 'JWT_TOKEN_SECRET_KEY'),
     'expiresIn': {
       'session': process.env.JWT_SESSION_TOKEN_EXPIRES_IN || 60 * 90,       // Allowed time until session token expires. Currently 60 minutes
       'submission': process.env.JWT_SUBMISSION_TOKEN_EXPIRES_IN || 60 * 90, // Allowed time until submission token expires. Currently 60 minutes
@@ -67,7 +71,7 @@ module.exports = {
   crypto: {
     enabled: true, // setting this to false will disable encrpyting of data stored in the database - be careful!
     // Never change the crypto password once it is in production or else previous encrypted information won't be able to decryt
-    password: nconf.get('CRYPTO_PASSWORD'),
+    password: nconf.get('CRYPTO_PASSWORD') || getService('env_setup', 'CRYPTO_PASSWORD'),
     algorithm: 'aes-256-cbc'
   },
   isProduction: process.env.NODE_SERVER_PRODUCTION_MODE || false, // Change the value to true if the app is in production
@@ -87,7 +91,7 @@ module.exports = {
       batchThreshold: 50,
       immunizationLimit: 200
     },
-    readOnlyRole: nconf.get('POSTGRES_READONLY_ROLE') // [user]:[password] - will replace the user/pwd in the postgres.writer url
+    readOnlyRole: nconf.get('POSTGRES_READONLY_ROLE') || getService('env_setup', 'POSTGRES_READONLY_ROLE') // [user]:[password] - will replace the user/pwd in the postgres.writer url
   },
   dataDictionary: {
     enabled: true, // setting this false will disable updating data-dictionary items
@@ -100,7 +104,7 @@ module.exports = {
       minute: process.env.DATADICT_UPDATE_MINUTE || 1 // minute to run at (0-59)
     },
     dhir: {
-      uri: nconf.get('PHIX_ENDPOINT_DICTIONARY')
+      uri: nconf.get('PHIX_ENDPOINT_DICTIONARY') || getService('env_setup', 'PHIX_ENDPOINT_DICTIONARY')
     },
     domains: [
       {
@@ -115,18 +119,18 @@ module.exports = {
   },
   clamav: {
     enabled: true, // setting this to false will disable virus scanning of uploaded files - be careful!
-    endPoint: nconf.get('CLAMAV_ENDPOINT'), // IP of bluemix clamav container
+    endPoint: nconf.get('CLAMAV_ENDPOINT') || getService('env_setup', 'CLAMAV_ENDPOINT'), // IP of bluemix clamav container
     port: process.env.CLAMAV_PORT || 3310,
     timeout: process.env.CLAMAV_TIMEOUT || 10000 // 10s before considering it a failed attempt
   },
   phixEndpoint: {
     submission: {
-      url: nconf.get('PHIX_ENDPOINT_SUBMISSION'), // Submission Endpoint for phix server
-      token: nconf.get('PHIX_ENDPOINT_SUBMISSION_TOKEN') // Token for PHIX Submission Endpoint
+      url: nconf.get('PHIX_ENDPOINT_SUBMISSION') || getService('env_setup', 'PHIX_ENDPOINT_SUBMISSION'), // Submission Endpoint for phix server
+      token: nconf.get('PHIX_ENDPOINT_SUBMISSION_TOKEN') || getService('env_setup', 'PHIX_ENDPOINT_SUBMISSION_TOKEN') // Token for PHIX Submission Endpoint
     },
     retrieval: {
-      url: nconf.get('PHIX_ENDPOINT_RETRIEVAL'), // Retrieval Endpoint for phix server
-      token: nconf.get('PHIX_ENDPOINT_RETRIEVAL_TOKEN') // Token for PHIX Retrieval Endpoint
+      url: nconf.get('PHIX_ENDPOINT_RETRIEVAL') || getService('env_setup', 'PHIX_ENDPOINT_RETRIEVAL'), // Retrieval Endpoint for phix server
+      token: nconf.get('PHIX_ENDPOINT_RETRIEVAL_TOKEN') || getService('env_setup', 'PHIX_ENDPOINT_RETRIEVAL_TOKEN') // Token for PHIX Retrieval Endpoint
     },
     repostCodes: [400, 406, 409, 412, 422]
   },
