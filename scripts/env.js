@@ -1,4 +1,4 @@
-var obj = require('./services.json')
+var obj = require('../services.json')
 var fs = require('fs')
 
 var iconelasticsearch = obj['compose-for-elasticsearch'][0]['credentials']['uri']
