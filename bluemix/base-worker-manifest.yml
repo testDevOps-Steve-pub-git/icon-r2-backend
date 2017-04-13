@@ -8,8 +8,6 @@ services:
 - icon-elasticsearch
 - icon-postgresql
 - icon-rabbitmq
-env:
-  TZ: 'America/Toronto'
 applications:
 - name: icon-server-worker
   no-route: true

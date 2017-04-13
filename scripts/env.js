@@ -28,7 +28,8 @@ var json = {
   PHIX_ENDPOINT_SUBMISSION,
   PHIX_ENDPOINT_SUBMISSION_TOKEN,
   PHIX_ENDPOINT_RETRIEVAL,
-  PHIX_ENDPOINT_RETRIEVAL_TOKEN
+  PHIX_ENDPOINT_RETRIEVAL_TOKEN,
+  'TZ': 'America/Toronto'
 }
 
 fs.writeFile('local.json', JSON.stringify(json), function (err) {
