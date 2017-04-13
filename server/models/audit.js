@@ -5,19 +5,21 @@ module.exports = class Audit {
     this._timestamp = new Date()
     this._processType = initialProcessType
     this._responseStatusCode = initialResponseStatusCode
-    this._clientip = ''
-    this._phuName = ''
-    this._phuAcronym = ''
-    this._sessionId = ''
-    this._submissionId = ''
-    this._message = ''
-    this._browserName = ''
-    this._os = ''
-    this._device = ''
+    this._clientip = null
+    this._phuName = null
+    this._phuAcronym = null
+    this._sessionId = null
+    this._submissionId = null
+    this._message = null
+    this._browserName = null
+    this._os = null
+    this._device = null
     this._location = null
     this._isMobile = null
     this._setLanguage = null
-    this._referer = ''
+    this._referer = null
+    this._fileCount = null
+    this._isAuth = null
   }
 
   toList () {
@@ -37,7 +39,9 @@ module.exports = class Audit {
       location: this._location,
       isMobile: this._isMobile,
       setLanguage: this._setLanguage,
-      referer: this._referer
+      referer: this._referer,
+      fileCount: this._fileCount,
+      isAuth: this._isAuth
     }
   }
 
@@ -155,5 +159,21 @@ module.exports = class Audit {
 
   set referer (value) {
     this._referer = value
+  }
+
+  get fileCount () {
+    return this._fileCount
+  }
+
+  set fileCount (value) {
+    this._fileCount = value
+  }
+
+  get isAuth () {
+    return this._isAuth
+  }
+
+  set isAuth (value) {
+    this._isAuth = value
   }
 }

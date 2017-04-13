@@ -1,6 +1,7 @@
 'use strict'
 var ycModels = require(`${__base}/server/models/yellowcard/models`)
 var ycService = require(`${__base}/server/services/yellowcard-service`)
+var errorService = require(`${__base}/server/services/error-service`)
 
 /**
  * YellowCard: getClient() Method
@@ -64,11 +65,10 @@ module.exports = (req, res, next) => {
     res.writeHead(ycModels.STATUS_CODES.BAD_REQUEST)
     res.end()
 
-    throw ycService.error.create(
-      check.message,
-      req.decoded,
-      ycModels.TYPES.PROCESSES.AUTHENTICATE,
-      ycModels.STATUS_CODES.BAD_REQUEST
-    )
+    throw errorService.IconCustomError(check.message, {
+      decoded: req.decoded,
+      processType: ycModels.TYPES.PROCESSES.AUTHENTICATE,
+      statusCode: ycModels.STATUS_CODES.BAD_REQUEST
+    })
   }
 }

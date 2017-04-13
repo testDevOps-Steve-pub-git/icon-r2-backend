@@ -5,6 +5,7 @@ const getDecryptedFiles = require(`${__base}/server/rabbitmq/consumer/tasks/get-
 const sendToPhix = require(`${__base}/server/rabbitmq/consumer/tasks/send-to-phix`)
 const deleteData = require(`${__base}/server/rabbitmq/consumer/tasks/delete-data`)
 const auditSubmission = require(`${__base}/server/rabbitmq/consumer/tasks/audit-submission`)
+const errorService = require(`${__base}/server/services/error-service`)
 const zip = require(`${__base}/server/rabbitmq/consumer/tasks/zip`)
 const app = require(`${__base}/server/server`)
 const cipher = require(`${__base}/server/services/crypto`)
@@ -55,39 +56,31 @@ function task () {
   }
 
   function startTask (message) {
-    var immunizationModel
-    var updateSuccesful
+    var model
     return app.models.ImmunizationSubmission.findById(message.json.id)
-          .then((immunizationSubmission) => {
-            immunizationModel = immunizationSubmission
-            return getDataAndFiles(immunizationSubmission)
-          })
-          .then(prepareObjectForRequest)
-          .then(sendToPhix)
-          .then((objData) => auditSubmission(objData))
-          .catch((err) => {
-            // Check if error was due to PHIX, or otherwise, do not logged failed attempt if not PHIX
-            if (!err.statusCode) {
-              logger.error(PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, err.message)
-              throw err
-            }
-            // Error was hit when sending to PHIX
-            // Reconfigure submission options if status code matches one of the blacklisted codes
-            return updateSubmission(immunizationModel, err.statusCode, config.phixEndpoint.repostCodes.includes(err.statusCode))
-            .then(() => {
-              // Task was updated succesfully in DB, throw error so that rabbitmq will requeue the task
-              updateSuccesful = true
-              throw err
-            })
-            .catch((err) => {
-              // Error updating record in the database, requeue and log error
-              if (!updateSuccesful) {
-                logger.error(PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, 'There was an error updating the record')
-              }
-              throw err
-            })
-          })
-          .then((objData) => deleteData(app, objData))
+      .tap((submission) => {
+        if (!submission) {
+          throw errorService.IconCustomError('Record not found. Will not requeue job.')
+        }
+        model = submission
+      })
+      .then(getDataAndFiles)
+      .then(prepareObjectForRequest)
+      .then(sendToPhix)
+      .then(auditSubmission)
+      .then((objData) => deleteData(app, objData))
+      .catch((err) => {
+        logger.error(PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, err.message)
+        if (model) {
+          err.reQueue = true
+          if (err.result) {
+            return updateSubmission(model, err.result, config.phixEndpoint.repostCodes.includes(err.statusCode))
+            .then(() => { throw err }) // we want the job re-Q'd so it will be tried again later
+          }
+        } else {
+          throw err
+        }
+      })
   }
 
   return {

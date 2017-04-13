@@ -1,7 +1,6 @@
 'use strict'
 var authService = require(`${__base}/server/services/yellowcard/authenticate-service`)      // --> authenticate request service functions
 var phixService = require(`${__base}/server/services/yellowcard/phix-service`)              // --> phix retrieval service functions
-var errorService = require(`${__base}/server/services/yellowcard/error-service`)            // --> error service functions
 
 /**
  * YellowCardService() Method
@@ -23,8 +22,7 @@ var errorService = require(`${__base}/server/services/yellowcard/error-service`)
 function YellowcardService () {
   return ({
     authenticate: authService,
-    phix: phixService,
-    error: errorService
+    phix: phixService
   })
 }
 

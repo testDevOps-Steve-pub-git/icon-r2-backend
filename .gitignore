@@ -51,6 +51,10 @@ tests/e2e/icon-e2e-test-results.json
 # Ignore test malicious files
 bin/virus.txt
 bin/testVirus.png
+bin/*.pdf
+
+# test coverage
+.nyc_output
 
 # Ignore these config files, they contain keys and passwords
 local.json

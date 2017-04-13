@@ -4,6 +4,7 @@ var request = Promise.promisifyAll(require('request'), {multiArgs: true})    // 
 var ycModels = require(`${__base}/server/models/yellowcard/models`)          // --> Models for messages, status codes, etc...
 var ycService = require(`${__base}/server/services/yellowcard-service`)      // --> All Yellowcard Services
 var logger = require(`${__base}/server/logger`)                              // --> Logs information to console
+var errorService = require(`${__base}/server/services/error-service`)
 
 /**
  * getResponseConditions()
@@ -59,12 +60,11 @@ module.exports = (req, res, next) => {
       res.end()
     } else {
       // If there is no response, throw an error which is picked up by following catch
-      throw ycService.error.create(
-        ycModels.MESSAGES.PHIX.ERRORS.RESPONSE_NOT_PARSED,
-        req.decoded,
-        ycModels.TYPES.PROCESSES.PHIX,
-        responseFromPhix.statusCode || ycModels.STATUS_CODES.INTERNAL_SERVER_ERROR
-      )
+      throw errorService.IconCustomError(ycModels.MESSAGES.PHIX.ERRORS.RESPONSE_NOT_PARSED, {
+        decoded: req.decoded,
+        processType: ycModels.TYPES.PROCESSES.PHIX,
+        statusCode: responseFromPhix.statusCode || ycModels.STATUS_CODES.INTERNAL_SERVER_ERROR
+      })
     }
   }).catch((err) => {
     // End response with status code returned from PHIX

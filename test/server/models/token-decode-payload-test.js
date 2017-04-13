@@ -26,6 +26,8 @@ describe('token decode payload test', () => {
   it('should create session payload', () => {
     let result = tokenDecodePayload.CreateSessionPayload(decodedToken, sessionHeaders)
     expect(result).to.have.property('phuAcronym', 'GBHU')
+    expect(result).to.have.property('phuName', 'Grey Bruce Health Unit')
+    expect(result).to.have.property('phuId', '6')
   })
 
   it('should create submission payload', () => {

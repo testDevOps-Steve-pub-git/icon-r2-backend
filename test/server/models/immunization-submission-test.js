@@ -47,18 +47,22 @@ var appTest = createVhostTester(app, 'gbhu.vpac.me:3000')
 
 describe('post immunization submission api', () => {
   it('should be able to get the submission token', () => {
-    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000').then((sessionToken) => {
+    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000')
+    .then((sessionToken) => {
       return appTest.get('/api/token/submission')
-        .set('session-token', sessionToken).then((response) => {
+        .set('session-token', sessionToken)
+        .then((response) => {
           expect(response.body.token).to.exist
         })
     })
   })
 
   it('should be not able to post immunization without valid fhir message', () => {
-    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000').then((sessionToken) => {
+    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000')
+    .then((sessionToken) => {
       return appTest.get('/api/token/submission')
-        .set('session-token', sessionToken).then((response) => {
+        .set('session-token', sessionToken)
+        .then((response) => {
           let submissionToken = response.body.token
           return appTest.post('/api/ImmunizationSubmissions')
             .set('session-token', sessionToken)
@@ -70,11 +74,14 @@ describe('post immunization submission api', () => {
   })
 
   it('should be able to post immunization with valid fhir object', () => {
-    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000').then((sessionToken) => {
+    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000')
+    .then((sessionToken) => {
       return appTest.get('/api/token/submission')
-        .set('session-token', sessionToken).then((response) => {
+        .set('session-token', sessionToken)
+        .then((response) => {
           let submissionToken = response.body.token
-          return validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vpac.me:3000', submissionToken).then((decoded) => {
+          return validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vpac.me:3000', submissionToken)
+          .then((decoded) => {
             validFhirMessage.identifier[0].value = decoded.submissionId
             return appTest.post('/api/ImmunizationSubmissions')
               .set('session-token', sessionToken)
@@ -88,9 +95,11 @@ describe('post immunization submission api', () => {
   })
 
   it('should not be able to post immunization with invalid fhir object', () => {
-    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000').then((sessionToken) => {
+    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000')
+    .then((sessionToken) => {
       return appTest.get('/api/token/submission')
-        .set('session-token', sessionToken).then((response) => {
+        .set('session-token', sessionToken)
+        .then((response) => {
           let submissionToken = response.body.token
           return appTest.post('/api/ImmunizationSubmissions')
             .set('session-token', sessionToken)

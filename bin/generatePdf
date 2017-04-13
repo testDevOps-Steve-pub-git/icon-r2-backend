@@ -1,0 +1,10 @@
+ENDPOINT="${baseUrl}pdf"
+
+curl -X POST \
+  -vvv \
+  -H "session-token: $SESSION_TOKEN" \
+  -H "x-access-token: $SUBMISSION_TOKEN" \
+  -H "Content-Type:application/json" \
+  -H "Accept:application/json, text/plain, */*" \
+  -d @pdfPayload \
+  $ENDPOINT

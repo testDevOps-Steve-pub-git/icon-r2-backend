@@ -13,8 +13,8 @@ function loadCustomFields (obj, options) {
     if (options.hasOwnProperty(key)) {
       obj[key] = options[key]
     }
-    return obj
   }
+  return obj
 }
 
 /**
