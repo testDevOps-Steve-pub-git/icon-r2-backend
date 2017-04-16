@@ -30,7 +30,7 @@ function guidService () {
       return getChars(remaining, chars)
     }
 
-                 // converting number to radix3
+    // converting number to radix3
     function base (value) {
       if (typeof (value) === 'number') {
         return getChars(value, '')

@@ -15,7 +15,9 @@ var stubs = {
     }
   },
   [`${logger}`]: {
-    auditLog: () => {},
+    auditLog: () => {
+      return Promise.resolve()
+    },
     '@global': true
   }
 }

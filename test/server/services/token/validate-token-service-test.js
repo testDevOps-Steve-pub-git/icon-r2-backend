@@ -27,7 +27,7 @@ describe('validate token service test', () => {
     })
   })
 
-  it('should not build decoded payload with invalid token content - session', () => {
+  it('should not build decoded payload with invalid session ID', () => {
     testData.sessionId = '1020304'
     return jwtService.sign(testData, TOKEN_TYPE.SESSION)
     .then((token) => {
@@ -38,7 +38,7 @@ describe('validate token service test', () => {
     })
   })
 
-  it('should not build decoded payload with invalid token content - submission', () => {
+  it('should not build decoded payload with invalid submission ID', () => {
     testData.submissionId = '1020304'
     return jwtService.sign(testData, TOKEN_TYPE.SUBMISSION)
     .then((token) => {

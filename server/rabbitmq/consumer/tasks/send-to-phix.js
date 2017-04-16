@@ -1,8 +1,7 @@
 'use strict'
 
-var requestPromise = require('request-promise')
-
-var logger = require(`${__base}/server/services/logger-service`)
+const requestPromise = require('request-promise')
+const logger = require(`${__base}/server/services/logger-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const LOG_LEVELS = require(`${__base}/server/models/log-level`)
 
@@ -41,8 +40,18 @@ function sendToPhix ([immunSubmission, immunObject, submissionConfig, fileAttach
             fileAttachmentCount: fileAttachmentCount
           }
         })
-        .catch((err) => {
+        .catch({name: 'StatusCodeError'}, (err) => {
           // Error received when sending to PHIX, throw error to task.js where it is handled
+          err.result = err.statusCode
+          throw err
+        })
+        .catch({name: 'RequestError'}, (err) => {
+          // Error received when sending to PHIX, throw error to task.js where it is handled
+          err.result = err.error.code
+          throw err
+        })
+        .catch((err) => {
+          err.result = err.result || 'UNKNOWN'
           logger.log(LOG_LEVELS.ERROR, PROCESS_TYPE.RABBIT.CONSUMER.PHIX, `Send to Phix failed: ${err.message}`, {})
           throw err
         })

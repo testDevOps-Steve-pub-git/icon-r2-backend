@@ -41,8 +41,10 @@ function MessageHandler () {
         msg = msg + err.message
         logger.log(LOG_LEVELS.ERROR, PROCESS_TYPE.RABBIT.CONSUMER.AMQPLIB, msg, message.json)
       }
-      logger.log(LOG_LEVELS.INFO, PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, 'error processing message. Requeueing it again', message.json)
-      throw err
+      if (err.reQueue) {
+        logger.log(LOG_LEVELS.INFO, PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, 'error processing message. Requeueing it again', message.json)
+        throw err
+      }
     })
   }
 

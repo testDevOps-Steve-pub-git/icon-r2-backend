@@ -137,12 +137,7 @@ module.exports = {
     repostCodes: [400, 406, 409, 412, 422]
   },
   elasticSearch: {
-    url: process.env.ELASTIC_SEARCH_ENDPOINT || getService('icon-elasticsearch'),
-    updateTimeService: {
-      enabled: true,  // setting this to false will disable the service that updates session componenet timing in Elasticsearch
-      delay: 10000,
-      typeToUpdate: 'log'
-    }
+    url: process.env.ELASTIC_SEARCH_ENDPOINT || getService('icon-elasticsearch')
   },
   phixEndpointCerts: undefined,
     // Timeout for work queue connection problems
@@ -156,5 +151,16 @@ module.exports = {
       minute: process.env.GEOIP_UPDATE_MINUTE || 0
     }
   },
-  pdfFonts: ['Roboto', 'OpenSans']
+ pdfFonts: ['Roboto', 'OpenSans'],
+   tracking: {
+     startSessionPage: '/welcome',
+     endSessionPage: 'confirmation',
+     authWorkflowUri: 'auth',
+     anonWorkflowUri: 'anon',
+     updateTimeService: {
+       enabled: true,  // setting this to false will disable the service that updates session componenet timing in Elasticsearch
+       delay: 10000,
+       typeToUpdate: 'log'
+     }
+   }
 }

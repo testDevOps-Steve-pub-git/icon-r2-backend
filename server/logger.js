@@ -11,6 +11,7 @@ var phuService = require(`${__base}/server/services/token/phu-service`)
 var getGeoIp = require(`${__base}/server/services/geoip-lookup`)
 var elasticSearchConfig = require(`${__base}/config`).elasticSearch
 var esMappingConfig = require(`${__base}/server/models/winston-elasticsearch-mapping.json`)
+var trackingConfig = require(`${__base}/config`).tracking
 
 winston.addColors({
   error: 'red',
@@ -76,80 +77,119 @@ function auditLogBackend (processType, message) {
 }
 
 /**
+  * getPhuInformation()
+  *
+  * Pulls information regarding the PHU from the host url
+  *
+  * @param  {String}  host      - Represents the host url containing PHU acronym
+  * @param  {Object}  auditObj  - The audit object being built
+  */
+function getPhuInformation (host, auditObj) {
+  return new Promise((resolve, reject) => {
+    if (host) {
+      phuService.getPhuObjectFromUrl(host)
+      .then((phuObject) => {
+        // Add phu specific information to audit if existing
+        if (typeof phuObject !== 'undefined') {
+          auditObj.phuName = phuObject.name
+          auditObj.phuAcronym = phuObject.acronym
+        }
+        resolve()
+      })
+    } else {
+      // No host present, resolve without attempting to pull PHU information
+      resolve()
+    }
+  })
+}
+
+/**
   * @function creates audit for immunization submission and retrieval
   * @param {String} processType running when audit is needed
   * @param {Integer} statusCode response status code
   * @param {Object} request object for phu, session token, submission token
   */
 function auditLog (processType, statusCode, reqHeaders, reqDecoded, extraObject) {
-  // Create base audit object with process type and response status code
-  let auditObj = new Audit(processType, statusCode)
+  return new Promise((resolve, reject) => {
+    // Create base audit object with process type and response status code
+    let auditObj = new Audit(processType, statusCode)
 
-  auditObj.message = '[AUDIT] [' + auditObj.timestamp + ']'
+    auditObj.message = '[AUDIT] [' + auditObj.timestamp + ']'
 
-  let sessionId = reqDecoded.sessionId
-  let submissionId = reqDecoded.submissionId
-  let clientip, host, agent, parsedUa, geoIp
+    let sessionId = reqDecoded.sessionId
+    let submissionId = reqDecoded.submissionId
+    let fileCount = reqDecoded.fileAttachmentCount
+    let clientip, host, agent, parsedUa, geoIp, uriParts
 
-  // Add session token to audit if existing
-  if (sessionId) {
-    auditObj.sessionId = sessionId
-  }
-
-  // Add submission token to audit if existing
-  if (submissionId) {
-    auditObj.submissionId = submissionId
-  }
-
-  if (reqHeaders) {
-    // Pull audit infromation from request headers
-    clientip = tokenHeaders.getIp(reqHeaders)
-    host = tokenHeaders.getHost(reqHeaders)
-
-    // Add referer information if existing
-    if (reqHeaders.referer) {
-      auditObj.referer = reqHeaders.referer
+    // Add session token to audit if existing
+    if (sessionId) {
+      auditObj.sessionId = sessionId
     }
 
-    // Add agent specific information to audit if existing
-    if (reqHeaders['user-agent']) {
-      agent = reqHeaders['user-agent']
-      parsedUa = useragent.parse(agent)
-      auditObj.browserName = parsedUa.browser
-      auditObj.os = parsedUa.os
-      auditObj.device = parsedUa.platform
-      auditObj.isMobile = parsedUa.isMobile
+    // Add submission token to audit if existing
+    if (submissionId) {
+      auditObj.submissionId = submissionId
+    }
+
+    // Add count of files uploaded to audit if existing
+    if (fileCount) {
+      auditObj.fileCount = fileCount
+    }
+
+    if (extraObject.transitionPage) {
+      uriParts = extraObject.transitionPage.split('/')
+      if (uriParts.includes(trackingConfig.authWorkflowUri)) {
+        auditObj.isAuth = true
+      }
+      if (uriParts.includes(trackingConfig.anonWorkflowUri)) {
+        auditObj.isAuth = false
+      }
+    }
+
+    if (reqHeaders) {
+      // Pull audit infromation from request headers
+      clientip = tokenHeaders.getIp(reqHeaders)
+      host = tokenHeaders.getHost(reqHeaders)
+
+      // Add referer information if existing
+      if (reqHeaders.referer) {
+        auditObj.referer = reqHeaders.referer
+      }
+
+      // Add agent specific information to audit if existing
+      if (reqHeaders['user-agent']) {
+        agent = reqHeaders['user-agent']
+        parsedUa = useragent.parse(agent)
+        auditObj.browserName = parsedUa.browser
+        auditObj.os = parsedUa.os
+        auditObj.device = parsedUa.platform
+        auditObj.isMobile = parsedUa.isMobile
+      }
+    }
+
+    // Check for client ip and pull geoIp information
+    if (clientip) {
+      geoIp = getGeoIp(clientip)
+      auditObj.clientip = clientip
+    }
+
+    // Ensure geoIp exists (will be null from an internal IP)
+    if (geoIp && geoIp.ll) {
+      auditObj.location = geoIp.ll.reverse()
     }
 
     // Parse phu information from request headers
-    phuService.getPhuObjectFromUrl(host)
-    .then((phuObject) => {
-      // Add phu specific information to audit if existing
-      if (typeof phuObject !== 'undefined') {
-        auditObj.phuName = phuObject.name
-        auditObj.phuAcronym = phuObject.acronym
-      }
+    getPhuInformation(host, auditObj)
+    .then(() => {
+      // Log as audit
+      var finalObject = {}
+      Object.assign(finalObject, auditObj.toList(), extraObject)
+      auditor.info(finalObject)
+      logger.info(finalObject)
+
+      resolve(finalObject)
     })
-  }
-
-  // Check for client ip and pull geoIp information
-  if (clientip) {
-    geoIp = getGeoIp(clientip)
-    auditObj.clientip = clientip
-  }
-
-  // Ensure geoIp exists (will be null from an internal IP)
-  if (geoIp && geoIp.ll) {
-    auditObj.location = geoIp.ll.reverse()
-  }
-
-  // Log as audit
-  var finalObject = {}
-  Object.assign(finalObject, auditObj.toList(), extraObject)
-  auditor.info(finalObject)
-  logger.info(finalObject)
-
-  return finalObject
+  })
 }
 
 // Public Functions

@@ -492,7 +492,7 @@
           "items": {
             "$ref": "#/definitions/Identifier"
           },
-          "minItems": 0,
+          "minItems": 1,
           "maxItems": 2
         },
         "name": {
@@ -541,7 +541,6 @@
       },
       "required": [
         "resourceType",
-        "identifier",
         "name",
         "gender",
         "birthDate"
