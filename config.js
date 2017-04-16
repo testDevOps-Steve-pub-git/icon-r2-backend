@@ -151,16 +151,16 @@ module.exports = {
       minute: process.env.GEOIP_UPDATE_MINUTE || 0
     }
   },
- pdfFonts: ['Roboto', 'OpenSans'],
-   tracking: {
-     startSessionPage: '/welcome',
-     endSessionPage: 'confirmation',
-     authWorkflowUri: 'auth',
-     anonWorkflowUri: 'anon',
-     updateTimeService: {
-       enabled: true,  // setting this to false will disable the service that updates session componenet timing in Elasticsearch
-       delay: 10000,
-       typeToUpdate: 'log'
-     }
-   }
+  pdfFonts: ['Roboto', 'OpenSans'],
+  tracking: {
+    startSessionPage: '/welcome',
+    endSessionPage: 'confirmation',
+    authWorkflowUri: 'auth',
+    anonWorkflowUri: 'anon',
+    updateTimeService: {
+      enabled: true,  // setting this to false will disable the service that updates session componenet timing in Elasticsearch
+      delay: 10000,
+      typeToUpdate: 'log'
+    }
+  }
 }
