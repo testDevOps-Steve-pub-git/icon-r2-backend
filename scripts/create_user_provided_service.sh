@@ -9,7 +9,7 @@ if [ $# -eq 0 ]
 
     if [ "$json_file" ]
     then
-        ups=$(cf service env_setup --guid)
+        ups=$(cf services | grep env_setup)
         if [ ! -z $UPS ] 
         then
             cf cups env_setup -p $json_file
