@@ -8,6 +8,7 @@ services:
 - icon-elasticsearch
 - icon-postgresql
 - icon-rabbitmq
+- env_setup
 applications:
 - name: icon-server
   host: icon-server
