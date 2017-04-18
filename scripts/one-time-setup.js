@@ -32,7 +32,6 @@ let rmq = createService('compose-for-rabbitmq', 'icon-rabbitmq')
 
 Promise.all([es, pgl, rmq]).then((result) => {
   console.log('compose service created')
-  
   let esk = createServiceKey('icon-elasticsearch', 'Credentials-1')
   let pglk = createServiceKey('icon-postgresql', 'CCS-srv-binding-icon_setup_7-1492143347.94')
   let rmqk = createServiceKey('icon-rabbitmq', 'Credentials-1')
