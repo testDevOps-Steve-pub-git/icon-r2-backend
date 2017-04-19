@@ -55,4 +55,6 @@ bin/testVirus.png
 # Ignore these config files, they contain keys and passwords
 local.json
 
-.cf/
+.cf
+commit.properties
+.nyc_output
