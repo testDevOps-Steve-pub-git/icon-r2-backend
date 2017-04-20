@@ -7,6 +7,7 @@ const nconf = require('nconf')
   .env('__')
   .file(`${__base}/local.json`)
 
+
 function getService (serviceName) {
   let uri
   if (appEnv.isLocal) {
