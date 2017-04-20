@@ -1,4 +1,0 @@
-[submodule "init-scripts"]
-	path = init-scripts
-	url = https://github.com/MOHLTC11/icon-r2-init-setup.git
-	branch = ibm-devops
