@@ -26,4 +26,8 @@ describe('FHIR Validation outcome converter', () => {
     var outcome = outcomeConverter.convertErrorsToOutcome(id, errors)
     return expect(JSON.parse(outcome)).to.have.property('id', 'TEST_ID')
   })
+
+  it('should return null when error field supplied is empty', () => {
+    return expect(outcomeConverter.convertErrorsToOutcome(id)).to.be.null
+  })
 })

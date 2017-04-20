@@ -1,4 +1,7 @@
-var expect = require('chai').expect
+var chai = require('chai')
+var chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised)
+var expect = chai.expect
 var jwtService = require(__base + '/server/services/token/jwt-service')
 var validateTokenService = require(__base + '/server/services/token/validate-token-service')
 var testData = require(__base + '/test/server/testFiles/sample-test-data.js').dataWithoutOptionalFields
@@ -10,9 +13,9 @@ describe('validate token service test', () => {
     return jwtService.sign(testData, TOKEN_TYPE.SESSION)
     .then((token) => {
       return validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000', token)
-      .then((result) => {
-        return expect(result).to.have.property('sessionId', 'GBHU1020304')
-      })
+    })
+    .then((result) => {
+      return expect(result).to.have.property('sessionId', 'GBHU1020304')
     })
   })
 
@@ -21,9 +24,9 @@ describe('validate token service test', () => {
     return jwtService.sign(testData, TOKEN_TYPE.SUBMISSION)
     .then((token) => {
       return validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', token)
-      .then((result) => {
-        return expect(result).to.have.property('submissionId', 'GBHU1020304')
-      })
+    })
+    .then((result) => {
+      return expect(result).to.have.property('submissionId', 'GBHU1020304')
     })
   })
 
@@ -31,10 +34,8 @@ describe('validate token service test', () => {
     testData.sessionId = '1020304'
     return jwtService.sign(testData, TOKEN_TYPE.SESSION)
     .then((token) => {
-      return validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000', token)
-      .catch((err) => {
-        return expect(err).to.be.defined
-      })
+      return expect(validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000', token))
+              .to.eventually.be.rejectedWith(Error)
     })
   })
 
@@ -42,10 +43,8 @@ describe('validate token service test', () => {
     testData.submissionId = '1020304'
     return jwtService.sign(testData, TOKEN_TYPE.SUBMISSION)
     .then((token) => {
-      return validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', token)
-      .catch((err) => {
-        return expect(err).to.be.defined
-      })
+      return expect(validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', token))
+              .to.eventually.be.rejectedWith(Error)
     })
   })
 
@@ -53,28 +52,22 @@ describe('validate token service test', () => {
     testData.sessionId = 'GBHU1020304'
     return jwtService.sign(testData, TOKEN_TYPE.SESSION)
     .then((token) => {
-      return validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'INVALID_URL', token)
-      .catch((err) => {
-        return expect(err).to.have.property('_processType', 'url;parse')
-      })
+      return expect(validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'INVALID_URL', token))
+              .to.eventually.be.rejected
     })
   })
 
   it('should not build decoded payload with invalid token', () => {
-    return validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', 'INVALIDTOKEN')
-    .catch((err) => {
-      return expect(err).to.have.property('_processType', 'authenticate')
-    })
+    return expect(validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', 'INVALIDTOKEN'))
+              .to.eventually.be.rejected
   })
 
   it('should not build decoded payload with token without sessionId for session token', () => {
     testData.sessionId = null
     return jwtService.sign(testData, TOKEN_TYPE.SESSION)
     .then((token) => {
-      return validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000', token)
-      .catch((err) => {
-        return expect(err).be.defined
-      })
+      return expect(validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000', token))
+              .to.eventually.be.rejectedWith(Error)
     })
   })
 
@@ -82,10 +75,24 @@ describe('validate token service test', () => {
     testData.submissionId = null
     return jwtService.sign(testData, TOKEN_TYPE.SUBMISSION)
     .then((token) => {
-      return validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', token)
-      .catch((err) => {
-        return expect(err).be.defined
-      })
+      return expect(validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', token))
+              .to.eventually.be.rejectedWith(Error)
+    })
+  })
+
+  it('should not build decoded payload with token with invalid token type', () => {
+    return jwtService.sign(testData, TOKEN_TYPE.SUBMISSION)
+    .then((token) => {
+      return expect(validateTokenService.verifyToken('INVALID_TOKEN_TYPE', 'gbhu.vcap.me:3000', token))
+              .to.eventually.be.rejectedWith(Error)
+    })
+  })
+
+  it('should not build decoded submission payload when there is no submission id', () => {
+    return jwtService.sign(testData, TOKEN_TYPE.SUBMISSION)
+    .then((token) => {
+      return expect(validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', token))
+              .to.eventually.be.rejectedWith(Error)
     })
   })
 })

@@ -28,13 +28,13 @@ function validateTokenService () {
     var tokenId
     switch (tokenType) {
       case TOKEN_TYPE.SESSION:
-        if (typeof decodedPayload.sessionId === 'undefined') {
+        if (!decodedPayload.sessionId) {
           throw new Error('Missing sessionId in decoded token')
         }
         tokenId = decodedPayload.sessionId
         break
       case TOKEN_TYPE.SUBMISSION:
-        if (typeof decodedPayload.submissionId === 'undefined' && typeof decodedPayload.txId === 'undefined') { // txId added for backward compatibility
+        if (!decodedPayload.submissionId && !decodedPayload.txId) { // txId added for backward compatibility
           throw new Error('Missing submissionId in decoded token')
         }
         tokenId = decodedPayload.submissionId || decodedPayload.txId // txId added for backward compatibility
@@ -45,7 +45,7 @@ function validateTokenService () {
     // Verifies the first part of token id matches the phu acronym
     // For example: tokenId = GBHU-lCeZUhr and phu acronym from phu.json is GBHU
     //              then it's an valid tokenId
-    if (tokenId.indexOf(phuObject.acronym) !== 0) {
+    if (tokenId && tokenId.indexOf(phuObject.acronym) !== 0) {
       throw new Error('Invalid token content')
     }
 
