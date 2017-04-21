@@ -39,14 +39,36 @@ describe('Yellowcard authenticate service', () => {
     }
   })
 
-  it('should create error message', () => {
+  it('should create error message with no conditions', () => {
     var errorConditions = {
-      hasOiid: true,
+      hasOiid: false,
       hasPin: false,
       hasRelationship: false
     }
 
-    var expectedResult = `WARNING: Certain Parameters were not passed: {set of conditions were not passed in. Could not validate the error (regarding oiid, pin, and relationship)`
+    var expectedResult = `WARNING: Certain Parameters were not passed: {OIID, PIN, RELATIONSHIP}`
+
+    var result = authenticateService.create.errorMessage(errorConditions)
+    expect(result).to.be.equal(expectedResult)
+  })
+
+  it('should create error message with some missing conditions', () => {
+    var errorConditions = {
+      hasOiid: true,
+      hasPin: false,
+      hasRelationship: true
+    }
+
+    var expectedResult = `WARNING: Certain Parameters were not passed: {PIN}`
+
+    var result = authenticateService.create.errorMessage(errorConditions)
+    expect(result).to.be.equal(expectedResult)
+  })
+
+  it('should inform of lack of conditions parameters', () => {
+    var errorConditions = {}
+
+    var expectedResult = `WARNING: Certain Parameters were not passed: {set of conditions were not passed in. Could not validate the error (regarding oiid, pin, and relationship)}`
 
     var result = authenticateService.create.errorMessage(errorConditions)
     expect(result).to.be.equal(expectedResult)

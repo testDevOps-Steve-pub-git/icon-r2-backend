@@ -8,7 +8,7 @@
     "start": "node .",
     "predev": "npm run lint",
     "dev": "nodemon ./server/server.js && npm run lint",
-    "test": "nyc mocha --timeout=3000",
+    "test": "nyc mocha --timeout=3000  --reporter mocha-jenkins-reporter --reporter-options junit_report_path=./test/icon-unit-test-report.xml",
     "test-w": "mocha --watch",
     "posttest": "npm run lint"
   },
@@ -52,6 +52,7 @@
     "del": "2.2.0",
     "istanbul": "^0.4.5",
     "mocha": "3.2.0",
+    "mocha-jenkins-reporter": "^0.3.7",
     "nodemon": "1.11.0",
     "nyc": "^10.2.0",
     "proxyquire": "^1.7.11",

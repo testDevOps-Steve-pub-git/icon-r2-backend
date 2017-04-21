@@ -42,31 +42,33 @@ function createErrorMessage (conditions) {
   var message = ycModels.MESSAGES.AUTHENTICATE.ERROR.START + ' {'
   var count = 0
   var hasConditions = !!conditions &&
-                      !!conditions.hasOiid &&
-                      !!conditions.hasPin &&
-                      !!conditions.hasRelationship
+                      !!conditions.hasOwnProperty('hasOiid') &&
+                      !!conditions.hasOwnProperty('hasPin') &&
+                      !!conditions.hasOwnProperty('hasRelationship')
 
-  if (hasConditions) {
-    if (!conditions.hasOiid) {
-      message += ycModels.MESSAGES.AUTHENTICATE.ERROR.OIID
-      count++
-    }
-
-    if (!conditions.hasPin) {
-      if (count++ > 0) message += ', '
-      message += ycModels.MESSAGES.AUTHENTICATE.ERROR.PIN
-      count++
-    }
-
-    if (!conditions.hasRelationship) {
-      if (count++ > 0) message += ', '
-      message += ycModels.MESSAGES.AUTHENTICATE.ERROR.RELATIONSHIP
-    }
-
-    message += ' }'
-  } else {
+  if (!hasConditions) {
     message += ycModels.MESSAGES.AUTHENTICATE.ERROR.NO_CONDITIONS
+    message += '}'
+    return message
   }
+
+  if (!conditions.hasOiid) {
+    message += ycModels.MESSAGES.AUTHENTICATE.ERROR.OIID
+    count++
+  }
+
+  if (!conditions.hasPin) {
+    if (count++ > 0) message += ', '
+    message += ycModels.MESSAGES.AUTHENTICATE.ERROR.PIN
+    count++
+  }
+
+  if (!conditions.hasRelationship) {
+    if (count++ > 0) message += ', '
+    message += ycModels.MESSAGES.AUTHENTICATE.ERROR.RELATIONSHIP
+  }
+
+  message += '}'
 
   return message
 }

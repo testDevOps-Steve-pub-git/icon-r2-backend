@@ -118,7 +118,7 @@ app.start = function () {
 }
 
 /* ******* Version for CLAMAV **************** */
-if (config.clamav.enabled) {
+if (!config.isTest && config.clamav.enabled) {
   clamav.version(config.clamav.port, config.clamav.endPoint, 10000, function (err, version) {
     if (err) {
       logger.error({

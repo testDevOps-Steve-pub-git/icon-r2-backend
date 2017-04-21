@@ -1,10 +1,10 @@
 'use strict'
 
-var Promise = require('bluebird')
-var jwt = require('jsonwebtoken')
+const Promise = require('bluebird')
+const jwt = require('jsonwebtoken')
 
-var errorService = require(`${__base}/server/services/error-service`)
-var tokenConfig = require(`${__base}/config`).token
+const errorService = require(`${__base}/server/services/error-service`)
+const tokenConfig = require(`${__base}/config`).token
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 

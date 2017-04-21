@@ -1,10 +1,10 @@
 'use strict'
 
-var logger = require(`${__base}/server/services/logger-service`)
-var errorService = require(`${__base}/server/services/error-service`)
-var tokenService = require(`${__base}/server/services/token-service`)
-var tokenHeaders = require(`${__base}/server/models/token-headers`)
-var tokenConfig = require(`${__base}/config`).token
+const logger = require(`${__base}/server/services/logger-service`)
+const errorService = require(`${__base}/server/services/error-service`)
+const tokenService = require(`${__base}/server/services/token-service`)
+const tokenHeaders = require(`${__base}/server/models/token-headers`)
+const tokenConfig = require(`${__base}/config`).token
 const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 

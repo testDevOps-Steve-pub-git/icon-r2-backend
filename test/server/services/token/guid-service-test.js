@@ -1,5 +1,5 @@
 var expect = require('chai').expect
-var guidService = require(__base + '/server/services/token/guid-service')
+var guidService = require(`${__base}/server/services/token/guid-service`)
 
 describe('guid service test', () => {
   it('should return a GUID (64)', () => {

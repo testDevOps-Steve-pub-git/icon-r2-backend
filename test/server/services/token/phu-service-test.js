@@ -1,5 +1,9 @@
-var expect = require('chai').expect
-var phuService = require(__base + '/server/services/token/phu-service')
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const phuService = require(__base + '/server/services/token/phu-service')
+
+chai.use(chaiAsPromised)
+const expect = chai.expect
 
 describe('phu service test', () => {
   it('should return correct phu object for a valid url (with http://)', () => {
@@ -17,22 +21,12 @@ describe('phu service test', () => {
   })
 
   it('should not return a phu object for an invalid url', () => {
-    return phuService.getPhuObjectFromUrl('INVALID_URL')
-    .then(() => {
-      return expect.fail()
-    })
-    .catch((err) => {
-      return expect(err).to.have.property('_processType', 'url;parse')
-    })
+    return expect(phuService.getPhuObjectFromUrl('INVALID_URL'))
+            .to.eventually.be.rejected
   })
 
   it('should not return a phu object with an invalid phu acronym in url', () => {
-    return phuService.getPhuObjectFromUrl('psmn.vcap.me:3000')
-    .then(() => {
-      return expect.fail()
-    })
-    .catch((err) => {
-      return expect(err).to.have.property('_processType', 'url;parse')
-    })
+    return expect(phuService.getPhuObjectFromUrl('psmn.vcap.me:3000'))
+            .to.eventually.be.rejected
   })
 })

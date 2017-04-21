@@ -77,6 +77,7 @@ module.exports = {
     algorithm: 'aes-256-cbc'
   },
   isProduction: process.env.NODE_SERVER_PRODUCTION_MODE || false, // Change the value to true if the app is in production
+  isTest: process.env.NODE_ENV === 'test',
   rabbitmq: {
     url: process.env.RABBITMQ_ENDPOINT || getService('icon-rabbitmq'),
     amqpOptions: {

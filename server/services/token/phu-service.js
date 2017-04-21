@@ -1,11 +1,10 @@
 'use strict'
 
-var Promise = require('bluebird')
-var url = require('url')
-
+const Promise = require('bluebird')
+const url = require('url')
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
-var errorService = require(`${__base}/server/services/error-service`)
-var phuList = require(`${__base}/server/phu.json`)
+const errorService = require(`${__base}/server/services/error-service`)
+const phuList = require(`${__base}/server/phu.json`)
 
 /**
  * @module phu-service

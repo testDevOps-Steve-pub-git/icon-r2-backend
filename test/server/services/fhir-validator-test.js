@@ -37,16 +37,16 @@ describe('FHIR validator test', () => {
     return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000')
     .then((sessionToken) => {
       return appTest.get('/api/token/submission')
-      .set('session-token', sessionToken)
-      .then((response) => {
-        let submissionToken = response.body.token
-        return validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000', submissionToken)
-        .then((decoded) => {
-          validFhirMessage.identifier[0].value = decoded.submissionId
-          let result = fhirValidator.validate(validFhirMessage, decoded.submissionId)
-          return expect(result).to.have.property('isValid', true)
-        })
-      })
+    .set('session-token', sessionToken)
+    })
+    .then((response) => {
+      let submissionToken = response.body.token
+      return validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000', submissionToken)
+    })
+    .then((decoded) => {
+      validFhirMessage.identifier[0].value = decoded.submissionId
+      let result = fhirValidator.validate(validFhirMessage, decoded.submissionId)
+      return expect(result).to.have.property('isValid', true)
     })
   })
 
@@ -55,14 +55,14 @@ describe('FHIR validator test', () => {
     .then((sessionToken) => {
       return appTest.get('/api/token/submission')
       .set('session-token', sessionToken)
-      .then((response) => {
-        let submissionToken = response.body.token
-        return validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000', submissionToken)
-        .then((decoded) => {
-          let result = fhirValidator.validate(validFhirMessage, decoded.submissionId)
-          return expect(result).to.have.property('isValid', false)
-        })
-      })
+    })
+    .then((response) => {
+      let submissionToken = response.body.token
+      return validateTokenService.verifyToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000', submissionToken)
+    })
+    .then((decoded) => {
+      let result = fhirValidator.validate(validFhirMessage, decoded.submissionId)
+      return expect(result).to.have.property('isValid', false)
     })
   })
 })

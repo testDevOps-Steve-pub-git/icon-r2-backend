@@ -35,15 +35,6 @@ function guidService () {
       if (typeof (value) === 'number') {
         return getChars(value, '')
       }
-
-      if (typeof (value) === 'string') {
-        if (value === '') {
-          return NaN
-        }
-        return value.split('').reverse().reduce(function (prev, cur, i) {
-          return prev + characterSet.indexOf(cur) * Math.pow(characterSetLength, i)
-        }, 0)
-      }
     }
 
     // End of conversion of number to radix31

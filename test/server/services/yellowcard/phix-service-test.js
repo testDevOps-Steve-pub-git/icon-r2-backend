@@ -1,5 +1,15 @@
-var expect = require('chai').expect
-var phixService = require(`${__base}/server/services/yellowcard/phix-service.js`)
+const expect = require('chai').expect
+const proxyquire = require('proxyquire')
+const logger = `${__base}/server/logger`
+
+const phixService = proxyquire(`${__base}/server/services/yellowcard/phix-service.js`, {
+  [`${logger}`]: {
+    debug: (logLevel, logObject) => {
+      return logObject
+    },
+    '@global': true
+  }
+})
 
 describe('PHIX service test', () => {
   var oiid = '0000-0000-0000'
@@ -18,5 +28,12 @@ describe('PHIX service test', () => {
   it('should generate request options when given metaObject', () => {
     var result = phixService.generateRequestOptions(oiid, pin, token, metaObject)
     return expect(result).to.have.property('headers')
+  })
+
+  it('should log gating questions', () => {
+    var result = phixService.logGatingQuestion('TEST_RELATIONSHIP', metaObject)
+    expect(result).to.have.property('processType', 'retrieval;ICON')
+    expect(result).to.have.property('interactionType', 'retrieval')
+    expect(result).to.have.property('reltoClient', 'TEST_RELATIONSHIP')
   })
 })
