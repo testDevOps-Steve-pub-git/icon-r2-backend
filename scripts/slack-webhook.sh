@@ -39,6 +39,6 @@ fi
 
 escapedText=$(echo $text | sed 's/"/\"/g' | sed "s/'/\'/g" )
 
-json="{\"channel\": \"$channel\", \"username\":\"$username\", \"icon_emoji\":\"ghost\", \"attachments\":[{\"color\":\"danger\" , \"text\": \"$escapedText\"}]}"
+json="{\"channel\": \"$channel\", \"username\":\"$username\", \"icon_emoji\":\"ghost\", \"attachments\":[{\"color\":\"good\" , \"text\": \"$escapedText\"}]}"
 
 curl -s -d "payload=$json" "$webhook_url"
