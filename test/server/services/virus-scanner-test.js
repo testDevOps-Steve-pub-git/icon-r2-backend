@@ -7,10 +7,10 @@ const expect = chai.expect
 
 const buffer = 'test_file'
 const config = {}
-let virusScanner = require(__base + '/server/services/virus-scanner.js')
+const virusScanner = require(`${__base}/server/services/virus-scanner.js`)
 
 function proxyClamav (callback) {
-  return proxyquire(__base + '/server/services/virus-scanner.js', {
+  return proxyquire(`${__base}/server/services/virus-scanner.js`, {
     'clamav.js': {
       createScanner: (port, endPoint) => {
         return {scan: callback}
@@ -40,7 +40,7 @@ describe('virus scanner', () => {
 
   describe('when scanner throws an error', () => {
     it('should reject with an error', () => {
-      let virusScanner = proxyClamav((buffer, cb) => {
+      const virusScanner = proxyClamav((buffer, cb) => {
         cb(new Error('failed'), buffer, null)
       })
       return virusScanner(buffer, config)
@@ -54,7 +54,7 @@ describe('virus scanner', () => {
 
   describe('when scanner finds a virus', () => {
     it('should reject with a warning', () => {
-      let virusScanner = proxyClamav((buffer, cb) => {
+      const virusScanner = proxyClamav((buffer, cb) => {
         cb(null, buffer, 'VIRUS!')
       })
       return virusScanner(buffer, config)
@@ -68,7 +68,7 @@ describe('virus scanner', () => {
 
   describe('when scan is ok', () => {
     it('should resolve', () => {
-      let virusScanner = proxyClamav((buffer, cb) => {
+      const virusScanner = proxyClamav((buffer, cb) => {
         cb(null, buffer, null)
       })
       return virusScanner(buffer, {})

@@ -1,10 +1,10 @@
 'use strict'
 
-var stream = require('stream')
-var util = require('util')
+const stream = require('stream')
+const util = require('util')
 
-var Writable = stream.Writable
-var memoryStore = { }
+const Writable = stream.Writable
+let memoryStore = { }
 
 module.exports = WritableMemoryStream
 

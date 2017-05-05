@@ -1,9 +1,9 @@
 'use strict'
 
-var errorHandler = require(`${__base}/server/services/error-service`)
-var statusCodes = require(`${__base}/server/models/response-status-code`)
-var processTypes = require(`${__base}/server/models/process-type`)
-var commonPost = require(`${__base}/server/models/common-post`)
+const errorHandler = require(`${__base}/server/services/error-service`)
+const statusCodes = require(`${__base}/server/models/response-status-code`)
+const processTypes = require(`${__base}/server/models/process-type`)
+const commonPost = require(`${__base}/server/models/common-post`)
 
 /**
  * @function Check the ctx object contains all the data we need

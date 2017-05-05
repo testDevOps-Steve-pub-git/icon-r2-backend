@@ -1,13 +1,13 @@
 process.env.NODE_ENV = 'test'
 
-var path = require('path')
-var getTokenService = require(__base + '/server/services/token/get-token-service.js')
-var expect = require('chai').expect
-const TOKEN_TYPE = require(__base + '/server/models/token-type')
-var proxyquire = require('proxyquire')
-var logger = `${__base}/server/logger`
+const path = require('path')
+const expect = require('chai').expect
+const proxyquire = require('proxyquire')
+const logger = `${__base}/server/logger`
+const getTokenService = require(`${__base}/server/services/token/get-token-service.js`)
+const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
-var stubs = {
+const stubs = {
   'clamav.js': {
     createScanner: (post, endPoint) => {
       return { scan: (buffer, cb) => {
@@ -26,8 +26,8 @@ var stubs = {
   }
 }
 
-var app = proxyquire(__base + '/server/server', stubs)
-var request = require('supertest-as-promised')(app)
+const app = proxyquire(__base + '/server/server', stubs)
+const request = require('supertest-as-promised')(app)
 
 function createVhostTester (app, vhost) {
   const real = request
@@ -43,15 +43,15 @@ function createVhostTester (app, vhost) {
   return proxy
 }
 
-var appTest = createVhostTester(app, 'gbhu.vcap.me:3000')
+const appTest = createVhostTester(app, 'gbhu.vcap.me:3000')
 
 describe('submission attachment test', () => {
   it('should submit attachments', () => {
-    let testFilePath = path.resolve('test/server/testFiles/pinkball.png')
+    const testFilePath = path.resolve('test/server/testFiles/pinkball.png')
     return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000').then((sessionToken) => {
       return appTest.get('/api/token/submission')
         .set('session-token', sessionToken).then((response) => {
-          let submissionToken = response.body.token
+          const submissionToken = response.body.token
           return appTest.post('/api/SubmissionAttachments')
             .set('session-token', sessionToken)
             .set('submission-token', submissionToken)
@@ -67,7 +67,7 @@ describe('submission attachment test', () => {
     return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000').then((sessionToken) => {
       return appTest.get('/api/token/submission')
         .set('session-token', sessionToken).then((response) => {
-          let submissionToken = response.body.token
+          const submissionToken = response.body.token
           try {
             appTest.post('/api/SubmissionAttachments')
               .set('session-token', sessionToken)

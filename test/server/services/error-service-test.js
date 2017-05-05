@@ -1,6 +1,6 @@
-var expect = require('chai').expect
-var errorService = require(__base + '/server/services/error-service.js')
-var processTypes = require(`${__base}/server/models/process-type`)
+const expect = require('chai').expect
+const errorService = require(`${__base}/server/services/error-service.js`)
+const processTypes = require(`${__base}/server/models/process-type`)
 
 describe('error service', () => {
   let options = {

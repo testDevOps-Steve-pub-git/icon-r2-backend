@@ -1,6 +1,6 @@
 'use strict'
-var MetaData = require(`${__base}/server/models/yellowcard/meta-data`)           // --> Models Logging
-var Client = require(`${__base}/server/models/yellowcard/authenticate/client`)   // --> Models Client info
+const MetaData = require(`${__base}/server/models/yellowcard/meta-data`)           // --> Models Logging
+const Client = require(`${__base}/server/models/yellowcard/authenticate/client`)   // --> Models Client info
 
 /**
  * YellowCardModels.authenticate: Session() Method

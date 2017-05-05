@@ -1,7 +1,7 @@
 'use strict'
-var geoip = require('geoip-lite')
+const geoip = require('geoip-lite')
 
 module.exports = (ipAddress) => {
-  var geo = geoip.lookup(ipAddress)
+  const geo = geoip.lookup(ipAddress)
   return geo
 }

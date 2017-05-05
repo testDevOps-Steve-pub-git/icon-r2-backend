@@ -28,36 +28,6 @@
         "nullable": "YES"
       }
     },
-    "friendlyEnName": {
-      "type": "String",
-      "required": false,
-      "length": 100,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "friendly_en_name",
-        "dataType": "character varying",
-        "dataLength": 50,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "friendlyFrName": {
-      "type": "String",
-      "required": false,
-      "length": 100,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "friendly_fr_name",
-        "dataType": "character varying",
-        "dataLength": 100,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
     "yellowCardOrder": {
       "type": "Number",
       "required": false,
@@ -65,7 +35,7 @@
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "yellow_card_order",
+        "columnName": "yellowCardOrder",
         "dataType": "smallint",
         "dataLength": null,
         "dataPrecision": null,
@@ -73,14 +43,14 @@
         "nullable": "YES"
       }
     },
-    "json": {
+    "longName": {
       "type": "String",
       "required": false,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "json",
+        "columnName": "longName",
         "dataType": "json",
         "dataLength": null,
         "dataPrecision": null,

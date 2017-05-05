@@ -28,7 +28,7 @@ module.exports = function (DeleteQueueMessage) {
 
     // API to delete message from rabbit queue
   DeleteQueueMessage.deleteMessageFromQueue = function (req, cb) {
-    var logger = require(__base + '/server/logger')
+    const logger = require(`${__base}/server/logger`)
     try {
       if (req.body.documentId && req.body.submissionId) {
         var msg = {

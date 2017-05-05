@@ -1,7 +1,9 @@
 'use strict'
 
+const crypto = require('crypto')
+
 /**
- * @module guid-service
+ * @vmodule guid-service
  */
 module.exports = guidService()
 
@@ -12,33 +14,19 @@ module.exports = guidService()
  */
 function guidService () {
   /**
-   * @function generateGuid generates a GUID using the current timestamp and a random number between 0 and 1000
+   * @function generateGuid generates a GUID using cryptographic methods
    * @param {String} characterSet Represent the character set used for creating GUID
-   * @return {String} GUID
-   */
-  function generateGuid (characterSet) {
-    var characterSetLength = characterSet.length
+   * @return {String} GUID */
+  function generateGuid (chars, howMany = 9) {
+    var rnd = crypto.randomBytes(howMany)
+    var value = new Array(howMany)
+    var len = chars.length
 
-    function getChars (num, res) {
-      var mod = num % characterSetLength
-      var remaining = Math.floor(num / characterSetLength)
-      var chars = characterSet.charAt(mod) + res
+    for (var i = 0; i < howMany; i++) {
+      value[i] = chars[rnd[i] % len]
+    };
 
-      if (remaining <= 0) {
-        return chars
-      }
-      return getChars(remaining, chars)
-    }
-
-    // converting number to radix3
-    function base (value) {
-      if (typeof (value) === 'number') {
-        return getChars(value, '')
-      }
-    }
-
-    // End of conversion of number to radix31
-    return base(new Date().getTime() + (Math.random() * 1000))
+    return value.join('')
   }
 
   /**
@@ -46,7 +34,7 @@ function guidService () {
    * @return {String} base64 GUID
    */
   function getBase64Guid () {
-    var base64Chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_'
+    const base64Chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_'
     return generateGuid(base64Chars)
   }
 
@@ -57,7 +45,7 @@ function guidService () {
    */
   function getBase31Guid () {
     // 0, O, 1, I, L ------ Removing potential problems
-    var base31Chars = '23456789ABCDEFGHJKMNPQRSTUVWXYZ'
+    const base31Chars = '23456789ABCDEFGHJKMNPQRSTUVWXYZ'
     return generateGuid(base31Chars)
   }
 

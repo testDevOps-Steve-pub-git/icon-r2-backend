@@ -1,7 +1,7 @@
 'use strict'
-var ycModels = require(`${__base}/server/models/yellowcard/models`)
-var ycService = require(`${__base}/server/services/yellowcard-service`)
-var errorService = require(`${__base}/server/services/error-service`)
+const ycModels = require(`${__base}/server/models/yellowcard/models`)
+const ycService = require(`${__base}/server/services/yellowcard-service`)
+const errorService = require(`${__base}/server/services/error-service`)
 
 /**
  * YellowCard: getClient() Method
@@ -13,7 +13,7 @@ var errorService = require(`${__base}/server/services/error-service`)
  * @param {request}  req  - the request object from the node server
  */
 function getSession (req) {
-  var check = {
+  const check = {
     hasOiid: (!!req.headers['oiid']),
     hasPin: (!!req.headers['immunizations-context'] || !!req.query['immunizations-context']),
     hasRelationship: (!!req.params['relationshipToClient'] || !!req.query['relationshipToClient'])
@@ -56,7 +56,7 @@ function getSession (req) {
  * @param {next}     next       - the next callback in the chain
  */
 module.exports = (req, res, next) => {
-  var check = getSession(req)
+  const check = getSession(req)
 
   if (check.isValid) {
     req.session = check.session

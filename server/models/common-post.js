@@ -1,7 +1,7 @@
 'use strict'
 
-var errorHandler = require(`${__base}/server/services/error-service`)
-var statusCodes = require(`${__base}/server/models/response-status-code`)
+const errorHandler = require(`${__base}/server/services/error-service`)
+const statusCodes = require(`${__base}/server/models/response-status-code`)
 
 /**
  * @function disable unused API endpoints

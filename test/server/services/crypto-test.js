@@ -1,27 +1,27 @@
-var expect = require('chai').expect
-var logger = `${__base}/server/services/logger-service`
-var proxyquire = require('proxyquire')
+const expect = require('chai').expect
+const logger = `${__base}/server/services/logger-service`
+const proxyquire = require('proxyquire')
 
-var crypto = proxyquire(`${__base}/server/services/crypto.js`, {
+const crypto = proxyquire(`${__base}/server/services/crypto.js`, {
   [`${logger}`]: {
     logDebug: () => {}
   }
 })
 
 describe('crypto test', () => {
-  var encryptedFile
+  let encryptedFile
 
-  var validConfig = {
+  const validConfig = {
     algorithm: 'aes192',
     password: 'test_password'
   }
 
-  var configWithBadCipher = {
+  const configWithBadCipher = {
     algorithm: 'invalid_algorithm',
     password: 'test_password'
   }
 
-  var configWithBadPassword = {
+  const configWithBadPassword = {
     algorithm: 'aes192',
     password: null
   }

@@ -1,8 +1,8 @@
-var expect = require('chai').expect
-var tokenHeaders = require(__base + '/server/models/token-headers.js')
+const expect = require('chai').expect
+const tokenHeaders = require(__base + '/server/models/token-headers.js')
 
 describe('token headers test', () => {
-  let headers = {
+  const headers = {
     origin: 'test_origin',
     referer: 'test_referer',
     host: 'test_host',
@@ -12,11 +12,11 @@ describe('token headers test', () => {
     'x-real-ip': 'text_x_real_ip'
   }
 
-  let refererTest = {
+  const refererTest = {
     referer: 'test_referer'
   }
 
-  let hostTest = {
+  const hostTest = {
     host: 'test_host'
   }
 

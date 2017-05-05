@@ -1,6 +1,6 @@
 'use strict'
-var authService = require(`${__base}/server/services/yellowcard/authenticate-service`)      // --> authenticate request service functions
-var phixService = require(`${__base}/server/services/yellowcard/phix-service`)              // --> phix retrieval service functions
+const authService = require(`${__base}/server/services/yellowcard/authenticate-service`)      // --> authenticate request service functions
+const phixService = require(`${__base}/server/services/yellowcard/phix-service`)              // --> phix retrieval service functions
 
 /**
  * YellowCardService() Method

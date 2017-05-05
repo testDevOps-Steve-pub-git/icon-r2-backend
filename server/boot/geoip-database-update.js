@@ -8,8 +8,8 @@ const logger = require(`${__base}/server/services/logger-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 
 module.exports = function (app) {
-  var geoDatabaseUpdate = geoipConfig.databaseUpdate
-  var scheduleJobOptions = {
+  const geoDatabaseUpdate = geoipConfig.databaseUpdate
+  const scheduleJobOptions = {
     date: geoDatabaseUpdate.dayOfMonth,
     hour: geoDatabaseUpdate.hour,
     minute: geoDatabaseUpdate.minute

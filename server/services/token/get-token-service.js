@@ -1,11 +1,11 @@
 'use strict'
 
-var Promise = require('bluebird')
+const Promise = require('bluebird')
 
-var errorService = require(`${__base}/server/services/error-service`)
-var guidService = require(`${__base}/server/services/token/guid-service`)
-var phuService = require(`${__base}/server/services/token/phu-service`)
-var jwtService = require(`${__base}/server/services/token/jwt-service`)
+const errorService = require(`${__base}/server/services/error-service`)
+const guidService = require(`${__base}/server/services/token/guid-service`)
+const phuService = require(`${__base}/server/services/token/phu-service`)
+const jwtService = require(`${__base}/server/services/token/jwt-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
@@ -38,7 +38,7 @@ function getTokenService () {
       case TOKEN_TYPE.SUBMISSION:
         // do not genereate new submission id for refresh token
         if (!(payloadObject.submissionId || payloadObject.txId)) {
-          var tokenId = phuObject.acronym + '-' + guidService.base31Guid()
+          const tokenId = phuObject.acronym + '-' + guidService.base31Guid()
           payloadObject.txId = tokenId // Added for backward compatibility
           payloadObject.submissionId = tokenId
         }

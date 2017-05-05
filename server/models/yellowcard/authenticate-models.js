@@ -1,5 +1,5 @@
 'use strict'
-var session = require(`${__base}/server/models/yellowcard/authenticate/session`)
+const session = require(`${__base}/server/models/yellowcard/authenticate/session`)
 /**
  * AUTHENTICATE_MODELS
  *

@@ -1,6 +1,6 @@
-var expect = require('chai').expect
-var getTokenService = require(__base + '/server/services/token/get-token-service')
-const TOKEN_TYPE = require(__base + '/server/models/token-type')
+const expect = require('chai').expect
+const getTokenService = require(`${__base}/server/services/token/get-token-service`)
+const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
 describe('get token service test', () => {
   it('should succesfully create a session token given valid inputs', () => {

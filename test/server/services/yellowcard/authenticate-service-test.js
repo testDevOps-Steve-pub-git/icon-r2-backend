@@ -3,7 +3,7 @@ const authenticateService = require(`${__base}/server/services/yellowcard/authen
 
 describe('Yellowcard authenticate service', () => {
   it('should create session', () => {
-    var sessionId, clientip, token, phuName, phuAcronym, oiid, pin, relationship, language
+    let sessionId, clientip, token, phuName, phuAcronym, oiid, pin, relationship, language
 
     sessionId = 'TEST_SESSION_ID'
     clientip = 'TEST_CLIENT_IP'
@@ -15,7 +15,7 @@ describe('Yellowcard authenticate service', () => {
     relationship = 'TEST_RELATIONSHIP'
     language = 'TEST_LANGUAGE'
 
-    var result = authenticateService.create.session(sessionId, clientip, token, phuName, phuAcronym, oiid, pin, relationship, language)
+    const result = authenticateService.create.session(sessionId, clientip, token, phuName, phuAcronym, oiid, pin, relationship, language)
     expect(result).to.have.property('token', 'TEST_TOKEN')
     expect(result).to.have.property('metaData')
     expect(result).to.have.property('client')
@@ -40,37 +40,37 @@ describe('Yellowcard authenticate service', () => {
   })
 
   it('should create error message with no conditions', () => {
-    var errorConditions = {
+    const errorConditions = {
       hasOiid: false,
       hasPin: false,
       hasRelationship: false
     }
 
-    var expectedResult = `WARNING: Certain Parameters were not passed: {OIID, PIN, RELATIONSHIP}`
+    const expectedResult = `WARNING: Certain Parameters were not passed: {OIID, PIN, RELATIONSHIP}`
 
-    var result = authenticateService.create.errorMessage(errorConditions)
+    const result = authenticateService.create.errorMessage(errorConditions)
     expect(result).to.be.equal(expectedResult)
   })
 
   it('should create error message with some missing conditions', () => {
-    var errorConditions = {
+    const errorConditions = {
       hasOiid: true,
       hasPin: false,
       hasRelationship: true
     }
 
-    var expectedResult = `WARNING: Certain Parameters were not passed: {PIN}`
+    const expectedResult = `WARNING: Certain Parameters were not passed: {PIN}`
 
-    var result = authenticateService.create.errorMessage(errorConditions)
+    const result = authenticateService.create.errorMessage(errorConditions)
     expect(result).to.be.equal(expectedResult)
   })
 
   it('should inform of lack of conditions parameters', () => {
-    var errorConditions = {}
+    const errorConditions = {}
 
-    var expectedResult = `WARNING: Certain Parameters were not passed: {set of conditions were not passed in. Could not validate the error (regarding oiid, pin, and relationship)}`
+    const expectedResult = `WARNING: Certain Parameters were not passed: {set of conditions were not passed in. Could not validate the error (regarding oiid, pin, and relationship)}`
 
-    var result = authenticateService.create.errorMessage(errorConditions)
+    const result = authenticateService.create.errorMessage(errorConditions)
     expect(result).to.be.equal(expectedResult)
   })
 })

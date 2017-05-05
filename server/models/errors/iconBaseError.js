@@ -1,6 +1,6 @@
 'use strict'
 
-var statusCodes = require(`${__base}/server/models/response-status-code`)
+const statusCodes = require(`${__base}/server/models/response-status-code`)
 
 module.exports = class IconBaseError {
   constructor (error) {

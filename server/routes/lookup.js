@@ -1,31 +1,30 @@
-var http = require('http')
-
-var logger = require(`${__base}/server/logger`)
-var tokenHeaders = require(`${__base}/server/models/token-headers`)
+const http = require('http')
+const logger = require(`${__base}/server/logger`)
+const tokenHeaders = require(`${__base}/server/models/token-headers`)
 
 module.exports = function lookup (req, res, next) {
-  var validationType = 0
-  var range = '0-10'
+  let validationType = 0
+  let range = '0-10'
   if (req.params.indexName === 'diseases_en_index' || req.params.indexName === 'diseases_fr_index') {
     validationType = 1
     range = '0-16'
   }
 
-  var lookupToken
+  let lookupToken
   if (validationType === 1) {
     lookupToken = tokenHeaders.getSessionToken(req.headers)
   } else {
     lookupToken = req.headers['authorization']
   }
 
-  var headers = {
+  const headers = {
     'Authorization': 'Bearer ' + lookupToken,
     'Range': range,
     'Range-Units': 'items',
     'Prefer': 'count=none'
   }
 
-  var options = {
+  const options = {
     host: 'pg-lookups-rest-service',
     port: 3000,
     path: req.params.indexName + req._parsedUrl.search,
@@ -33,7 +32,7 @@ module.exports = function lookup (req, res, next) {
     headers: headers
   }
 
-  var creq = http.request(options, function (cres) {
+  const creq = http.request(options, function (cres) {
     cres.setEncoding('utf8')
 
     res.writeHead(cres.statusCode)

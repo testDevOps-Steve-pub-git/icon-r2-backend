@@ -1,9 +1,9 @@
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-var proxyquire = require('proxyquire')
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const proxyquire = require('proxyquire')
+const logger = `${__base}/server/logger`
 
-var logger = `${__base}/server/logger`
-var loggerService = proxyquire(`${__base}/server/services/logger-service.js`, {
+const loggerService = proxyquire(`${__base}/server/services/logger-service.js`, {
   [`${logger}`]: {
     error: () => {},
     warn: () => {},
@@ -13,10 +13,10 @@ var loggerService = proxyquire(`${__base}/server/services/logger-service.js`, {
 })
 
 chai.use(chaiAsPromised)
-var expect = chai.expect
+const expect = chai.expect
 
 describe('logger service test', () => {
-  var testOptions = {
+  const testOptions = {
     customMessage: 'test'
   }
 

@@ -1,7 +1,7 @@
 'use strict'
 
-var processTypes = require(`${__base}/server/models/process-type`)
-var commonPost = require(`${__base}/server/models/common-post`)
+const processTypes = require(`${__base}/server/models/process-type`)
+const commonPost = require(`${__base}/server/models/common-post`)
 
 /**
  * @function Check the ctx object contains all the data we need

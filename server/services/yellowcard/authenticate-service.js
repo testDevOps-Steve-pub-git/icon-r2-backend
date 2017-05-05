@@ -1,6 +1,6 @@
 'use strict'
 
-var ycModels = require(`${__base}/server/models/yellowcard/models`)     // --> Models for messages, status codes, etc...
+const ycModels = require(`${__base}/server/models/yellowcard/models`)     // --> Models for messages, status codes, etc...
 
 /**
  * YellowCardService.authenticate.create: Session() Method
@@ -39,9 +39,9 @@ function createSession (sessionId, clientIp, token, phuName, phuAcronym, oiid, p
  * @param {list<bool>}  conditions  - list of error conditions (boolean evaluations)
  */
 function createErrorMessage (conditions) {
-  var message = ycModels.MESSAGES.AUTHENTICATE.ERROR.START + ' {'
-  var count = 0
-  var hasConditions = !!conditions &&
+  let message = ycModels.MESSAGES.AUTHENTICATE.ERROR.START + ' {'
+  let count = 0
+  const hasConditions = !!conditions &&
                       !!conditions.hasOwnProperty('hasOiid') &&
                       !!conditions.hasOwnProperty('hasPin') &&
                       !!conditions.hasOwnProperty('hasRelationship')

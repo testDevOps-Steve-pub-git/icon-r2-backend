@@ -10,10 +10,10 @@ module.exports = (files) => {
   return new Promise((resolve, reject) => {
     if (files) {
       logger.logDebug(PROCESS_TYPE.GEO_IP, 'Zipping uploaded files.')
-      var outputFileName = 'iconZip'
+      const outputFileName = 'iconZip'
 
-      var wstream = new WritableMemoryStream(outputFileName)
-      var zipArchive = archive('zip', {})
+      const wstream = new WritableMemoryStream(outputFileName)
+      const zipArchive = archive('zip', {})
 
       wstream.on('error', (err) => reject(err))
       zipArchive.on('error', (err) => reject(err))

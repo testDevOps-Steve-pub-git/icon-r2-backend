@@ -20,8 +20,8 @@ function encrypt (buffer, config) {
   return new Promise((resolve, reject) => {
     try {
       logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Encrypting data')
-      var cipher = crypto.createCipher(config.algorithm, config.password)
-      var crypted = cipher.update(buffer)
+      const cipher = crypto.createCipher(config.algorithm, config.password)
+      let crypted = cipher.update(buffer)
       crypted = Buffer.concat([ crypted, cipher.final() ])
 
       logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Data encrypted')
@@ -43,8 +43,8 @@ function decrypt (buffer, config) {
   return new Promise((resolve, reject) => {
     try {
       logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Decrypting data')
-      var decipher = crypto.createDecipher(config.algorithm, config.password)
-      var dec = decipher.update(buffer)
+      const decipher = crypto.createDecipher(config.algorithm, config.password)
+      let dec = decipher.update(buffer)
       dec = Buffer.concat([ dec, decipher.final() ])
 
       logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Data decrypted')

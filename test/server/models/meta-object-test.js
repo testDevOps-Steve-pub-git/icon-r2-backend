@@ -1,8 +1,8 @@
-var expect = require('chai').expect
-var metaObject = require(__base + '/server/models/meta-object.js')
+const expect = require('chai').expect
+const metaObject = require(`${__base}/server/models/meta-object.js`)
 
 describe('meta object test', () => {
-  let testObj = {
+  const testObj = {
     phuName: 'Grey Bruce Health Unit',
     phuAcronym: 'GBHU',
     sessionId: 'test_session',
@@ -11,7 +11,7 @@ describe('meta object test', () => {
   }
 
   it('should return meta object', () => {
-    let result = metaObject(testObj)
+    const result = metaObject(testObj)
     return expect(result.clientip)
     .to.equal('test_client')
   })

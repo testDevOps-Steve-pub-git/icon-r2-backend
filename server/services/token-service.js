@@ -1,7 +1,7 @@
 'use strict'
 
-var getTokenService = require(`${__base}/server/services/token/get-token-service`)
-var validateTokenService = require(`${__base}/server/services/token/validate-token-service`)
+const getTokenService = require(`${__base}/server/services/token/get-token-service`)
+const validateTokenService = require(`${__base}/server/services/token/validate-token-service`)
 const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
 /**

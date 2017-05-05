@@ -1,8 +1,8 @@
 'use strict'
-var Promise = require('bluebird')
-var clamav = require('clamav.js')
-var stream = require('stream')
-var errorHandler = require(`${__base}/server/services/error-service`)
+const Promise = require('bluebird')
+const clamav = require('clamav.js')
+const stream = require('stream')
+const errorHandler = require(`${__base}/server/services/error-service`)
 
 /**
  * @module Virus Scanner. Middleware to virus scan uploaded file
@@ -13,7 +13,7 @@ function getScanner (config) {
 }
 
 function getBufferStream (buffer) {
-  var bufferStream = new stream.PassThrough()
+  const bufferStream = new stream.PassThrough()
   bufferStream.end(buffer.toString())
   return bufferStream
 }

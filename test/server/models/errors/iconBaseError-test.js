@@ -2,7 +2,7 @@ const expect = require('chai').expect
 const IconBaseError = require(`${__base}/server/models/errors/iconBaseError`)
 
 describe('Icon base error test', () => {
-  var error = new IconBaseError()
+  let error = new IconBaseError()
 
   it('should create a default error object', () => {
     expect(error.statusCode).to.equal(500)

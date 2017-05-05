@@ -1,7 +1,7 @@
 'use strict'
 
-var config = require(`${__base}/config`)
-var errorHandler = require(`${__base}/server/services/error-service`)
+const config = require(`${__base}/config`)
+const errorHandler = require(`${__base}/server/services/error-service`)
 
 module.exports = function (LookupImmunization) {
   require(`${__base}/server/models/lookup/rest-api-select-only`)(LookupImmunization)
@@ -16,7 +16,7 @@ module.exports = function (LookupImmunization) {
       next(errorHandler.IconError('Invalid request'))
     }
 
-    var condition1, condition2, condition3
+    let condition1, condition2, condition3
 
     if (ctx.query.lang === 'en') {
       condition1 = { agentLongEn: {like: `${(ctx.query.immun).toLowerCase()}%`} }

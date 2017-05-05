@@ -35,10 +35,6 @@
     "dataSource": "postgresLookup",
     "public": true
   },
-  "LookupAgent": {
-    "dataSource": "postgresLookup",
-    "public": true
-  },
   "ImmunizationSubmission": {
     "dataSource": "postgres",
     "public": true
@@ -56,10 +52,6 @@
     "public": true
   },
   "LookupAgentAndTrade": {
-    "dataSource": "postgresLookup",
-    "public": true
-  },
-  "LookupLot": {
     "dataSource": "postgresLookup",
     "public": true
   },

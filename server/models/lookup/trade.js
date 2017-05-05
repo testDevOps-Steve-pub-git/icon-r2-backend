@@ -1,7 +1,7 @@
 'use strict'
 
-var config = require(`${__base}/config`)
-var errorHandler = require(`${__base}/server/services/error-service`)
+const config = require(`${__base}/config`)
+const errorHandler = require(`${__base}/server/services/error-service`)
 
 module.exports = function (LookupTrade) {
   require(`${__base}/server/models/lookup/rest-api-select-only`)(LookupTrade)
@@ -16,16 +16,6 @@ module.exports = function (LookupTrade) {
 
     ctx.query = {
       limit: config.postgres.lookUp.maxRow,
-      fields: {
-        snomed: false,
-        friendlyEnName: false,
-        friendlyFrName: false,
-        manufacturer: false,
-        ontarioStartYear: false,
-        ontarioFinishYear: false,
-        prevalenceIndex: false,
-        panoramaName: false
-      },
       where: {
         snomed: ctx.query.snomed
       }

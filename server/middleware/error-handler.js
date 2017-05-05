@@ -1,9 +1,9 @@
 'use strict'
 
-var logger = require(__base + '/server/services/logger-service')
-var statusCodes = require(`${__base}/server/models/response-status-code`)
+const logger = require(`${__base}/server/services/logger-service`)
+const statusCodes = require(`${__base}/server/models/response-status-code`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
-var errorHandler = require(`${__base}/server/services/error-service`)
+const errorHandler = require(`${__base}/server/services/error-service`)
 
 module.exports = (options) => {
   return (err, req, res, next) => {

@@ -1,7 +1,7 @@
 'use strict'
 
-var config = require(`${__base}/config`)
-var errorHandler = require(`${__base}/server/services/error-service`)
+const config = require(`${__base}/config`)
+const errorHandler = require(`${__base}/server/services/error-service`)
 
 module.exports = function (LookupLots) {
   require(`${__base}/server/models/lookup/rest-api-select-only`)(LookupLots)
@@ -16,6 +16,9 @@ module.exports = function (LookupLots) {
 
     ctx.query = {
       limit: config.postgres.lookUp.maxRow,
+      fields: {
+        snomed: false
+      },
       where: {
         snomed: ctx.query.snomed
       }

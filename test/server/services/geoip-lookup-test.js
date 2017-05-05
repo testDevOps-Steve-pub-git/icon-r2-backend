@@ -1,5 +1,5 @@
-var expect = require('chai').expect
-var geoLookup = require(__base + '/server/services/geoip-lookup.js')
+const expect = require('chai').expect
+const geoLookup = require(`${__base}/server/services/geoip-lookup.js`)
 
 describe('Geo-IP lookup test', () => {
   it('should return location specific information when given a valid IP', () => {

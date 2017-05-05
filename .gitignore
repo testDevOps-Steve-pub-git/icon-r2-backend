@@ -55,6 +55,7 @@ bin/*.pdf
 
 # test coverage
 .nyc_output
+test/*.xml
 
 # Ignore these config files, they contain keys and passwords
 local.json

@@ -7,7 +7,7 @@ const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 const validFhirMessage = require(`${__base}/test/server/testFiles/immunization-submission/ImmunizationSubmission.json`)
 const invalidFhirMessage = require(`${__base}/test/server/testFiles/immunization-submission/ImmunizationSubmission.bad.json`)
 
-var stubs = {
+const stubs = {
   'clamav.js': {
     createScanner: (post, endPoint) => {
       return { scan: (buffer, cb) => {
@@ -26,8 +26,8 @@ var stubs = {
   }
 }
 
-var app = proxyquire(`${__base}/server/server`, stubs)
-var request = require('supertest-as-promised')(app)
+const app = proxyquire(`${__base}/server/server`, stubs)
+const request = require('supertest-as-promised')(app)
 
 function createVhostTester (app, vhost) {
   const real = request
@@ -43,7 +43,7 @@ function createVhostTester (app, vhost) {
   return proxy
 }
 
-var appTest = createVhostTester(app, 'gbhu.vpac.me:3000')
+const appTest = createVhostTester(app, 'gbhu.vpac.me:3000')
 
 describe('post immunization submission api', () => {
   it('should be able to get the submission token', () => {
@@ -63,7 +63,7 @@ describe('post immunization submission api', () => {
       return appTest.get('/api/token/submission')
         .set('session-token', sessionToken)
         .then((response) => {
-          let submissionToken = response.body.token
+          const submissionToken = response.body.token
           return appTest.post('/api/ImmunizationSubmissions')
             .set('session-token', sessionToken)
             .set('submission-token', submissionToken)
@@ -79,7 +79,7 @@ describe('post immunization submission api', () => {
       return appTest.get('/api/token/submission')
         .set('session-token', sessionToken)
         .then((response) => {
-          let submissionToken = response.body.token
+          const submissionToken = response.body.token
           return validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vpac.me:3000', submissionToken)
           .then((decoded) => {
             validFhirMessage.identifier[0].value = decoded.submissionId
@@ -100,7 +100,7 @@ describe('post immunization submission api', () => {
       return appTest.get('/api/token/submission')
         .set('session-token', sessionToken)
         .then((response) => {
-          let submissionToken = response.body.token
+          const submissionToken = response.body.token
           return appTest.post('/api/ImmunizationSubmissions')
             .set('session-token', sessionToken)
             .set('submission-token', submissionToken)

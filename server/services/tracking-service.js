@@ -1,9 +1,21 @@
-var request = require('request-promise')
-var moment = require('moment')
-var config = require(`${__base}/config.js`)
-var logger = require(`${__base}/server/logger`)
-var errorService = require(`${__base}/server/services/error-service`)
+const request = require('request-promise')
+const moment = require('moment')
+const config = require(`${__base}/config.js`)
+const logger = require(`${__base}/server/logger`)
+const errorService = require(`${__base}/server/services/error-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
+const Promise = require('bluebird')
+
+// JSON.parse errors won't call the .catch block
+// So handle with try/catch and it's own logging
+function jsonParse (data) {
+  try {
+    return JSON.parse(data)
+  } catch (err) {
+    logger.error(`tracking-service#jsonParse failed with ${err.message} - ${data}`)
+    return {}
+  }
+}
 
 /*
  *  getLogs()
@@ -25,15 +37,17 @@ function getLogs (queryObject) {
         'content-type': 'application/json',
         body: JSON.stringify(queryObject)
       })
-      .then((response) => {
-        response = JSON.parse(response)
-        if (response.hits && response.hits.hits) {
-          resolve(response.hits.hits)
-        }
-      })
-      .catch((err) => {
-        throw errorService.IconCustomError(err.message, PROCESS_TYPE.AUDIT_UPDATE)
-      })
+    .then(jsonParse)
+    .then((response) => {
+      if (response.hits && response.hits.hits) {
+        resolve(response.hits.hits)
+      } else {
+        resolve([])
+      }
+    })
+    .catch((err) => {
+      throw errorService.IconCustomError(err.message, PROCESS_TYPE.AUDIT_UPDATE)
+    })
     }, config.tracking.updateTimeService.delay)
   })
 }
@@ -48,7 +62,7 @@ function getLogs (queryObject) {
  */
 function getRecentLogs (sessionId, timestamp) {
   // Prepare object to grab previous two logs from elasticsearch
-  var queryObject = {
+  const queryObject = {
     query: {
       bool: {
         must: {
@@ -92,7 +106,7 @@ function getRecentLogs (sessionId, timestamp) {
  */
 function getSessionLogs (sessionId) {
   // Prepare object to grab previous two logs from elasticsearch
-  var queryObject = {
+  const queryObject = {
     query: {
       bool: {
         must: {
@@ -131,22 +145,22 @@ function getSessionLogs (sessionId) {
  */
 function updateLogDuration (id, index, duration) {
   // Construct query information
-  var queryObject = {
+  const queryObject = {
     'doc': {
       'fields': {
         'duration': duration
       }
     }
   }
-
-  // Make update request to elasticsearch
-  request.post({
+  const body = {
     uri: `${config.elasticSearch.url}${index}/${config.tracking.updateTimeService.typeToUpdate}/${id}/_update`,
     'content-type': 'application/json',
     body: JSON.stringify(queryObject)
-  })
+  }
+  // Make update request to elasticsearch
+  request.post(body)
   .then((response) => {
-    logger.info(`Updated log ${JSON.parse(response)._id} with duration`)
+    logger.info(`Updated log ${jsonParse(response)._id} with duration`)
   })
   .catch((error) => {
     throw errorService.IconCustomError(error.message, PROCESS_TYPE.AUDIT_UPDATE)
@@ -166,12 +180,12 @@ function updateLogDuration (id, index, duration) {
  */
 function updateComponentTime (sessionId, timestamp) {
   if (config.tracking.updateTimeService.enabled && sessionId && timestamp) {
-    getRecentLogs(sessionId, timestamp)
+    return getRecentLogs(sessionId, timestamp)
     .then((logs) => {
       if (logs.length === 2) {
-        var currentPage = logs[0]
-        var prevPage = logs[1]
-        var duration = moment(currentPage._source.fields.timestamp).diff(prevPage._source.fields.timestamp, 'seconds')
+        const currentPage = logs[0]
+        const prevPage = logs[1]
+        const duration = moment(currentPage._source.fields.timestamp).diff(prevPage._source.fields.timestamp, 'seconds')
         updateLogDuration(prevPage._id, prevPage._index, duration)
       }
     })
@@ -192,15 +206,16 @@ function updateComponentTime (sessionId, timestamp) {
  *  @param {String}   timestamp   - Represents the timestamp of the confirmation page
  */
 function updateSessionTime (sessionId, timestamp) {
-  var confirmationPage, welcomePage
   if (config.tracking.updateTimeService.enabled && sessionId && timestamp) {
-    getSessionLogs(sessionId)
+    return getSessionLogs(sessionId)
     .then((logs) => {
-      // First page accessed in this session
-      welcomePage = logs[logs.length - 1]
-      confirmationPage = logs[0]
-      var duration = moment(confirmationPage._source.fields.timestamp).diff(welcomePage._source.fields.timestamp, 'seconds')
-      updateLogDuration(confirmationPage._id, confirmationPage._index, duration)
+      if (logs.length > 1) {
+        // First page accessed in this session
+        const welcomePage = logs[logs.length - 1]
+        const confirmationPage = logs[0]
+        const duration = moment(confirmationPage._source.fields.timestamp).diff(welcomePage._source.fields.timestamp, 'seconds')
+        updateLogDuration(confirmationPage._id, confirmationPage._index, duration)
+      }
     })
     .catch((error) => {
       throw errorService.IconCustomError(error.message, PROCESS_TYPE.AUDIT_UPDATE)
