@@ -39,6 +39,14 @@ let rmq = parseService('icon-rabbitmq', 'Credential1')
 let ups = parseUserProvidedService('env_setup')
 
 Promise.all([es, pgl, rmq, ups]).then(result => {
+  for (var arg of process.argv){
+    if (arg.indexOf('=') > 0){
+      let keyValPairs = arg.split('=')
+       if(result[3][keyValPairs[0]]!=undefined){
+         result[3][keyValPairs[0]] = keyValPairs[1]
+       }
+    }
+  }
   fs.writeFile('local.json', JSON.stringify(result[3]), (err) => {
     if (err) throw err
   })
