@@ -38,15 +38,29 @@ let pgl = parseService('icon-postgresql', 'Credential1')
 let rmq = parseService('icon-rabbitmq', 'Credential1')
 let ups = parseUserProvidedService('env_setup')
 
+let phix_endpoints = {
+  "PHIX_ENDPOINT_DICTIONARY":"/API/FHIR/Immunizations/v2/Dictionary?domain=",
+  "PHIX_ENDPOINT_RETRIEVAL":"/API/FHIR/Immunizations/v2/Immunization",
+  "PHIX_ENDPOINT_SUBMISSION":"/API/FHIR/Immunizations/v2/Communication"
+}
+
 Promise.all([es, pgl, rmq, ups]).then(result => {
-  for (var arg of process.argv){
-    if (arg.indexOf('=') > 0){
+  for (var arg of process.argv) {
+    if (arg.indexOf('=') > 0) {
       let keyValPairs = arg.split('=')
-       if(result[3][keyValPairs[0]]!=undefined){
-         result[3][keyValPairs[0]] = keyValPairs[1]
+      let key = keyValPairs[0]
+      let value = keyValPairs[1]
+
+       if(result[3][key]!=undefined) {
+         if (phix_endpoints[key] != undefined){
+           result[3][key] = 'https://' + value + phix_endpoints[key]
+         } else{
+           result[3][key] = value
+        }
        }
     }
   }
+
   fs.writeFile('local.json', JSON.stringify(result[3]), (err) => {
     if (err) throw err
   })
