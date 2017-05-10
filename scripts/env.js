@@ -33,9 +33,9 @@ var parseUserProvidedService = (serviceName) => {
   })
 }
 
-let es = parseService('icon-elasticsearch', 'Credentials-1')
-let pgl = parseService('icon-postgresql', 'Credentials-1')
-let rmq = parseService('icon-rabbitmq', 'Credentials-1')
+let es = parseService('icon-elasticsearch', 'Credential1')
+let pgl = parseService('icon-postgresql', 'Credential1')
+let rmq = parseService('icon-rabbitmq', 'Credential1')
 let ups = parseUserProvidedService('env_setup')
 
 Promise.all([es, pgl, rmq, ups]).then(result => {
