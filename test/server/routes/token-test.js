@@ -1,14 +1,14 @@
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-var token = require(__base + '/server/routes/token.js')
-var getTokenService = require(__base + '/server/services/token/get-token-service')
-const TOKEN_TYPE = require(__base + '/server/models/token-type')
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const token = require(`${__base}/server/routes/token.js`)
+const getTokenService = require(`${__base}/server/services/token/get-token-service`)
+const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
 chai.use(chaiAsPromised)
-var expect = chai.expect
+const expect = chai.expect
 
 describe('token test', () => {
-  let sessionTest = {
+  const sessionTest = {
     decoded: '',
     headers: {
       origin: 'gbhu.vcap.me:3000',
@@ -17,7 +17,7 @@ describe('token test', () => {
     }
   }
 
-  let submissionTest = {
+  const submissionTest = {
     decoded: '',
     headers: {
       origin: 'gbhu.vcap.me:3000',

@@ -1,6 +1,6 @@
 'use strict'
 
-var tokenHeaders = require(`${__base}/server/models/token-headers`)
+const tokenHeaders = require(`${__base}/server/models/token-headers`)
 
 /**
  * @function getCommonPayload create common payload from decoded token

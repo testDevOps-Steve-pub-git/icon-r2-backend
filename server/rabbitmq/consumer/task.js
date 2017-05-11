@@ -48,7 +48,7 @@ function task () {
     immunObject = JSON.parse(immunObject.toString())
 
     if (zipFile) {
-      var zipBase64 = zipFile.toString('base64')
+      const zipBase64 = zipFile.toString('base64')
       immunObject = appendZipToFhir(immunObject, zipBase64)
     }
 
@@ -56,7 +56,7 @@ function task () {
   }
 
   function startTask (message) {
-    var model
+    let model
     return app.models.ImmunizationSubmission.findById(message.json.id)
       .tap((submission) => {
         if (!submission) {

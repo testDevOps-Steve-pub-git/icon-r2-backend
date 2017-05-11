@@ -28,31 +28,16 @@
         "nullable": "YES"
       }
     },
-    "friendlyEnName": {
+    "longName": {
       "type": "String",
       "required": false,
-      "length": 100,
+      "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "friendly_en_name",
-        "dataType": "character varying",
-        "dataLength": 100,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "friendlyFrName": {
-      "type": "String",
-      "required": false,
-      "length": 100,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "friendly_fr_name",
-        "dataType": "character varying",
-        "dataLength": 100,
+        "columnName": "longName",
+        "dataType": "json",
+        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
@@ -80,7 +65,7 @@
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "ontario_start_year",
+        "columnName": "ontarioStartYear",
         "dataType": "integer",
         "dataLength": null,
         "dataPrecision": null,
@@ -95,7 +80,7 @@
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "ontario_finish_year",
+        "columnName": "ontarioFinishYear",
         "dataType": "integer",
         "dataLength": null,
         "dataPrecision": null,
@@ -110,7 +95,7 @@
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "prevalence_index",
+        "columnName": "prevalenceIndex",
         "dataType": "prevalence_range",
         "dataLength": null,
         "dataPrecision": null,
@@ -125,24 +110,9 @@
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "panorama_name",
+        "columnName": "panoramaName",
         "dataType": "character varying",
         "dataLength": 100,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "json": {
-      "type": "String",
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "postgresql": {
-        "columnName": "json",
-        "dataType": "json",
-        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"

@@ -1,11 +1,11 @@
 'use strict'
 
-var statusCodes = require(`${__base}/server/models/response-status-code`)
-var processTypes = require(`${__base}/server/models/process-type`)
-var logger = require(`${__base}/server/logger`)
-var loggerService = require(`${__base}/server/services/logger-service`)
-var trackingService = require(`${__base}/server/services/tracking-service`)
-var trackingConfig = require(`${__base}/config`).tracking
+const statusCodes = require(`${__base}/server/models/response-status-code`)
+const processTypes = require(`${__base}/server/models/process-type`)
+const logger = require(`${__base}/server/logger`)
+const loggerService = require(`${__base}/server/services/logger-service`)
+const trackingService = require(`${__base}/server/services/tracking-service`)
+const trackingConfig = require(`${__base}/config`).tracking
 
 module.exports = (req, res) => {
   Object.assign(req.headers, {
@@ -52,9 +52,9 @@ function isLastPage (audit) {
  *  @return               - Object created from request body with required fields to be sent to audit logger
  */
 function getObject (body) {
-  var arr = ['chiSurvey', 'setLanguage', 'contactPhu', 'transitionPage', 'userReceivedPhuLetter', 'areAllOntarioImmunizations', 'areAllCanadaImmunizations']
+  let arr = ['chiSurvey', 'setLanguage', 'contactPhu', 'transitionPage', 'userReceivedPhuLetter', 'areAllOntarioImmunizations', 'areAllCanadaImmunizations']
 
-  var obj = arr.reduce(function (obj, key) {
+  let obj = arr.reduce(function (obj, key) {
     if (body[key]) {
       obj[key] = body[key]
     }

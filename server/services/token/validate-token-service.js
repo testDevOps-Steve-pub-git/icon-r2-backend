@@ -1,9 +1,9 @@
 'use strict'
 
-var Promise = require('bluebird')
+const Promise = require('bluebird')
 
-var phuService = require(`${__base}/server/services/token/phu-service`)
-var jwtService = require(`${__base}/server/services/token/jwt-service`)
+const phuService = require(`${__base}/server/services/token/phu-service`)
+const jwtService = require(`${__base}/server/services/token/jwt-service`)
 const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
 /**
@@ -25,7 +25,7 @@ function validateTokenService () {
    * @throws Error if anything token type is invalid or token content is not valid
    */
   function verifyAndBuildDecodedPayload (tokenType, decodedPayload, phuObject) {
-    var tokenId
+    let tokenId
     switch (tokenType) {
       case TOKEN_TYPE.SESSION:
         if (!decodedPayload.sessionId) {

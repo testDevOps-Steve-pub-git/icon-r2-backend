@@ -1,7 +1,7 @@
 'use strict'
 
-var logger = require(`${__base}/server/services/logger-service`)
-var task = require(`${__base}/server/rabbitmq/consumer/task`)
+const logger = require(`${__base}/server/services/logger-service`)
+const task = require(`${__base}/server/rabbitmq/consumer/task`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const LOG_LEVELS = require(`${__base}/server/models/log-level`)
 

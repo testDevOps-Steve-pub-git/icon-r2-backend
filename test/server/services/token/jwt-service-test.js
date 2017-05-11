@@ -1,9 +1,9 @@
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
-const jwtService = require(__base + '/server/services/token/jwt-service')
-const sampleTestData = require(__base + '/test/server/testFiles/sample-test-data.js')
-const expiredToken = require(__base + '/test/server/testFiles/expired-token.js')
-const TOKEN_TYPE = require(__base + '/server/models/token-type')
+const jwtService = require(`${__base}/server/services/token/jwt-service`)
+const sampleTestData = require(`${__base}/test/server/testFiles/sample-test-data.js`)
+const expiredToken = require(`${__base}/test/server/testFiles/expired-token.js`)
+const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
 chai.use(chaiAsPromised)
 const expect = chai.expect

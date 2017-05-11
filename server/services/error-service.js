@@ -1,6 +1,6 @@
 'use strict'
 
-var IconBaseError = require(`${__base}/server/models/errors/iconBaseError`)
+const IconBaseError = require(`${__base}/server/models/errors/iconBaseError`)
 
 /**
   * @function transfers custom error option fields to input error

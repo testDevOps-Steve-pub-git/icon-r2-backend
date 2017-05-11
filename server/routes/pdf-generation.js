@@ -1,10 +1,10 @@
 'use strict'
 
-var pdfService = require(`${__base}/server/services/pdf-service`)
-var logger = require(`${__base}/server/logger`)
+const pdfService = require(`${__base}/server/services/pdf-service`)
+const logger = require(`${__base}/server/logger`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const STATUS_CODE = require(`${__base}/server/models/response-status-code`)
-var errorService = require(`${__base}/server/services/error-service`)
+const errorService = require(`${__base}/server/services/error-service`)
 
 /**
  *  Usage         - Request body must contain a 'content' field which contains the
@@ -26,7 +26,7 @@ module.exports = (req, res) => {
     }
 
     // Generate PDF
-    var pdf = pdfService.generatePdf(req.body)
+    const pdf = pdfService.generatePdf(req.body)
     pdf.pipe(res)
     pdf.end()
   } catch (err) {

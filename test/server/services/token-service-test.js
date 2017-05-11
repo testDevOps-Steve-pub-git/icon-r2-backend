@@ -1,12 +1,12 @@
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-var tokenService = require(__base + '/server/services/token-service.js')
-var jwtService = require(__base + '/server/services/token/jwt-service.js')
-var sampleTestData = require(__base + '/test/server/testFiles/sample-test-data.js')
-const TOKEN_TYPE = require(__base + '/server/models/token-type')
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const tokenService = require(`${__base}/server/services/token-service.js`)
+const jwtService = require(`${__base}/server/services/token/jwt-service.js`)
+const sampleTestData = require(`${__base}/test/server/testFiles/sample-test-data.js`)
+const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
 chai.use(chaiAsPromised)
-var expect = chai.expect
+const expect = chai.expect
 
 describe('token service test', () => {
   it('should generate a session token', () => {

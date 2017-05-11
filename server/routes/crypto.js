@@ -1,10 +1,10 @@
 'use strict'
 
-var cipher = require(`${__base}/server/services/crypto`)
-var errorHandler = require(`${__base}/server/services/error-service`)
-var statusCodes = require(`${__base}/server/models/response-status-code`)
-var processTypes = require(`${__base}/server/models/process-type`)
-var config = require(`${__base}/config`)
+const cipher = require(`${__base}/server/services/crypto`)
+const errorHandler = require(`${__base}/server/services/error-service`)
+const statusCodes = require(`${__base}/server/models/response-status-code`)
+const processTypes = require(`${__base}/server/models/process-type`)
+const config = require(`${__base}/config`)
 
 /*
  * Encrypt the files[0] buffer
@@ -19,7 +19,7 @@ function isValidRequestBody (req) {
 }
 
 function encryptRequestBody (req, res, next) {
-  let errorOptions = {
+  const errorOptions = {
     decoded: req.decoded,
     statusCode: statusCodes.BAD_REQUEST,
     processType: processTypes.ICON
@@ -45,7 +45,7 @@ function encryptRequestBody (req, res, next) {
 }
 
 function encryptFileUpload (req, res, next) {
-  let errorOptions = {
+  const errorOptions = {
     decoded: req.decoded,
     statusCode: statusCodes.BAD_REQUEST,
     processType: processTypes.FILE_UPLOAD

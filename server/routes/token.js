@@ -1,12 +1,11 @@
 'use strict'
 
-var Promise = require('bluebird')
-
-var logger = require(`${__base}/server/services/logger-service`)
-var errorService = require(`${__base}/server/services/error-service`)
-var tokenService = require(`${__base}/server/services/token-service`)
-var tokenDecodePayload = require(`${__base}/server/models/token-decode-payload`)
-var tokenHeaders = require(`${__base}/server/models/token-headers`)
+const Promise = require('bluebird')
+const logger = require(`${__base}/server/services/logger-service`)
+const errorService = require(`${__base}/server/services/error-service`)
+const tokenService = require(`${__base}/server/services/token-service`)
+const tokenDecodePayload = require(`${__base}/server/models/token-decode-payload`)
+const tokenHeaders = require(`${__base}/server/models/token-headers`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 
@@ -30,7 +29,7 @@ function token () {
   function authenticateToken (tokenType, headers) {
     // let promise
     let token
-    let host = tokenHeaders.getHost(headers)
+    const host = tokenHeaders.getHost(headers)
 
     return Promise.try(() => {
       switch (tokenType) {

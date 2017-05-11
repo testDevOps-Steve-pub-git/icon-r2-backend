@@ -45,8 +45,8 @@ module.exports = function (Token) {
    * @throws Will throw an error if duration of token already reached the limit of maximum allowance
    */
   function checkForMaximumRefreshDuration (originalIat) {
-    var currentTimeInSeconds = (Date.now() / 1000)
-    var timeDiff = Math.ceil(Math.abs(currentTimeInSeconds - originalIat))
+    const currentTimeInSeconds = (Date.now() / 1000)
+    const timeDiff = Math.ceil(Math.abs(currentTimeInSeconds - originalIat))
     if (timeDiff > tokenConfig.maximumRefreshDuration) {
       throw new Error('Reached the limit to generate the refresh token')
     }
@@ -62,10 +62,10 @@ module.exports = function (Token) {
    * @throws Will throw an error if anything went wrong or invalid token type
    */
   function getToken (tokenType, isRefreshToken, req) {
-    var generateTokenPromise
-    var host = tokenHeaders.getHost(req.headers)
-    var additionalPayload = {}
-    var originalIat
+    const host = tokenHeaders.getHost(req.headers)
+    let generateTokenPromise
+    let additionalPayload = {}
+    let originalIat
     switch (tokenType) {
       case TOKEN_TYPE.SESSION:
         if (isRefreshToken) {
@@ -122,7 +122,7 @@ module.exports = function (Token) {
    * @return {object} options for the remote method based on token type
    */
   function remoteMethodOptions (tokenType, isRefreshToken) {
-    var path
+    let path
     if (isRefreshToken) {
       path = `/refresh/${tokenType}`
     } else {

@@ -1,10 +1,10 @@
-var expect = require('chai').expect
-var outcomeConverter = require(`${__base}/server/services/fhir-validator/outcome-converter`)
+const expect = require('chai').expect
+const outcomeConverter = require(`${__base}/server/services/fhir-validator/outcome-converter`)
 
 describe('FHIR Validation outcome converter', () => {
-  var id = 'TEST_ID'
+  const id = 'TEST_ID'
 
-  var errors = [
+  const errors = [
     {
       keyword: 'TEST_ERROR_CODE_1',
       path: 'TEST_ERROR_PATH_1',
@@ -23,7 +23,7 @@ describe('FHIR Validation outcome converter', () => {
   ]
 
   it('should generate outcome html created from an array of errors', () => {
-    var outcome = outcomeConverter.convertErrorsToOutcome(id, errors)
+    const outcome = outcomeConverter.convertErrorsToOutcome(id, errors)
     return expect(JSON.parse(outcome)).to.have.property('id', 'TEST_ID')
   })
 

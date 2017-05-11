@@ -1,10 +1,10 @@
 'use strict'
-var Promise = require('bluebird')                                            // --> For Handling Promises
-var request = Promise.promisifyAll(require('request'), {multiArgs: true})    // --> Promisified Request Object
-var ycModels = require(`${__base}/server/models/yellowcard/models`)          // --> Models for messages, status codes, etc...
-var ycService = require(`${__base}/server/services/yellowcard-service`)      // --> All Yellowcard Services
-var logger = require(`${__base}/server/logger`)                              // --> Logs information to console
-var errorService = require(`${__base}/server/services/error-service`)
+const Promise = require('bluebird')                                            // --> For Handling Promises
+const request = Promise.promisifyAll(require('request'), {multiArgs: true})    // --> Promisified Request Object
+const ycModels = require(`${__base}/server/models/yellowcard/models`)          // --> Models for messages, status codes, etc...
+const ycService = require(`${__base}/server/services/yellowcard-service`)      // --> All Yellowcard Services
+const logger = require(`${__base}/server/logger`)                              // --> Logs information to console
+const errorService = require(`${__base}/server/services/error-service`)
 
 /**
  * getResponseConditions()
@@ -44,7 +44,7 @@ module.exports = (req, res, next) => {
   ycService.phix.logGatingQuestion(req.session.client.relationship, req.session.metaData)
 
   // Create request options for interacting with PHIX
-  var requestOptions = ycService.phix.generateRequestOptions(
+  const requestOptions = ycService.phix.generateRequestOptions(
     req.session.client.oiid,
     req.session.client.pin,
     req.session.token,

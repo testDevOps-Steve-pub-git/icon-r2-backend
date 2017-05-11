@@ -1,11 +1,13 @@
-var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const jwtService = require(`${__base}/server/services/token/jwt-service`)
+const validateTokenService = require(`${__base}/server/services/token/validate-token-service`)
+const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
+
+let testData = require(`${__base}/test/server/testFiles/sample-test-data.js`).dataWithoutOptionalFields
+
 chai.use(chaiAsPromised)
-var expect = chai.expect
-var jwtService = require(__base + '/server/services/token/jwt-service')
-var validateTokenService = require(__base + '/server/services/token/validate-token-service')
-var testData = require(__base + '/test/server/testFiles/sample-test-data.js').dataWithoutOptionalFields
-const TOKEN_TYPE = require(__base + '/server/models/token-type')
+const expect = chai.expect
 
 describe('validate token service test', () => {
   it('should build decoded payload with valid session token', () => {

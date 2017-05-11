@@ -1,23 +1,23 @@
-var loopback = require('loopback')
-var boot = require('loopback-boot')
-var clamav = require('clamav.js')
-var path = require('path')
-var diehard = require('diehard')
-var bodyParser = require('body-parser')
-var multer = require('multer')
-var cfenv = require('cfenv')
+const loopback = require('loopback')
+const boot = require('loopback-boot')
+const clamav = require('clamav.js')
+const path = require('path')
+const diehard = require('diehard')
+const bodyParser = require('body-parser')
+const multer = require('multer')
+const cfenv = require('cfenv')
 
 /**
  * Set the directory base to the project directory path
  */
 global.__base = path.resolve(__dirname, '../')
 
-var config = require(`${__base}/config`) // get our config file
-var logger = require(`${__base}/server/logger`)
-var router = require(`${__base}/server/router`)
-var appEnv = cfenv.getAppEnv()
+const config = require(`${__base}/config`) // get our config file
+const logger = require(`${__base}/server/logger`)
+const router = require(`${__base}/server/router`)
+const appEnv = cfenv.getAppEnv()
 
-var app = module.exports = loopback()
+const app = module.exports = loopback()
 
 app.use(bodyParser.json())                           // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))   // for parsing application/x-www-form-urlencoded
@@ -30,7 +30,7 @@ app.use(multer().any())                              // for parsing multipart/fo
 // Set the read-only connector to the database for use by lookups
 function readOnlyRole () {
   try {
-    let reader = config.postgres.writer.replace(/(postgres:\/\/)(.*)@(.*)/, `$1${config.postgres.readOnlyRole}@$3`)
+    const reader = config.postgres.writer.replace(/(postgres:\/\/)(.*)@(.*)/, `$1${config.postgres.readOnlyRole}@$3`)
     return reader
   } catch (err) {
     logger.error({
@@ -94,13 +94,13 @@ app.start = function () {
     // start the web server
   return app.listen(appEnv.port, appEnv.bind, function () {
     app.emit('started')
-    var baseUrl = app.get('url').replace(/\/$/, '')
+    const baseUrl = app.get('url').replace(/\/$/, '')
     logger.info({
       processType: 'server',
       message: 'web server listening at ' + baseUrl
     })
     if (app.get('loopback-component-explorer')) {
-      var explorerPath = app.get('loopback-component-explorer').mountPath
+      const explorerPath = app.get('loopback-component-explorer').mountPath
       logger.info({
         processType: 'server',
         message: 'browse REST API at ' + baseUrl + explorerPath

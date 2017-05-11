@@ -1,7 +1,7 @@
 'use strict'
 
-var rabbitConfig = require(`${__base}/config`).rabbitmq
-var logger = require(`${__base}/server/services/logger-service`)
+const rabbitConfig = require(`${__base}/config`).rabbitmq
+const logger = require(`${__base}/server/services/logger-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const LOG_LEVELS = require(`${__base}/server/models/log-level`)
 
@@ -16,7 +16,7 @@ module.exports = new Publish()
  * @return {{function} publisher} Return the function used can be used to publish the message to queue
  */
 function Publish () {
-  var amqp = require('amqplib-easy')(rabbitConfig.url, rabbitConfig.amqpOptions)
+  const amqp = require('amqplib-easy')(rabbitConfig.url, rabbitConfig.amqpOptions)
 
   /**
    * @function publisher Used to publish the message to queue
@@ -24,7 +24,7 @@ function Publish () {
    * @throws Will throw an error if anything went wrong while adding the message to queue
    */
   function publisher (jsonMessage) {
-    var config = {
+    const config = {
       queue: rabbitConfig.queueName
     }
     amqp.sendToQueue(config, jsonMessage)

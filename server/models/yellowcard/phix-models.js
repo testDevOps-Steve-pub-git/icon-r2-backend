@@ -1,7 +1,7 @@
 'use strict'
 
-var patientPathUri = require(`${__base}/server/models/yellowcard/phix/patient-uri`)   // --> For validating yellocard request
-var headers = require(`${__base}/server/models/yellowcard/phix/phix-headers`)         // --> For validating yellocard request
+const patientPathUri = require(`${__base}/server/models/yellowcard/phix/patient-uri`)   // --> For validating yellocard request
+const headers = require(`${__base}/server/models/yellowcard/phix/phix-headers`)         // --> For validating yellocard request
 
 /**
  *  PHIX_MODELS

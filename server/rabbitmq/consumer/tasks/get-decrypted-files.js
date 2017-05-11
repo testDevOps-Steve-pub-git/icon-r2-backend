@@ -1,7 +1,7 @@
 'use strict'
 
-var Promise = require('bluebird')
-var cipher = require(`${__base}/server/services/crypto`)
+const Promise = require('bluebird')
+const cipher = require(`${__base}/server/services/crypto`)
 
 module.exports = (app, transactionId, cryptoConfig) => {
   return Promise.resolve(transactionId)
@@ -10,7 +10,7 @@ module.exports = (app, transactionId, cryptoConfig) => {
 }
 
 function getDecryptedFileObject (files, cryptoConfig) {
-  var fileObject = []
+  let fileObject = []
   return files
         .reduce((promise, file) => {
           return promise

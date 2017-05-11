@@ -8,7 +8,7 @@ const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 module.exports = (req, res, next) => {
   try {
     logger.logDebug(PROCESS_TYPE.SUBMISSION.FHIR, 'Validating submission fhir message')
-    let outcome = fhir.validate(req.body, req.decoded.submissionId)
+    const outcome = fhir.validate(req.body, req.decoded.submissionId)
     if (outcome.isValid) {
       logger.logDebug(PROCESS_TYPE.SUBMISSION.FHIR, 'Submission fhir message is valid')
       next()

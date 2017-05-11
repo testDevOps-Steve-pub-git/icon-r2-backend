@@ -1,11 +1,11 @@
 'use strict'
 
-var Promise = require('bluebird')
-var validator = require(`${__base}/server/services/attachment/validator`)
-var config = require(`${__base}/config`)
-var processTypes = require(`${__base}/server/models/process-type`)
-var statusCodes = require(`${__base}/server/models/response-status-code`)
-var errorHandler = require(`${__base}/server/services/error-service`)
+const Promise = require('bluebird')
+const validator = require(`${__base}/server/services/attachment/validator`)
+const config = require(`${__base}/config`)
+const processTypes = require(`${__base}/server/models/process-type`)
+const statusCodes = require(`${__base}/server/models/response-status-code`)
+const errorHandler = require(`${__base}/server/services/error-service`)
 
 function isValid (req) {
   return !!(req &&

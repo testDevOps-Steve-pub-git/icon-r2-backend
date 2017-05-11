@@ -1,4 +1,4 @@
-var fs = require('fs')
+const fs = require('fs')
 module.exports = {
   /**
    * Build agentOptions adding certs
@@ -6,7 +6,7 @@ module.exports = {
    * @param {object} onError - error callback (can be called more than once)
    */
   build: function (certs, onError) {
-    var agentOptions = {}
+    let agentOptions = {}
 
     if (certs) {
       Object.keys(certs).forEach(function (key) {

@@ -1,11 +1,11 @@
 'use strict'
 
-var Promise = require('bluebird')
+const Promise = require('bluebird')
 
-var logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/logger`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 
-var decoded
+let decoded
 
 module.exports = (app, objData) => {
   decoded = {

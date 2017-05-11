@@ -1,7 +1,7 @@
 'use strict'
 
 function LoggerService () {
-  var logger = require(`${__base}/server/logger`)
+  const logger = require(`${__base}/server/logger`)
 
   // private methods
   function assignObject (processType, err, metaObject) {

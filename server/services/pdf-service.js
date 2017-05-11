@@ -1,10 +1,10 @@
 'use strict'
 
-var PdfPrinter = require('pdfmake/src/printer')
-var errorService = require(`${__base}/server/services/error-service`)
+const PdfPrinter = require('pdfmake/src/printer')
+const errorService = require(`${__base}/server/services/error-service`)
 
 // Initalize PDFPrinter
-var printer
+let printer
 
 /**
  *  createPrinter() - Implements the pdf printer from pdfmake explicitly
@@ -16,7 +16,7 @@ var printer
  *  @return {Object}              -PDF Printer to be used to create the PDF document
  */
 function createPrinter () {
-  var fonts = {
+  const fonts = {
     OpenSans: {
       normal: `${__base}/server/models/fonts/OpenSans-Regular.ttf`,
       bold: `${__base}/server/models/fonts/OpenSans-Bold.ttf`,
@@ -46,7 +46,7 @@ function generatePdf (docDefinition) {
   printer = createPrinter()
   // Attempt to create the pdf from input content
   try {
-    var pdf = printer.createPdfKitDocument(docDefinition)
+    const pdf = printer.createPdfKitDocument(docDefinition)
     return pdf
   } catch (err) {
     // Throw error if there is a problem generating the PDF

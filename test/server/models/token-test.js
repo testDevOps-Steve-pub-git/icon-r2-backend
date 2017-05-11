@@ -19,7 +19,7 @@ function createVhostTester (app, vhost) {
 const appTest = createVhostTester(app, 'gbhu.vpac.me:3000')
 
 describe('Token API', () => {
-  var sessionToken
+  let sessionToken
 
   it('should generate a session token', () => {
     return appTest.get('/api/token/session')

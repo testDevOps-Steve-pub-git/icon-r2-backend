@@ -21,7 +21,7 @@ function PhuService () {
    * @return {Array} List of PHU acronym
    */
   function getPhuAcronymList () {
-    var phuAcronymList = []
+    let phuAcronymList = []
     phuList.forEach((item) => {
       phuAcronymList.push(item.acronym)
     })
@@ -58,8 +58,8 @@ function PhuService () {
    * @throws Will throw an error if PHU acronym not found in phu.json
    */
   function getPhuAcronym (subDomains) {
-    var phuAcronymList = getPhuAcronymList()
-    for (var subDomain of subDomains) {
+    const phuAcronymList = getPhuAcronymList()
+    for (let subDomain of subDomains) {
       if (phuAcronymList.indexOf(subDomain) !== -1) {
         return subDomain
       }
@@ -81,7 +81,7 @@ function PhuService () {
    * @throws Will throw an error if PHU acronym not found in phu.json
    */
   function getPhuObject (phuAcronym) {
-    for (var item of phuList) {
+    for (let item of phuList) {
       if (item.acronym === phuAcronym) {
         return item
       }

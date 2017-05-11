@@ -1,6 +1,6 @@
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
-const phuService = require(__base + '/server/services/token/phu-service')
+const phuService = require(`${__base}/server/services/token/phu-service`)
 
 chai.use(chaiAsPromised)
 const expect = chai.expect

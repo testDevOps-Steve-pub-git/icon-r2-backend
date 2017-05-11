@@ -36,7 +36,7 @@ function jwtService () {
       responseTime: tokenConfig.expiresIn.responseTime
     }, payload)
 
-    var expiresIn
+    let expiresIn
     switch (tokenType) {
       case TOKEN_TYPE.SESSION:
         expiresIn = tokenConfig.expiresIn.session
@@ -48,7 +48,7 @@ function jwtService () {
         throw errorService.IconCustomWarning('Invalid token type', { processType: PROCESS_TYPE.AUTHENTICATE.GENERAL })
     }
 
-    var options = {
+    const options = {
       expiresIn: expiresIn
     }
 

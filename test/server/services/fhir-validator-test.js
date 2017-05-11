@@ -1,16 +1,16 @@
-var proxyquire = require('proxyquire')
-var logger = `${__base}/server/logger`
-var app = require(__base + '/server/server')
-
-var expect = require('chai').expect
-var request = require('supertest-as-promised')(app)
-var getTokenService = require(__base + '/server/services/token/get-token-service.js')
-var validateTokenService = require(__base + '/server/services/token/validate-token-service.js')
-const TOKEN_TYPE = require(__base + '/server/models/token-type')
+const proxyquire = require('proxyquire')
+const app = require(__base + '/server/server')
+const expect = require('chai').expect
+const request = require('supertest-as-promised')(app)
+const loggerPath = `${__base}/server/logger`
+const fhirValidatorPath = `${__base}/server/services/fhir-validator.js`
+const getTokenService = require(`${__base}/server/services/token/get-token-service.js`)
+const validateTokenService = require(`${__base}/server/services/token/validate-token-service.js`)
+const TOKEN_TYPE = require(`${__base}/server/models/token-type`)
 const validFhirMessage = require(`${__base}/test/server/testFiles/immunization-submission/ImmunizationSubmission.json`)
 
-var fhirValidator = proxyquire(__base + '/server/services/fhir-validator.js', {
-  [`${logger}`]: {
+const fhirValidator = proxyquire(fhirValidatorPath, {
+  [`${loggerPath}`]: {
     info: () => {},
     '@global': true
   }
@@ -30,14 +30,14 @@ function createVhostTester (app, vhost) {
   return proxy
 }
 
-var appTest = createVhostTester(app, 'gbhu.vpac.me:3000')
+const appTest = createVhostTester(app, 'gbhu.vpac.me:3000')
 
 describe('FHIR validator test', () => {
   it('should correctly validate a valid FHIR object', () => {
     return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vcap.me:3000')
     .then((sessionToken) => {
       return appTest.get('/api/token/submission')
-    .set('session-token', sessionToken)
+      .set('session-token', sessionToken)
     })
     .then((response) => {
       let submissionToken = response.body.token

@@ -1,8 +1,8 @@
 'use strict'
 
-var rabbitConfig = require(`${__base}/config`).rabbitmq
-var logger = require(`${__base}/server/services/logger-service`)
-var messageHandler = require(`${__base}/server/rabbitmq/consumer/message-handler`)
+const rabbitConfig = require(`${__base}/config`).rabbitmq
+const logger = require(`${__base}/server/services/logger-service`)
+const messageHandler = require(`${__base}/server/rabbitmq/consumer/message-handler`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const LOG_LEVELS = require(`${__base}/server/models/log-level`)
 
@@ -17,13 +17,13 @@ module.exports = new Consume()
  * @return {{function} consumer} Return the function used can consume the message from queue
  */
 function Consume () {
-  var amqp = require('amqplib-easy')(rabbitConfig.url, rabbitConfig.amqpOptions)
+  const amqp = require('amqplib-easy')(rabbitConfig.url, rabbitConfig.amqpOptions)
 
   /**
    * @function consumer Used to consume the message from the queue
    */
   function consumer () {
-    var config = {
+    const config = {
       queue: rabbitConfig.queueName,
       prefetch: rabbitConfig.prefetch
     }

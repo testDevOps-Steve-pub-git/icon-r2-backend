@@ -1,15 +1,16 @@
-var chai = require('chai')
-var expect = chai.expect
-var chaiAsPromised = require('chai-as-promised')
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+const crypto = require(`${__base}/server/routes/crypto`)
+
 chai.use(chaiAsPromised)
-var crypto = require(__base + '/server/routes/crypto')
+const expect = chai.expect
 
 describe('crypto test', () => {
-  let incompleteReq = {
+  const incompleteReq = {
     testTest: 'test_req'
   }
 
-  let defaultRes = {
+  const defaultRes = {
     port: 3000
   }
 

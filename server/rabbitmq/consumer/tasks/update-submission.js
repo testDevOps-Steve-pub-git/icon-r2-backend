@@ -1,6 +1,6 @@
 'use strict'
 
-var logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/logger`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 
 function createHistory (statusCode) {
@@ -8,7 +8,7 @@ function createHistory (statusCode) {
 }
 
 function appendHistory (history, statusCode) {
-  let newEntry = createHistory(statusCode)
+  const newEntry = createHistory(statusCode)
 
   if (history) {
     return `${history.slice(0, -1)}, ${newEntry}]`

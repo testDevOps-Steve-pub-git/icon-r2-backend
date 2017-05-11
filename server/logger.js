@@ -2,16 +2,16 @@
  * @module logger
  */
 'use strict'
-var winston = require('winston')
-var Audit = require(__base + '/server/models/audit')
-var Elasticsearch = require('winston-elasticsearch')
-var useragent = require('express-useragent')
-var tokenHeaders = require(`${__base}/server/models/token-headers`)
-var phuService = require(`${__base}/server/services/token/phu-service`)
-var getGeoIp = require(`${__base}/server/services/geoip-lookup`)
-var elasticSearchConfig = require(`${__base}/config`).elasticSearch
-var esMappingConfig = require(`${__base}/server/models/winston-elasticsearch-mapping.json`)
-var trackingConfig = require(`${__base}/config`).tracking
+const winston = require('winston')
+const Audit = require(__base + '/server/models/audit')
+const Elasticsearch = require('winston-elasticsearch')
+const useragent = require('express-useragent')
+const tokenHeaders = require(`${__base}/server/models/token-headers`)
+const phuService = require(`${__base}/server/services/token/phu-service`)
+const getGeoIp = require(`${__base}/server/services/geoip-lookup`)
+const elasticSearchConfig = require(`${__base}/config`).elasticSearch
+const esMappingConfig = require(`${__base}/server/models/winston-elasticsearch-mapping.json`)
+const trackingConfig = require(`${__base}/config`).tracking
 
 winston.addColors({
   error: 'red',
@@ -25,7 +25,7 @@ winston.addColors({
   *           Required due to ES only allowing instantiation of one client per options object
   * @return {Object} ES options object
   */
-var esConfig = {
+const esConfig = {
   level: 'info',
   indexPrefix: 'logs',
   mappingTemplate: esMappingConfig,
@@ -37,7 +37,7 @@ var esConfig = {
 
 // Instantiate winston auditor with transport for es output
 // Transport explicitly adds a timestamp into the logged object
-let auditor = new winston.Logger({
+const auditor = new winston.Logger({
   transports: [
     new Elasticsearch(esConfig)
   ]
@@ -45,7 +45,7 @@ let auditor = new winston.Logger({
 
 // Instantiate winston logger with transport for console output
 // Transport explicitly adds a timestamp into the logged object
-let logger = new winston.Logger({
+const logger = new winston.Logger({
   transports: [
     new (winston.transports.Console)({
       level: 'debug',
@@ -66,7 +66,7 @@ let logger = new winston.Logger({
   * @param {Object} message to log
   */
 function auditLogBackend (processType, message) {
-  let options = {
+  const options = {
     timestamp: new Date(),
     message: `[AUDIT] [${new Date()}] [SERVER] ${message}`,
     processType: processType
@@ -116,9 +116,9 @@ function auditLog (processType, statusCode, reqHeaders, reqDecoded, extraObject)
 
     auditObj.message = '[AUDIT] [' + auditObj.timestamp + ']'
 
-    let sessionId = reqDecoded.sessionId
-    let submissionId = reqDecoded.submissionId
-    let fileCount = reqDecoded.fileAttachmentCount
+    const sessionId = reqDecoded.sessionId
+    const submissionId = reqDecoded.submissionId
+    const fileCount = reqDecoded.fileAttachmentCount
     let clientip, host, agent, parsedUa, geoIp, uriParts
 
     // Add session token to audit if existing
@@ -182,7 +182,7 @@ function auditLog (processType, statusCode, reqHeaders, reqDecoded, extraObject)
     getPhuInformation(host, auditObj)
     .then(() => {
       // Log as audit
-      var finalObject = {}
+      let finalObject = {}
       Object.assign(finalObject, auditObj.toList(), extraObject)
       auditor.info(finalObject)
       logger.info(finalObject)

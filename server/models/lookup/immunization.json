@@ -103,15 +103,30 @@
         "nullable": "YES"
       }
     },
-    "json": {
+    "agent": {
       "type": "String",
       "required": false,
       "length": null,
       "precision": null,
       "scale": null,
       "postgresql": {
-        "columnName": "json",
-        "dataType": "json",
+        "columnName": "agent",
+        "dataType": "jsonb",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "trade": {
+      "type": "String",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "postgresql": {
+        "columnName": "trade",
+        "dataType": "jsonb",
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,

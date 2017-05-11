@@ -2,7 +2,7 @@ const expect = require('chai').expect
 const Audit = require(`${__base}/server/models/audit`)
 
 describe('Audit model', () => {
-  var audit = new Audit('TEST_PROCESS_TYPE', 200)
+  let audit = new Audit('TEST_PROCESS_TYPE', 200)
 
   it('should create default audit model', () => {
     expect(audit).to.have.property('timestamp')

@@ -1,7 +1,7 @@
 'use strict'
 
-var authRequest = require(`${__base}/server/routes/yellowcard/authenticate-request`)
-var phixRequest = require(`${__base}/server/routes/yellowcard/phix-retrieval`)
+const authRequest = require(`${__base}/server/routes/yellowcard/authenticate-request`)
+const phixRequest = require(`${__base}/server/routes/yellowcard/phix-retrieval`)
 
 /**
  *  YellocardRouter()

@@ -1,5 +1,5 @@
 'use strict'
-var config = require(`${__base}/config`)
+const config = require(`${__base}/config`)
 
 /**
  *  phixHeaders()

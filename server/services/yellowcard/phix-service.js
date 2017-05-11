@@ -33,7 +33,7 @@ function createRequestOptions (oiid, pin, token) {
  */
 function logGatingQuestion (relationship, metaObject) {
   // --> Generate Log Message: Gating Question, and log to the server
-  var GATING_QUESTION_LOG_OBJECT = {
+  const GATING_QUESTION_LOG_OBJECT = {
     processType: models.TYPES.PROCESSES.ICON,
     interactionType: models.TYPES.INTERACTIONS.RETRIEVAL,
     message: models.MESSAGES.GATING_QUESTION,

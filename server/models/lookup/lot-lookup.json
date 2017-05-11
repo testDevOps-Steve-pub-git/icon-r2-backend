@@ -28,15 +28,15 @@
         "nullable": "YES" 
       } 
     }, 
-    "json": { 
+    "lots": { 
       "type": "String", 
       "required": false, 
       "length": null, 
       "precision": null, 
       "scale": null, 
       "postgresql": { 
-        "columnName": "json", 
-        "dataType": "json", 
+        "columnName": "lots", 
+        "dataType": "json[]", 
         "dataLength": null, 
         "dataPrecision": null, 
         "dataScale": null, 
