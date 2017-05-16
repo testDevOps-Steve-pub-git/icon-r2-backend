@@ -1,4 +1,4 @@
-source 'ImmunizationSubmissionData'
+source "$1"
 
 endpoint='ImmunizationSubmissions'
 

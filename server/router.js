@@ -3,7 +3,6 @@ module.exports = Router()
 
 function Router () {
   const crypto = require(`${__base}/server/routes/crypto`)
-  const lookup = require(`${__base}/server/routes/lookup`)
   const token = require(`${__base}/server/routes/token`)
   const validateAttachment = require(`${__base}/server/routes/attachment`)
   const virusScanner = require(`${__base}/server/routes/virus-scanner`)
@@ -19,7 +18,6 @@ function Router () {
       authenticateSessionToken: [token.authenticateSessionToken],
       authenticateSessionAndSubmissionToken: [token.authenticateSessionAndSubmissionToken],
       lookup: [token.authenticateSessionAndSubmissionToken],
-      yellowcardlookup: [token.authenticateSessionToken, lookup],
       yellowcardRetrieval: [token.authenticateSessionToken, yellowcardRouter.authenticateRequest, yellowcardRouter.requestFromPhix],
       tracking: [token.authenticateSessionAndSubmissionToken, tracking],
       pdfGeneration: [token.authenticateSessionAndSubmissionToken, pdfGeneration]

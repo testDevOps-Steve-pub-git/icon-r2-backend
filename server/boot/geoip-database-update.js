@@ -8,6 +8,11 @@ const logger = require(`${__base}/server/services/logger-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 
 module.exports = function (app) {
+  if (!geoipConfig.enable) {
+    logger.logDebug(PROCESS_TYPE.GEO_IP, 'Geoip scheduled updating is disabled. Definitions will not be updated.')
+    return
+  }
+
   const geoDatabaseUpdate = geoipConfig.databaseUpdate
   const scheduleJobOptions = {
     date: geoDatabaseUpdate.dayOfMonth,

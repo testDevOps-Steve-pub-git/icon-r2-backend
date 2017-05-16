@@ -97,4 +97,12 @@ describe('validate token service test', () => {
               .to.eventually.be.rejectedWith(Error)
     })
   })
+
+  it('should throw error when no no decoded payload is in the JWT', () => {
+    return jwtService.sign(null, TOKEN_TYPE.SUBMISSION)
+    .then((token) => {
+      return expect(validateTokenService.verifyToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vcap.me:3000', token))
+              .to.eventually.be.rejectedWith(Error)
+    })
+  })
 })

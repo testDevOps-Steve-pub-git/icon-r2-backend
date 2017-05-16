@@ -45,13 +45,26 @@ describe('logger service test', () => {
     .to.be.fulfilled
   })
 
+  it('should log custom messages - error type / error as message', () => {
+    let err = new Error()
+    return expect(Promise.resolve(loggerService.log('error', 'custom_log_test', err, testOptions)))
+    .to.be.fulfilled
+  })
+
+  it('should log custom messages - error type / not error as message', () => {
+    return expect(Promise.resolve(loggerService.log('error', 'custom_log_test', 'test', testOptions)))
+    .to.be.fulfilled
+  })
+
   it('should log icon errors', () => {
     return expect(Promise.resolve(loggerService.logIconError(new Error())))
     .to.be.fulfilled
   })
 
   it('should log icon errors - alternate', () => {
-    return expect(Promise.resolve(loggerService.logIcon(new Error())))
+    let err = new Error()
+    err.logLevel = 'error'
+    return expect(Promise.resolve(loggerService.logIcon(err)))
     .to.be.fulfilled
   })
 })

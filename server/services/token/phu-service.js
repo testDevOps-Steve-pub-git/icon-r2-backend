@@ -78,7 +78,6 @@ function PhuService () {
    * @function getPhuObject Return the Phu Object
    * @param {String} phuAcronym Represent the phu acronym
    * @return {PhuObject} PHU object representing the PHU information
-   * @throws Will throw an error if PHU acronym not found in phu.json
    */
   function getPhuObject (phuAcronym) {
     for (let item of phuList) {
@@ -86,7 +85,6 @@ function PhuService () {
         return item
       }
     }
-    throw errorService.IconCustomWarning('no phu acronym found', { processType: PROCESS_TYPE.URL_PARSE })
   }
 
   /**
