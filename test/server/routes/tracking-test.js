@@ -43,9 +43,15 @@ const appTest = createVhostTester(app, 'gbhu.vpac.me:3000')
 
 describe('tracking api', () => {
   it('should create audit log succesfully when called', () => {
-    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000').then((sessionToken) => {
+    return Promise
+    .all([
+      getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000'),
+      getTokenService.createToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vpac.me:3000')
+    ])
+    .then(([sessionToken, submissionToken]) => {
       return appTest.post('/api/tracking')
         .set('session-token', sessionToken)
+        .set('submission-token', submissionToken)
         .expect(202)
     })
   })

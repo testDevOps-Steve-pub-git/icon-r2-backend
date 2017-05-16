@@ -71,13 +71,6 @@ app.post('/api/tracking', router.api.tracking)
 app.post('/api/pdf', router.api.pdfGeneration)
 
 /**
- * lookup like vaccinations, diseases, and agents
- */
-app.get('/api/yellowcardlookup/:indexName', router.api.yellowcardlookup)
-app.get('/api/yellowcardlookup/diseases_en_index', router.api.yellowcardlookup)
-app.get('/api/yellowcardlookup/diseases_fr_index', router.api.yellowcardlookup)
-
-/**
  * lookup like address, city, school and daycare
  */
 app.get('/api/lookup', router.api.lookup)

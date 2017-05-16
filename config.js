@@ -93,12 +93,11 @@ module.exports = {
   dataDictionary: {
     enabled: true, // setting this false will disable updating data-dictionary items
     schedule: {
-      // e.g. 2 will run every 2 months
-      frequencyInMonths: process.env.DATADICT_UPDATE_MONTH_FREQUENCY || 2, // run every x months
-      // e.g. 1st day of the month at 1:01am
-      day: process.env.DATADICT_UPDATE_DAY_OF_MONTH || 1, // day of the month to run (1-31)
-      hour: process.env.DATADICT_UPDATE_HOUR || 1, // hour to run  (0-23)
-      minute: process.env.DATADICT_UPDATE_MINUTE || 1 // minute to run at (0-59)
+      // feeds into cron for scheduling dictionary updates - use '*' to run every period
+      month: process.env.DATADICT_UPDATE_MONTH || '*/2',    // run every 2nd month
+      day: process.env.DATADICT_UPDATE_DAY_OF_MONTH || '1', // day of the month to run (1-31)
+      hour: process.env.DATADICT_UPDATE_HOUR || '1',        // hour to run  (0-23)
+      minute: process.env.DATADICT_UPDATE_MINUTE || '1'     // minute to run at (0-59)
     },
     dhir: {
       uri: nconf.get('PHIX_ENDPOINT_DICTIONARY')
@@ -138,6 +137,7 @@ module.exports = {
     // Timeout for work queue connection problems
   workQueueTimeout: process.env.WORK_QUEUE_TIMEOUT || 30000,
   geoip: {
+    enable: false,
     databaseUpdate: {
       // Day and time at which update will run automatically
       // Default is set to 7th of every month at 12:00 AM
