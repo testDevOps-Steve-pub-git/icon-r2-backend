@@ -73,7 +73,7 @@ app.post('/api/pdf', router.api.pdfGeneration)
 /**
  * lookup like address, city, school and daycare
  */
-app.get('/api/lookup', router.api.lookup)
+app.get('/api/lookup/*', router.api.lookup)
 
 /**
  * Forwards the yellowCard request to PHIX endpoint and returns the response
