@@ -10,7 +10,7 @@ module.exports = (options) => {
     try {
       if (err instanceof Error) {
         err = errorHandler.IconError(err)
-        err.processType = PROCESS_TYPE.UNKNOWN_PROCESS_TYPE
+        err.processType = err.processType || PROCESS_TYPE.UNKNOWN_PROCESS_TYPE
       }
 
       if (!err.logged) {

@@ -1,15 +1,18 @@
-OIID=$1
+OIID=$1 #"GM29BJXKBV"
 PIN=$2
-RELATION=$3
+
+# PIN="123123"
+# Gives this context:
+# CONTEXT="eyJwaW4iOiI5NmNhZTM1Y2U4YTliMDI0NDE3OGJmMjhlNDk2NmMyY2UxYjgzODU3MjNhOTZhNmI4Mzg4NThjZGQ2Y2EwYTFlIn0="
 
 CONTEXT=$(NODE_PATH=`npm config get prefix`/lib/node_modules ./encodePin $PIN)
-ENDPOINT="${baseUrl}yellowCard?relationshipToClient=$RELATION"
+ENDPOINT="${baseUrl}immunizationRetrieval"
 
 echo "Pin: $PIN"
 echo "Context: $CONTEXT"
 echo "Oiid: $OIID"
-echo "Relationship to client: $RELATION"
-echo "Endpoint: $ENDPOINT"
+echo "(valid oiid: GM29BJXKBV)"
+# echo "Endpoint: $ENDPOINT"
 
 curl -X GET \
   -vvv \

@@ -1,7 +1,8 @@
-node_modules
 .idea
 .git
 bin
 test
 
 local.json
+local-sample.json
+node_modules

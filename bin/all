@@ -1,0 +1,32 @@
+source 'baseUrl'
+source 'tokens'
+
+source 'ImmunizationSubmissionData'
+source 'ImmunizationSubmission'
+
+source 'generatePdf'
+
+CONTEXT="eyJwaW4iOiI5NmNhZTM1Y2U4YTliMDI0NDE3OGJmMjhlNDk2NmMyY2UxYjgzODU3MjNhOTZhNmI4Mzg4NThjZGQ2Y2EwYTFlIn0="
+OIID="GM29BJXKBV"
+RELATION="Self"
+source 'getYellowCard'
+
+lookups=("lookup/address?filter[postalCode]=l8n" "lookup/agent-trade?filter[snomed]=125690004,6921000087107" "lookup/city?filter[city]=ham" "lookup/disease?filter[snomed]=63650001,14189004" "lookup/immunization?filter[immun]=ra&filter[lang]=en" "lookup/lots?filter[snomed]=3526007" "lookup/school?filter[name]=playh" "lookup/trade?filter[snomed]=7481000087104")
+
+for lookup in "${lookups[@]}"
+do
+  echo
+  echo $lookup
+  curl -g -X GET \
+  -H "session-token:$SESSION_TOKEN" \
+  -H "authorization:$SUBMISSION_TOKEN" \
+  -H "Accept:application/json" \
+  -H "Accept-Language:en-US,en;q=0.8" \
+  $baseUrl$lookup
+done
+
+source tracking
+
+source uploadFile
+
+source uploadFilesAndImmunization

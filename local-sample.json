@@ -7,7 +7,7 @@
   "CRYPTO_PASSWORD": "123412341234123421342134123412341234123412341234123412341234123412341234123423",
   "POSTGRES_READONLY_ROLE": "readonly:WERJFIRWJWNEDJASDF",
   "PHIX_ENDPOINT_DICTIONARY": "http://panorama-simulator.mybluemix.net/Dictionary?domain=",
-  "CLAMAV_ENDPOINT": "169.46.21.13",
+  "CLAMAV_ENDPOINT": "https://clamav-cf.mybluemix.net/scan",
   "PHIX_ENDPOINT_SUBMISSION": "https://panorama-simulator.mybluemix.net/Communication",
   "PHIX_ENDPOINT_SUBMISSION_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE0OTcxMTE1OTAsInN1YiI6ImFzZGZzZGFmIiwiaXNzIjoiYXNkZmFzZGYiLCJhdWQiOiJhc2RmYXNkZiIsImp0aSI6ImFzZGZhc2RmIiwiaWF0IjoxNDY1NTc1NTkwfQ.asdfasdfasdfasdfasdfasdfasdfasdfasdf",
   "PHIX_ENDPOINT_RETRIEVAL": "https://panorama-simulator.mybluemix.net/Immunization",

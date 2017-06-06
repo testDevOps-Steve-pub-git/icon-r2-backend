@@ -5,9 +5,15 @@ const statusCodes = require(`${__base}/server/models/response-status-code`)
 module.exports = class IconBaseError {
   constructor (error) {
     this._error = this.isError(error) ? error : new Error(error)
-    this._statusCode = statusCodes.INTERNAL_SERVER_ERROR
-    this._decoded = {}
-    this._processType = ''
+    if (error) {
+      this._statusCode = error.statusCode || statusCodes.INTERNAL_SERVER_ERROR
+      this._decoded = error.decoded || {}
+      this._processType = error.processType || ''
+    } else {
+      this._statusCode = statusCodes.INTERNAL_SERVER_ERROR
+      this._decoded = {}
+      this._processType = ''
+    }
     this._logLevel = 'error'
     this._logged = false
   }
@@ -70,4 +76,3 @@ module.exports = class IconBaseError {
     this._logged = val
   }
 }
-

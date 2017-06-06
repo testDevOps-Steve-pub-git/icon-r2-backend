@@ -12,8 +12,8 @@ const JSON_SCHEMA_DRAFT_4 = 'http://json-schema.org/draft-04/schema#'
 const ICON_PROFILE_PATH = `${__base}/server/services/fhir-validator/schemas/communication.schema.json`
 
 // Common FHIR validation patterns
-const REGEX_HUMAN_NAME = /^[a-zàâçéèêëîïôûùüÿñæœ !.'-]*$/i
-const REGEX_TITLE_NAME = /^[0-9a-zàâçéèêëîïôûùüÿñæœ ()@&!'’.,-\\\/#\?]*$/i
+const REGEX_HUMAN_NAME = /^[0-9a-zàâçéèêëîïôûùüÿñæœ !.'-]*$/i
+const REGEX_TITLE_NAME = /^[0-9a-zàâçéèêëîïôûùüÿñæœ ()@&!'’.,-\\/#?]*$/i
 
 // Singleton: ICON FHIR profile schema
 let _iconProfile = null

@@ -25,7 +25,8 @@ function Publish () {
    */
   function publisher (jsonMessage) {
     const config = {
-      queue: rabbitConfig.queueName
+      queue: rabbitConfig.queueName,
+      exchange: rabbitConfig.exchange
     }
     amqp.sendToQueue(config, jsonMessage)
     .then(() => {

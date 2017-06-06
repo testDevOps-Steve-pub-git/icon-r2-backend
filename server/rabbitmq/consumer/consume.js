@@ -24,6 +24,7 @@ function Consume () {
    */
   function consumer () {
     const config = {
+      exchange: rabbitConfig.exchange,
       queue: rabbitConfig.queueName,
       prefetch: rabbitConfig.prefetch
     }

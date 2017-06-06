@@ -79,6 +79,7 @@ module.exports = {
       'rejectUnauthorized': false
     },
     queueName: 'icon',
+    exchange: 'amqp.icon',
     prefetch: 5 // Consumer prefetch
   },
   postgres: {
@@ -115,9 +116,7 @@ module.exports = {
   },
   clamav: {
     enabled: true, // setting this to false will disable virus scanning of uploaded files - be careful!
-    endPoint: nconf.get('CLAMAV_ENDPOINT'), // IP of bluemix clamav container
-    port: process.env.CLAMAV_PORT || 3310,
-    timeout: process.env.CLAMAV_TIMEOUT || 10000 // 10s before considering it a failed attempt
+    endPoint: nconf.get('CLAMAV_ENDPOINT')
   },
   phixEndpoint: {
     submission: {
@@ -126,7 +125,10 @@ module.exports = {
     },
     retrieval: {
       url: nconf.get('PHIX_ENDPOINT_RETRIEVAL'), // Retrieval Endpoint for phix server
-      token: nconf.get('PHIX_ENDPOINT_RETRIEVAL_TOKEN') // Token for PHIX Retrieval Endpoint
+      token: nconf.get('PHIX_ENDPOINT_RETRIEVAL_TOKEN'), // Token for PHIX Retrieval Endpoint
+      queryString: (oiid) => {
+        return `?patient.identifier=http://ca-on-panorama-immunization-id|${oiid}&_include=Immunization:patient&_include=Immunization:performer&_include:recurse=Practitioner:organization&_revinclude:recurse=ImmunizationRecommendation:patient&_format=application/json`
+      }
     },
     repostCodes: [400, 406, 409, 412, 422]
   },

@@ -59,3 +59,7 @@ test/*.xml
 
 # Ignore these config files, they contain keys and passwords
 local.json
+
+.nvmrc
+.snyk
+snyk.test.*

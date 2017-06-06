@@ -1,6 +1,6 @@
 const loopback = require('loopback')
 const boot = require('loopback-boot')
-const clamav = require('clamav.js')
+// const clamav = require('clamav.js')
 const path = require('path')
 const diehard = require('diehard')
 const bodyParser = require('body-parser')
@@ -79,7 +79,7 @@ app.get('/api/lookup/*', router.api.lookup)
  * Forwards the yellowCard request to PHIX endpoint and returns the response
  */
 app.get('/api/yellowCard', router.api.yellowcardRetrieval)
-
+app.get('/api/immunizationRetrieval', router.api.immunizationRetrieval)
 /**
  * Server main entrypoint
  */
@@ -107,23 +107,6 @@ app.start = function () {
       message: 'server start error: ' + error.message
     })
     process.exit(1)
-  })
-}
-
-/* ******* Version for CLAMAV **************** */
-if (!config.isTest && config.clamav.enabled) {
-  clamav.version(config.clamav.port, config.clamav.endPoint, 10000, function (err, version) {
-    if (err) {
-      logger.error({
-        processType: 'clamAV',
-        message: 'version is not available: ' + err.message
-      })
-    } else {
-      logger.info({
-        processType: 'clamAV',
-        message: 'version: ' + version
-      })
-    }
   })
 }
 

@@ -10,6 +10,7 @@ function Router () {
   const validateFhir = require(`${__base}/server/routes/validate-fhir`)
   const tracking = require(`${__base}/server/routes/tracking`)
   const pdfGeneration = require(`${__base}/server/routes/pdf-generation`)
+  const immunizationRetrieval = require(`${__base}/server/routes/immunization-retrieval`)
 
   return {
     api: {
@@ -20,7 +21,8 @@ function Router () {
       lookup: [token.authenticateSessionAndSubmissionToken],
       yellowcardRetrieval: [token.authenticateSessionToken, yellowcardRouter.authenticateRequest, yellowcardRouter.requestFromPhix],
       tracking: [token.authenticateSessionAndSubmissionToken, tracking],
-      pdfGeneration: [token.authenticateSessionAndSubmissionToken, pdfGeneration]
+      pdfGeneration: [token.authenticateSessionAndSubmissionToken, pdfGeneration],
+      immunizationRetrieval: [token.authenticateSessionToken, immunizationRetrieval]
     }
   }
 }

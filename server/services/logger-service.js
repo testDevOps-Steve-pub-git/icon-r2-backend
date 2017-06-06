@@ -30,6 +30,7 @@ function LoggerService () {
   function logIconError (err) {
     let metaObject = {
       processType: err.processType,
+      statusCode: err.statusCode,
       message: err.message,
       decoded: err.decoded
     }

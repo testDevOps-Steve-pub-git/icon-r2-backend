@@ -7,11 +7,13 @@ const auditor = require(`${__base}/server/logger`)
 const logger = require(`${__base}/server/services/logger-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 
+function enable () {
+  // only enable if we are not in test mode and this service is enabled in the config
+  return process.env.NODE_ENV !== 'test' && geoipConfig.enable
+}
+
 module.exports = function (app) {
-  if (!geoipConfig.enable) {
-    logger.logDebug(PROCESS_TYPE.GEO_IP, 'Geoip scheduled updating is disabled. Definitions will not be updated.')
-    return
-  }
+  if (!enable()) return
 
   const geoDatabaseUpdate = geoipConfig.databaseUpdate
   const scheduleJobOptions = {
