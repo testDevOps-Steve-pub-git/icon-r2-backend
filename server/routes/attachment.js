@@ -36,14 +36,6 @@ module.exports = (req, res, next) => {
       throw errorHandler.IconCustomWarning('Invalid mime type', Object.assign(errorOptions, {statusCode: statusCodes.UNSUPPORTED_MEDIA_TYPE}))
     }
   })
-  .then(() => {
-    return validator.validLimit(req.app, req.decoded.txId, config.attachment)
-  })
-  .then((valid) => {
-    if (!valid) {
-      throw errorHandler.IconCustomWarning('Maximum files uploaded', Object.assign(errorOptions, {statusCode: statusCodes.CONFLICT}))
-    }
-  })
   .then(next)
   .catch(next)
 }

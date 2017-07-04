@@ -2,8 +2,7 @@
 
 const schedule = require('node-schedule')
 const config = require(`${__base}/config`)
-const auditor = require(`${__base}/server/logger`)
-const logger = require(`${__base}/server/services/logger-service`)
+const logger = require(`${__base}/server/logger`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const Cron = require('cron-converter')
 
@@ -22,20 +21,19 @@ module.exports = (app) => {
   let options = scheduleOptions(config.dataDictionary.schedule)
   let nextRun = new Cron().fromString(options).schedule().next()   // get the next scheduled run
 
-  logger.logDebug(PROCESS_TYPE.DATA_DICT, `Scheduling data dictionary updates. Next run at ${nextRun}`)
-
+  logger.debug(`Scheduling data dictionary updates. Next run at ${nextRun}`, { processType: PROCESS_TYPE.DATA_DICT })
   schedule.scheduleJob(options, () => {
     require(`${__base}/server/services/data-dictionary`)()
     .then(() => {
-      auditor.auditLogBackend(PROCESS_TYPE.DATA_DICT, 'Data dictionary imported successfully')
+      logger.auditLogBackend(PROCESS_TYPE.DATA_DICT, 'Data dictionary imported successfully')
     })
     .catch((err) => {
       err.message = `Data dictionay import failed. Aborted. ${err.message}`
-      logger.logError(PROCESS_TYPE.DATA_DICT, err)
+      logger.error(err.message, { processType: PROCESS_TYPE.DATA_DICT })
     })
     .finally(() => {
       nextRun = new Cron().fromString(options).schedule().next()   // get the next scheduled run
-      logger.logDebug(PROCESS_TYPE.DATA_DICT, `Scheduling data dictionary update. Next run at ${nextRun}`)
+      logger.debug(`Scheduling data dictionary update. Next run at ${nextRun}`, { processType: PROCESS_TYPE.DATA_DICT })
     })
   })
 }

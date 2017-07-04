@@ -16,19 +16,7 @@ function validType (file, config) {
   }
 }
 
-function validLimit (app, txId, config) {
-  if (config.limit) {
-    return app.models.SubmissionAttachment.count({transactionId: txId})
-    .then((count) => {
-      return count < config.limit
-    })
-  } else {
-    return Promise.resolve(true)
-  }
-}
-
 module.exports = {
-  validLimit: validLimit,
   validSize: validSize,
   validType: validType
 }

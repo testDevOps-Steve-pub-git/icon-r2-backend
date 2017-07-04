@@ -1,9 +1,8 @@
 'use strict'
 
 const statusCodes = require(`${__base}/server/models/response-status-code`)
-const processTypes = require(`${__base}/server/models/process-type`)
+const PROCESS_TYPES = require(`${__base}/server/models/process-type`)
 const logger = require(`${__base}/server/logger`)
-const loggerService = require(`${__base}/server/services/logger-service`)
 const trackingService = require(`${__base}/server/services/tracking-service`)
 const trackingConfig = require(`${__base}/config`).tracking
 
@@ -11,12 +10,16 @@ module.exports = (req, res) => {
   Object.assign(req.headers, {
     'x-real-ip': req.connection.remoteAddress
   })
-  logger.auditLog(processTypes.ICON_UI, statusCodes.ACCEPTED, req.headers, req.decoded, getObject(req.body))
+  logger.auditLog(PROCESS_TYPES.ICON_UI, statusCodes.ACCEPTED, req.headers, req.decoded, getObject(req.body))
   .then(updateSessionTime)
   .then(updateComponentTime)
   .then(() => { res.status(statusCodes.ACCEPTED).end() })
   .catch((err) => {
-    loggerService.logError(processTypes.ICON_UI, err, req.decoded)
+    logger.error(err.message, Object.assign(err, {
+      processType: PROCESS_TYPES.ICON_UI,
+      decoded: req.decoded
+    })
+    )
     res.status(statusCodes.INTERNAL_SERVER_ERROR).end()
   })
 }

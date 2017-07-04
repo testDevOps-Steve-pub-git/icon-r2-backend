@@ -2,18 +2,18 @@
 
 const fhir = require(`${__base}/server/services/fhir-validator`)
 const statusCodes = require(`${__base}/server/models/response-status-code`)
-const logger = require(`${__base}/server/services/logger-service`)
+const logger = require(`${__base}/server/logger`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 
 module.exports = (req, res, next) => {
   try {
-    logger.logDebug(PROCESS_TYPE.SUBMISSION.FHIR, 'Validating submission fhir message')
+    logger.debug('Validating submission fhir message', { processType: PROCESS_TYPE.SUBMISSION.FHIR })
     const outcome = fhir.validate(req.body, req.decoded.submissionId)
     if (outcome.isValid) {
-      logger.logDebug(PROCESS_TYPE.SUBMISSION.FHIR, 'Submission fhir message is valid')
+      logger.debug('Submission fhir message is valid', { processType: PROCESS_TYPE.SUBMISSION.FHIR })
       next()
     } else {
-      logger.logDebug(PROCESS_TYPE.SUBMISSION.FHIR, 'Submission fhir message is invalid')
+      logger.debug('Submission fhir message is invalid', { processType: PROCESS_TYPE.SUBMISSION.FHIR })
       res.status(statusCodes.UNPROCESSABLE_ENTITY)
       .json(outcome.errors)
       .end()

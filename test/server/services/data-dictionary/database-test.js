@@ -8,7 +8,7 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 
 const config = `${__base}/config.js`
-const logger = `${__base}/server/services/logger-service`
+const logger = `${__base}/server/logger`
 const subjectPath = `${__base}/server/services/data-dictionary/database`
 
 const err = new Error('test')
@@ -21,7 +21,7 @@ const proxies = {
     }
   },
   [`${logger}`]: {
-    logDebug: () => {}
+    debug: () => {}
   }
 }
 
@@ -87,6 +87,33 @@ describe('With data-dictionary/database', () => {
     })
   })
 
+  describe('When trying to unlock a process', () => {
+    it('should reject when it does not receive a client and process is unlock', (done) => {
+      const subject = proxyquire(subjectPath, proxies)
+      expect(subject.unlock(null)).to.be.rejectedWith('Process unlock: no client found')
+      done()
+    })
+
+    it('should reject when it cant get a process lock', (done) => {
+      const subject = proxyquire(subjectPath, proxies)
+      const mockClient = {
+        query: function (sql, callback) { callback(err, null) }
+      }
+
+      expect(subject.unlock(mockClient)).to.be.rejectedWith('Process unlock')
+      done()
+    })
+
+    it('should resolve client when no errors and rows found', (done) => {
+      const subject = proxyquire(subjectPath, proxies)
+      const mockClient = {
+        query: function (sql, callback) { callback(null, {rows: [1]}) }
+      }
+      expect(subject.unlock(mockClient)).to.become(mockClient)
+      done()
+    })
+  })
+
   describe('When disconnecting', () => {
     it('should resolve when successful', (done) => {
       const subject = proxyquire(subjectPath, proxies)
@@ -96,6 +123,7 @@ describe('With data-dictionary/database', () => {
       expect(subject.disconnect(mockClient)).to.become(mockClient)
       done()
     })
+
     it('should reject when fails', (done) => {
       const subject = proxyquire(subjectPath, proxies)
       const err = new Error('failed')
@@ -105,6 +133,11 @@ describe('With data-dictionary/database', () => {
       expect(subject.disconnect(mockClient)).to.be.rejectedWith(err)
       done()
     })
+
+    it('should reject when it does not receive a client', (done) => {
+      const subject = proxyquire(subjectPath, proxies)
+      expect(subject.disconnect(null)).to.be.rejectedWith('Database disconnect: no client found')
+      done()
+    })
   })
 })
-

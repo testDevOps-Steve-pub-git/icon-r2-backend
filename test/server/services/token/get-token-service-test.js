@@ -36,4 +36,26 @@ describe('get token service test', () => {
       return expect(err).to.have.property('_processType', 'authenticate')
     })
   })
+
+  it('should not genereate new session id for refresh token', () => {
+    const payload = {
+      sessionId: '1'
+    }
+
+    return getTokenService.createToken(TOKEN_TYPE.SESSION, 'gbhu.vpac.me:3000', payload)
+    .then((result) => {
+      return expect(result).to.be.defined
+    })
+  })
+
+  it('should not genereate new submission id for refresh token', () => {
+    const payload = {
+      submissionId: '1'
+    }
+
+    return getTokenService.createToken(TOKEN_TYPE.SUBMISSION, 'gbhu.vpac.me:3000', payload)
+    .then((result) => {
+      return expect(result).to.be.defined
+    })
+  })
 })

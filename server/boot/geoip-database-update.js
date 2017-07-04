@@ -3,8 +3,7 @@
 const geoip = require('geoip-lite')
 const schedule = require('node-schedule')
 const geoipConfig = require(`${__base}/config`).geoip
-const auditor = require(`${__base}/server/logger`)
-const logger = require(`${__base}/server/services/logger-service`)
+const logger = require(`${__base}/server/logger`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 
 function enable () {
@@ -30,8 +29,8 @@ module.exports = function (app) {
     // which will keep the main process running without stopping
     const fork = require('child_process').fork
     // Update the geoip database file
-    logger.logDebug(PROCESS_TYPE.GEO_IP, 'Forking process to update Geo IP database.')
-    auditor.auditLogBackend(PROCESS_TYPE.GEO_IP, 'Updating Geo IP database')
+    logger.debug('Forking process to update Geo IP database.', { processType: PROCESS_TYPE.GEO_IP })
+    logger.auditLogBackend(PROCESS_TYPE.GEO_IP, 'Updating Geo IP database')
     fork('./node_modules/geoip-lite/scripts/updatedb.js', [], {
       detached: false,
       cwd: __base

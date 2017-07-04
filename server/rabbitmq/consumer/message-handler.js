@@ -1,9 +1,8 @@
 'use strict'
 
-const logger = require(`${__base}/server/services/logger-service`)
+const logger = require(`${__base}/server/logger`)
 const task = require(`${__base}/server/rabbitmq/consumer/task`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
-const LOG_LEVELS = require(`${__base}/server/models/log-level`)
 
 /**
  * @module message-handler
@@ -23,10 +22,10 @@ function MessageHandler () {
    * @return {Promise} resolve - message was processed; reject - could not be processed
    */
   function consumeMessageHandler (message, channel) {
-    logger.log(LOG_LEVELS.INFO, PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, 'received message from rabbitmq', message.json)
+    logger.info(`received message from rabbitmq`, Object.assign(message.json, { processType: PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT }))
     return task.startTask(message)
     .then(() => {
-      logger.log(LOG_LEVELS.INFO, PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, 'message proccessed successfully', message.json)
+      logger.info(`message proccessed successfully`, Object.assign(message.json, { processType: PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT }))
     })
     .catch((err) => {
       /**
@@ -39,10 +38,10 @@ function MessageHandler () {
        */
       console.error = function (msg, err) {
         msg = msg + err.message
-        logger.log(LOG_LEVELS.ERROR, PROCESS_TYPE.RABBIT.CONSUMER.AMQPLIB, msg, message.json)
+        logger.error(msg, Object.assign(message.json, { processType: PROCESS_TYPE.RABBIT.CONSUMER.AMQPLIB }))
       }
       if (err.reQueue) {
-        logger.log(LOG_LEVELS.INFO, PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, 'error processing message. Requeueing it again', message.json)
+        logger.info('error processing message. Requeueing it again', Object.assign(message.json, { processType: PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT }))
         throw err
       }
     })

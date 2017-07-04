@@ -23,6 +23,14 @@ describe('token decode payload test', () => {
     submissionId: 'GBHU200'
   }
 
+  const decodedTokenTx = {
+    sessionId: 'GBHU100',
+    phuName: 'Grey Bruce Health Unit',
+    phuId: '6',
+    phuAcronym: 'GBHU',
+    txId: 'GBHU200'
+  }
+
   it('should create session payload', () => {
     const result = tokenDecodePayload.CreateSessionPayload(decodedToken, sessionHeaders)
     expect(result).to.have.property('phuAcronym', 'GBHU')
@@ -32,6 +40,11 @@ describe('token decode payload test', () => {
 
   it('should create submission payload', () => {
     const result = tokenDecodePayload.CreateSubmissionPayload(decodedToken, submissionHeaders)
+    expect(result).to.have.property('phuAcronym', 'GBHU')
+  })
+
+  it('should create submission payload using txID for backwards compatibility', () => {
+    const result = tokenDecodePayload.CreateSubmissionPayload(decodedTokenTx, submissionHeaders)
     expect(result).to.have.property('phuAcronym', 'GBHU')
   })
 })
