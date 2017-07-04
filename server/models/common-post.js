@@ -55,15 +55,4 @@ module.exports = (Model, options = {}) => {
   Model.afterRemote('create', (ctx, modelInstance, next) => {
     afterRemote(ctx, modelInstance, options)
   })
-
-  Model.afterRemoteError('create', (ctx, next) => {
-    let reason
-    if (ctx.error && ctx.error.message) {
-      reason = ctx.error.message.split(':')[0]
-    }
-    next(Object.assign(ctx.error, {
-      statusCode: statusCodes[reason] || statusCodes.INTERNAL_SERVER_ERROR,
-      processType: options.processType
-    }))
-  })
 }

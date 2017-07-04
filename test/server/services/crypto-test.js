@@ -1,10 +1,10 @@
 const expect = require('chai').expect
-const logger = `${__base}/server/logger`
+const logger = `${__base}/server/services/logger-service`
 const proxyquire = require('proxyquire')
 
 const crypto = proxyquire(`${__base}/server/services/crypto.js`, {
   [`${logger}`]: {
-    debug: () => {}
+    logDebug: () => {}
   }
 })
 

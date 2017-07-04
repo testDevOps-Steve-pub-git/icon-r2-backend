@@ -12,15 +12,6 @@ describe('token headers test', () => {
     'x-real-ip': 'text_x_real_ip'
   }
 
-  const headersUsingXAccess = {
-    origin: 'test_origin',
-    referer: 'test_referer',
-    host: 'test_host',
-    'session-token': 'test_session_token',
-    'x-access-token': 'test_x_access_token',
-    'x-real-ip': 'text_x_real_ip'
-  }
-
   const refererTest = {
     referer: 'test_referer'
   }
@@ -52,11 +43,6 @@ describe('token headers test', () => {
   it('should get submission token from headers', () => {
     return expect(tokenHeaders.getSubmissionToken(headers))
     .to.equal('test_submission_token')
-  })
-
-  it('should get submission token from headers using x-access instead of submission token for backwards compatibility', () => {
-    return expect(tokenHeaders.getSubmissionToken(headersUsingXAccess))
-    .to.equal('test_x_access_token')
   })
 
   it('should get ip from headers', () => {

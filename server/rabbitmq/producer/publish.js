@@ -1,8 +1,9 @@
 'use strict'
 
 const rabbitConfig = require(`${__base}/config`).rabbitmq
-const logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/services/logger-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
+const LOG_LEVELS = require(`${__base}/server/models/log-level`)
 
 /**
  * @module publish
@@ -30,15 +31,10 @@ function Publish () {
     amqp.sendToQueue(config, jsonMessage)
     .then(() => {
       // Success state
-      logger.info('message sent to queue', Object.assign(jsonMessage, {
-        processType: PROCESS_TYPE.RABBIT.PUBLISHER
-      }))
+      logger.log(LOG_LEVELS.INFO, PROCESS_TYPE.RABBIT.PUBLISHER, 'message sent to queue', jsonMessage)
     })
     .catch((err) => {
-      logger.error(err.message, Object.assign(err, {
-        processType: PROCESS_TYPE.RABBIT.PUBLISHER,
-        jsonMessage: jsonMessage
-      }))
+      logger.log(LOG_LEVELS.ERROR, PROCESS_TYPE.RABBIT.PUBLISHER, err, jsonMessage)
       throw err
     })
   }

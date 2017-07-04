@@ -136,7 +136,7 @@ function auditLog (processType, statusCode, reqHeaders, reqDecoded, extraObject)
       auditObj.fileCount = fileCount
     }
 
-    if (extraObject && extraObject.transitionPage) {
+    if (extraObject.transitionPage) {
       uriParts = extraObject.transitionPage.split('/')
       if (uriParts.includes(trackingConfig.authWorkflowUri)) {
         auditObj.isAuth = true
@@ -192,25 +192,10 @@ function auditLog (processType, statusCode, reqHeaders, reqDecoded, extraObject)
   })
 }
 
-function logIconError (err) {
-  let metaObject = {
-    processType: err.processType,
-    statusCode: err.statusCode,
-    message: err.message,
-    decoded: err.decoded
-  }
-  if (err.logLevel === 'error') {
-    metaObject['stackTrace'] = err.stackTrace
-  }
-  logger.error(metaObject)
-}
-
 // Public Functions
 module.exports = {
   auditLog: auditLog,
   auditLogBackend: auditLogBackend,
-  logIconError: logIconError,
-  log: logger.log,
   info: logger.info,
   error: logger.error,
   debug: logger.debug,

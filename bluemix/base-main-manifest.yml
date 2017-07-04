@@ -1,0 +1,17 @@
+---
+path: ../
+memory: 2048M
+instances: 1
+disk_quota: 1024M
+buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+services:
+- icon-elasticsearch
+- icon-postgresql
+- icon-rabbitmq
+env:
+  TZ: 'America/Toronto'
+applications:
+- name: icon-server
+  host: icon-server
+  env:
+    SERVER_TYPE: 1 #Starts the publisher only

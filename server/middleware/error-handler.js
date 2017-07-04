@@ -1,6 +1,6 @@
 'use strict'
 
-const logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/services/logger-service`)
 const statusCodes = require(`${__base}/server/models/response-status-code`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const errorHandler = require(`${__base}/server/services/error-service`)
@@ -15,7 +15,6 @@ module.exports = (options) => {
 
       if (!err.logged) {
         logger.logIconError(err)
-        err.logged = true
       }
 
       res.status(err.statusCode || statusCodes.INTERNAL_SERVER_ERROR).end()

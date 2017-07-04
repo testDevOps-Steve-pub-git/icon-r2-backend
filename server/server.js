@@ -14,7 +14,7 @@ global.__base = path.resolve(__dirname, '../')
 
 const config = require(`${__base}/config`) // get our config file
 const logger = require(`${__base}/server/logger`)
-const router = require(`${__base}/server/router`)()
+const router = require(`${__base}/server/router`)
 const appEnv = cfenv.getAppEnv()
 
 const app = module.exports = loopback()
@@ -78,19 +78,8 @@ app.get('/api/lookup/*', router.api.lookup)
 /**
  * Forwards the yellowCard request to PHIX endpoint and returns the response
  */
+app.get('/api/yellowCard', router.api.yellowcardRetrieval)
 app.get('/api/immunizationRetrieval', router.api.immunizationRetrieval)
-
-/**
- * Access and PIN tool
- */
-app.get('/api/access/pin-status', router.api.access.pinStatus)
-app.get('/api/access/hcn-status', router.api.access.hcnStatus)
-app.post('/api/access/validate-hcn', router.api.access.validateHCN)
-app.post('/api/access/validate-token', router.api.access.validateToken)
-app.post('/api/access/set-pin', router.api.access.setPin)
-app.post('/api/access/reset-pin', router.api.access.resetPin)
-app.post('/api/access/reset', router.api.access.reset)
-
 /**
  * Server main entrypoint
  */

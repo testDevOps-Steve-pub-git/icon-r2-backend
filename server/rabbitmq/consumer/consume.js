@@ -1,9 +1,10 @@
 'use strict'
 
 const rabbitConfig = require(`${__base}/config`).rabbitmq
-const logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/services/logger-service`)
 const messageHandler = require(`${__base}/server/rabbitmq/consumer/message-handler`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
+const LOG_LEVELS = require(`${__base}/server/models/log-level`)
 
 /**
  * @module consume
@@ -30,18 +31,14 @@ function Consume () {
     try {
       amqp.consume(config, messageHandler.consumeMessageHandler)
       .then(function () {
-        logger.info('consumer started to consume messages from queue', { processType: PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT })
+        logger.log(LOG_LEVELS.INFO, PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, 'consumer started to consume messages from queue', {})
       })
       .catch(function (err) {
-        logger.error(err.message, Object.assign(err, {
-          processType: PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT
-        }))
+        logger.logError(LOG_LEVELS.ERROR, PROCESS_TYPE.RABBIT.CONSUMER.DEFAULT, err, {})
         throw err
       })
     } catch (err) {
-      logger.error(err.message, Object.assign(err, {
-        processType: PROCESS_TYPE.RABBIT.MQ
-      }))
+      logger.log(LOG_LEVELS.ERROR, PROCESS_TYPE.RABBIT.MQ, err, {})
     }
   }
 

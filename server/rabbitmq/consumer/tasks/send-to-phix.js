@@ -1,8 +1,9 @@
 'use strict'
 
 const requestPromise = require('request-promise')
-const logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/services/logger-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
+const LOG_LEVELS = require(`${__base}/server/models/log-level`)
 
 module.exports = sendToPhix
 
@@ -24,14 +25,13 @@ function prepareOptionObject (immunSubmission, immunObject, submissionConfig) {
 function sendToPhix ([immunSubmission, immunObject, submissionConfig, fileAttachmentCount]) {
   return requestPromise(prepareOptionObject(immunSubmission, immunObject, submissionConfig))
         .then((response) => {
-          logger.info(response.body, {
-            processType: PROCESS_TYPE.RABBIT.CONSUMER.PHIX,
-            statusCode: response.statusCode,
+          logger.log(LOG_LEVELS.INFO, PROCESS_TYPE.RABBIT.CONSUMER.PHIX, response.body, {
             decoded: {
               sessionId: immunSubmission.sessionId,
               submissionId: immunSubmission.transactionId,
               fileAttachmentCount: fileAttachmentCount
-            }
+            },
+            statusCode: response.statusCode
           })
 
           return {
@@ -52,7 +52,7 @@ function sendToPhix ([immunSubmission, immunObject, submissionConfig, fileAttach
         })
         .catch((err) => {
           err.result = err.result || 'UNKNOWN'
-          logger.error(`Send to Phix failed: ${err.message}`, { processType: PROCESS_TYPE.RABBIT.CONSUMER.PHIX })
+          logger.log(LOG_LEVELS.ERROR, PROCESS_TYPE.RABBIT.CONSUMER.PHIX, `Send to Phix failed: ${err.message}`, {})
           throw err
         })
 }

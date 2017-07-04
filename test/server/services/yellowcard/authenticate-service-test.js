@@ -1,0 +1,76 @@
+const expect = require('chai').expect
+const authenticateService = require(`${__base}/server/services/yellowcard/authenticate-service`)
+
+describe('Yellowcard authenticate service', () => {
+  it('should create session', () => {
+    let sessionId, clientip, token, phuName, phuAcronym, oiid, pin, relationship, language
+
+    sessionId = 'TEST_SESSION_ID'
+    clientip = 'TEST_CLIENT_IP'
+    token = 'TEST_TOKEN'
+    phuName = 'TEST_PHU_NAME'
+    phuAcronym = 'TEST_PHU_ACRONYM'
+    oiid = 'TEST_OIID'
+    pin = 'TEST_PIN'
+    relationship = 'TEST_RELATIONSHIP'
+    language = 'TEST_LANGUAGE'
+
+    const result = authenticateService.create.session(sessionId, clientip, token, phuName, phuAcronym, oiid, pin, relationship, language)
+    expect(result).to.have.property('token', 'TEST_TOKEN')
+    expect(result).to.have.property('metaData')
+    expect(result).to.have.property('client')
+
+    if (result.client) {
+      expect(result.client).to.have.property('oiid', 'TEST_OIID')
+      expect(result.client).to.have.property('pin', 'TEST_PIN')
+      expect(result.client).to.have.property('relationship', 'TEST_RELATIONSHIP')
+      expect(result.client).to.have.property('language', 'TEST_LANGUAGE')
+    } else {
+      expect.fail()
+    }
+
+    if (result.metaData) {
+      expect(result.metaData).to.have.property('sessionId', 'TEST_SESSION_ID')
+      expect(result.metaData).to.have.property('clientip', 'TEST_CLIENT_IP')
+      expect(result.metaData).to.have.property('phuName', 'TEST_PHU_NAME')
+      expect(result.metaData).to.have.property('phuAcronym', 'TEST_PHU_ACRONYM')
+    } else {
+      expect.fail()
+    }
+  })
+
+  it('should create error message with no conditions', () => {
+    const errorConditions = {
+      hasOiid: false,
+      hasPin: false,
+      hasRelationship: false
+    }
+
+    const expectedResult = `WARNING: Certain Parameters were not passed: {OIID, PIN, RELATIONSHIP}`
+
+    const result = authenticateService.create.errorMessage(errorConditions)
+    expect(result).to.be.equal(expectedResult)
+  })
+
+  it('should create error message with some missing conditions', () => {
+    const errorConditions = {
+      hasOiid: true,
+      hasPin: false,
+      hasRelationship: true
+    }
+
+    const expectedResult = `WARNING: Certain Parameters were not passed: {PIN}`
+
+    const result = authenticateService.create.errorMessage(errorConditions)
+    expect(result).to.be.equal(expectedResult)
+  })
+
+  it('should inform of lack of conditions parameters', () => {
+    const errorConditions = {}
+
+    const expectedResult = `WARNING: Certain Parameters were not passed: {set of conditions were not passed in. Could not validate the error (regarding oiid, pin, and relationship)}`
+
+    const result = authenticateService.create.errorMessage(errorConditions)
+    expect(result).to.be.equal(expectedResult)
+  })
+})

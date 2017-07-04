@@ -1,6 +1,6 @@
 'use strict'
 
-const logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/services/logger-service`)
 const errorService = require(`${__base}/server/services/error-service`)
 const tokenService = require(`${__base}/server/services/token-service`)
 const tokenHeaders = require(`${__base}/server/models/token-headers`)

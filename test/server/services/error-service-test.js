@@ -44,16 +44,4 @@ describe('error service', () => {
     return expect(result)
     .to.have.property('statusCode', 911)
   })
-
-  it('should skip inherited options', () => {
-    var inheritOptions = {test: 'test'}
-    var options = Object.create(inheritOptions)
-    options.statusCode = 911
-    options.decoded = 'decoded_token'
-    options.processType = processTypes.ICON
-
-    let result = errorService.IconCustomInfo('This is a test', options)
-    return expect(result)
-    .to.not.have.property('test')
-  })
 })

@@ -1,7 +1,7 @@
 'use strict'
 
 const Promise = require('bluebird')
-const logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/services/logger-service`)
 const errorService = require(`${__base}/server/services/error-service`)
 const tokenService = require(`${__base}/server/services/token-service`)
 const tokenDecodePayload = require(`${__base}/server/models/token-decode-payload`)

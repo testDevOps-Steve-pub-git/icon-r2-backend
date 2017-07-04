@@ -2,7 +2,7 @@
 
 const crypto = require('crypto')
 const Promise = require('bluebird')
-const logger = require(`${__base}/server/logger`)
+const logger = require(`${__base}/server/services/logger-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 
 module.exports = {
@@ -19,15 +19,15 @@ module.exports = {
 function encrypt (buffer, config) {
   return new Promise((resolve, reject) => {
     try {
-      logger.debug('Encrypting data', { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })
+      logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Encrypting data')
       const cipher = crypto.createCipher(config.algorithm, config.password)
       let crypted = cipher.update(buffer)
       crypted = Buffer.concat([ crypted, cipher.final() ])
 
-      logger.debug('Data encrypted', { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })
+      logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Data encrypted')
       resolve(crypted)
     } catch (err) {
-      logger.debug('Data encryption failed', { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })
+      logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Data encryption failed')
       reject(err)
     }
   })
@@ -42,15 +42,15 @@ function encrypt (buffer, config) {
 function decrypt (buffer, config) {
   return new Promise((resolve, reject) => {
     try {
-      logger.debug('Decrypting data', { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })
+      logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Decrypting data')
       const decipher = crypto.createDecipher(config.algorithm, config.password)
       let dec = decipher.update(buffer)
       dec = Buffer.concat([ dec, decipher.final() ])
 
-      logger.debug('Data decrypted', { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })
+      logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Data decrypted')
       resolve(dec)
     } catch (err) {
-      logger.debug('Data decryption failed', { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })
+      logger.logDebug(PROCESS_TYPE.SUBMISSION.CRYPTO, 'Data decryption failed')
       reject(err)
     }
   })

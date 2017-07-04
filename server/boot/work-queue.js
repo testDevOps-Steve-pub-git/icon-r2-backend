@@ -1,9 +1,8 @@
 'use strict'
 
-const config = require(`${__base}/config`)
-const logger = require(`${__base}/server/logger`)
-const SERVER_TYPE = require(`${__base}/server/models/server-type`)
-const PROCESS_TYPES = require(`${__base}/server/models/process-type`)
+const config = require(__base + '/config')
+const logger = require(__base + '/server/services/logger-service')
+const SERVER_TYPE = require(__base + '/server/models/server-type')
 let publish
 let consume
 
@@ -43,17 +42,17 @@ module.exports = function (app) {
    * @function no publisher or consumer; stub add to q
    */
   function none () {
-    if (!process.env.NODE_ENV === 'test') logger.debug('no publisher or consumer', { processType: PROCESS_TYPES.RABBIT.MQ })
+    if (!process.env.NODE_ENV === 'test') logger.log('info', 'server', 'no publisher or consumer', {})
     app.addToQueue = (message) => {
       // uncomment to see what message are going through
-      // logger.debug(`no publisher to queue: ${message}`, { processType: PROCESS_TYPES.RABBIT.MQ })
+      // logger.log('info', 'ampq', `no publisher to queue: ${message}`)
     }
   }
   /**
    * @function startConsumer Starts the consumer
    */
   function startConsumer () {
-    logger.debug('starting consumer', { processType: PROCESS_TYPES.RABBIT.MQ })
+    logger.log('info', 'server', 'starting consumer', {})
     consume.consumer()
   }
 
@@ -61,7 +60,7 @@ module.exports = function (app) {
    * @function startPublisher Create 'addToQueue' function to publish the message to the rabbitmq queue
    */
   function startPublisher () {
-    logger.debug('starting publisher', { processType: PROCESS_TYPES.RABBIT.MQ })
+    logger.log('info', 'server', 'starting publisher', {})
     /**
      * @function addToQueue Function used to publish the message to the rabbitmq queue
      * @param {Object} jsonMessage Represent the message in JSON format to be store to rabbitmq queue

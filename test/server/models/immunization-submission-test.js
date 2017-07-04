@@ -22,7 +22,6 @@ const stubs = {
     error: () => {},
     debug: () => {},
     info: () => {},
-    logIconError: () => {},
     '@global': true
   }
 }
