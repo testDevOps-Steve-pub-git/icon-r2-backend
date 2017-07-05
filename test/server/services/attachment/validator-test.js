@@ -18,10 +18,4 @@ describe('Validator test', () => {
     const result = validator.validType(testFile, config)
     return expect(result).to.be.true
   })
-
-  it('should return true when validator is disabled', () => {
-    delete config.limit
-    const result = validator.validLimit(testFile, 'TEST_TX_ID', config)
-    return expect(result).to.eventually.be.true
-  })
 })

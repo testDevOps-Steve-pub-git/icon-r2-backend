@@ -46,6 +46,15 @@ const PROCESS_TYPE = {
     },
     PUBLISHER: 'rabbitmq; publisher'
   },
+  ACCESS: {
+    PIN_STATUS: 'access; pin-status',
+    VALIDATE_HCN: 'access; validate-hcn',
+    SET_PIN: 'access; set-pin',
+    HCN_STATUS: 'access; hcn-status',
+    RESET_ACCESS: 'access; reset-access',
+    VALIDATE_TOKEN: 'access; validate-token',
+    RESET_PIN: 'access; reset=pin'
+  },
   AUDIT_UPDATE: 'audit;update',
   DATA_DICT: 'data-dictionary',
   GEO_IP: 'geo-ip',

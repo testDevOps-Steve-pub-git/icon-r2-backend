@@ -4,12 +4,12 @@ const copyFrom = require('pg-copy-streams').from
 const request = require('request')
 const Promise = require('bluebird')
 const config = require(`${__base}/config.js`)
-const logger = require(`${__base}/server/services/logger-service`)
+const logger = require(`${__base}/server/logger`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const replace = require('stream-replace')
 
 function importDomain (client, domain) {
-  logger.logDebug(PROCESS_TYPE.DATA_DICT, `Importing ${domain.dictionary} from ${config.dataDictionary.dhir.uri}${domain.dictionary}`)
+  logger.debug(`Importing ${domain.dictionary} from ${config.dataDictionary.dhir.uri}${domain.dictionary}`, { processType: PROCESS_TYPE.DATA_DICT })
   return new Promise((resolve, reject) => {
     let stream = client.query(copyFrom(`COPY ${domain.table} FROM STDIN;`))
 
@@ -35,11 +35,11 @@ function importDomain (client, domain) {
 }
 
 module.exports = (client) => {
-  logger.logDebug(PROCESS_TYPE.DATA_DICT, 'Importing domains')
+  logger.debug('Importing domains', { processType: PROCESS_TYPE.DATA_DICT })
   return Promise.map(config.dataDictionary.domains, (domain) => {
     return importDomain(client, domain)
       .then(() => {
-        logger.logInfo(PROCESS_TYPE.DATA_DICT, `Imported ${domain.dictionary} from ${config.dataDictionary.dhir.uri}${domain.dictionary}`)
+        logger.info(`Imported ${domain.dictionary} from ${config.dataDictionary.dhir.uri}${domain.dictionary}`, { processType: PROCESS_TYPE.DATA_DICT })
       })
   })
   .then(() => { return client })

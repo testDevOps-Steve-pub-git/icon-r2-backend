@@ -4,7 +4,7 @@ const pg = require('pg')
 const Cron = require('cron-converter')
 const moment = require('moment')
 const config = require(`${__base}/config.js`)
-const logger = require(`${__base}/server/services/logger-service`)
+const logger = require(`${__base}/server/logger`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const Promise = require('bluebird')
 
@@ -16,7 +16,7 @@ module.exports = {
 }
 
 function connect () {
-  logger.logDebug(PROCESS_TYPE.DATA_DICT, 'Connecting to database')
+  logger.debug('Connecting to database', { processType: PROCESS_TYPE.DATA_DICT })
   return new Promise((resolve, reject) => {
     let client = new pg.Client(config.postgres.writer)
     client.connect((err, client) => {
@@ -24,7 +24,7 @@ function connect () {
         err.message = `Database connect: ${err.message}`
         reject(err)
       } else {
-        logger.logDebug(PROCESS_TYPE.DATA_DICT, 'Connected to database')
+        logger.debug('Connected to database', { processType: PROCESS_TYPE.DATA_DICT })
         resolve(client)
       }
     })
@@ -41,7 +41,7 @@ function getIntervalInMinutes () {
     let nextRun = new Cron().fromString(cronString).schedule().next()   // get the next scheduled run
     return moment.duration(moment(nextRun).diff(moment())).asMinutes()  // return minutes between then and now
   } catch (err) {
-    logger.logError(PROCESS_TYPE.DATA_DICT, `Error in calculating interval for dictionary update. Defaulting to 30 days: ${err}`)
+    logger.error(`Error in calculating interval for dictionary update. Defaulting to 30 days: ${err}`, { processType: PROCESS_TYPE.DATA_DICT })
     return 30 * 24 * 60 // 30 days
   }
 }
@@ -56,13 +56,13 @@ function lock (client) {
     if (client) {
       client.query(lockSql(), (err, result) => {
         if (err) {
-          logger.logDebug(PROCESS_TYPE.DATA_DICT, `Failed to get a lock err. This is expected for multiple servers: ${err.message}`)
+          logger.debug(`Failed to get a lock err. This is expected for multiple servers: ${err.message}`, { processType: PROCESS_TYPE.DATA_DICT })
           reject(new Error('Failed to get a lock'))
         } else if (!result.rows || result.rows.length === 0) {
-          logger.logDebug(PROCESS_TYPE.DATA_DICT, 'Already update for this period. This is expected for multiple servers.')
+          logger.debug('Already update for this period. This is expected for multiple servers.', { processType: PROCESS_TYPE.DATA_DICT })
           reject(new Error('Already updated'))
         } else {
-          logger.logDebug(PROCESS_TYPE.DATA_DICT, 'Process locked. Updating.')
+          logger.debug('Process locked. Updating.', { processType: PROCESS_TYPE.DATA_DICT })
           resolve(client)
         }
       })
@@ -77,7 +77,7 @@ function unlockSql () {
 }
 
 function unlock (client) {
-  logger.logDebug(PROCESS_TYPE.DATA_DICT, 'Unlocking process.')
+  logger.debug('Unlocking process.', { processType: PROCESS_TYPE.DATA_DICT })
   return new Promise((resolve, reject) => {
     if (client) {
       client.query(unlockSql(), (err, result) => {
@@ -85,7 +85,7 @@ function unlock (client) {
           err.message = `Process unlock: ${err.message}`
           reject(err)
         } else {
-          logger.logDebug(PROCESS_TYPE.DATA_DICT, 'Unlocked.')
+          logger.debug('Unlocked.', { processType: PROCESS_TYPE.DATA_DICT })
           resolve(client)
         }
       })
@@ -96,7 +96,7 @@ function unlock (client) {
 }
 
 function disconnect (client) {
-  logger.logDebug(PROCESS_TYPE.DATA_DICT, 'Disconnecting from database')
+  logger.debug('Disconnecting from database', { processType: PROCESS_TYPE.DATA_DICT })
   return new Promise((resolve, reject) => {
     if (client) {
       client.end((err) => {
@@ -112,4 +112,3 @@ function disconnect (client) {
     }
   })
 }
-

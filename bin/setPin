@@ -1,0 +1,19 @@
+OIID=$1 #"TLRHTBQ37S"
+PIN=$2 #"123123"
+HCN=$3 #"9999999999"
+EMAIL=$4 #"test@test.com"
+
+ENDPOINT="${baseUrl}access/set-pin"
+
+echo "oiid: $OIID"
+echo "pin: $PIN"
+echo "hcn: $HCN"
+echo "email: $EMAIL"
+
+curl -X POST \
+  -vvv \
+  -H "session-token: $SESSION_TOKEN" \
+  -H "Content-Type:application/json" \
+  -H "Accept:application/json, text/plain, */*" \
+  --data '{"oiid":"'"$OIID"'", "hcn":"'"$HCN"'", "immunizations-context":"'"$PIN"'", "email":"'"$EMAIL"'"}' \
+  $ENDPOINT

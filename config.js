@@ -132,6 +132,20 @@ module.exports = {
     },
     repostCodes: [400, 406, 409, 412, 422]
   },
+  access: {
+    url: nconf.get('DHIR_ENDPOINT_ACCESS'),
+    token: nconf.get('DHIR_ENDPOINT_ACCESS_TOKEN'),
+    queryString: (oiid) => `?patient.identifier=http://ca-on-panorama-immunization-id|${oiid}`,
+    endPoints: {
+      pinStatus: '$Status',
+      validateHcn: '$ValidateHCN',
+      setPin: '$SetPIN',
+      hcnStatus: '$HCNStatus',
+      resetAccess: '$ResetAccess',
+      validateToken: '$ValidateToken',
+      resetPin: '$ResetPIN'
+    }
+  },
   elasticSearch: {
     url: process.env.ELASTIC_SEARCH_ENDPOINT || getService('icon-elasticsearch')
   },

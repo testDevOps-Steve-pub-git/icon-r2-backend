@@ -3,6 +3,7 @@ const Audit = require(`${__base}/server/models/audit`)
 
 describe('Audit model', () => {
   let audit = new Audit('TEST_PROCESS_TYPE', 200)
+  const testLanguage = 'en'
 
   it('should create default audit model', () => {
     expect(audit).to.have.property('timestamp')
@@ -48,5 +49,35 @@ describe('Audit model', () => {
     } catch (err) {
       expect.fail()
     }
+  })
+
+  it('should have toList function', () => {
+    let audit = new Audit('TEST_PROCESS_TYPE', 200)
+    const toList = audit.toList()
+    expect(toList).to.have.property('timestamp')
+    expect(toList).to.have.property('message')
+    expect(toList).to.have.property('processType')
+    expect(toList).to.have.property('responseStatusCode')
+    expect(toList).to.have.property('clientip')
+    expect(toList).to.have.property('phuName')
+    expect(toList).to.have.property('phuAcronym')
+    expect(toList).to.have.property('sessionId')
+    expect(toList).to.have.property('submissionId')
+    expect(toList).to.have.property('browserName')
+    expect(toList).to.have.property('os')
+    expect(toList).to.have.property('device')
+    expect(toList).to.have.property('location')
+    expect(toList).to.have.property('isMobile')
+    expect(toList).to.have.property('setLanguage')
+    expect(toList).to.have.property('referer')
+    expect(toList).to.have.property('fileCount')
+    expect(toList).to.have.property('isAuth')
+  })
+
+  it('should change the language', () => {
+    let audit = new Audit('TEST_PROCESS_TYPE', 200)
+    audit.setLanguage = testLanguage
+    const language = audit.setLanguage
+    expect(language).to.equal(testLanguage)
   })
 })
