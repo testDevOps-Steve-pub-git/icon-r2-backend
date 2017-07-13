@@ -39,12 +39,15 @@ function encrypt (buffer, config) {
  * @param {Object} config - Contains the algorithm and password used for decryption
  * @return {Promise<Buffer>} - Promise to the decrypted buffer
  */
-function decrypt (buffer, config) {
+function decrypt (buffer, config, encoding = null) {
   return new Promise((resolve, reject) => {
     try {
-      logger.debug('Decrypting data', { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })
+      logger.debug(`Decrypting data ${encoding}`, { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })
       const decipher = crypto.createDecipher(config.algorithm, config.password)
-      let dec = decipher.update(buffer)
+
+      let data = encoding ? buffer.toString() : buffer // only encrypted files use encoding
+      let dec = decipher.update(data, encoding) // encoding for files not buffers
+
       dec = Buffer.concat([ dec, decipher.final() ])
 
       logger.debug('Data decrypted', { processType: PROCESS_TYPE.SUBMISSION.CRYPTO })

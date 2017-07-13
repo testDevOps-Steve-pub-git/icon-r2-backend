@@ -1,0 +1,27 @@
+source 'baseUrl'
+source 'tokens'
+
+OIID="GM29BJXKBV"
+# PIN=$2
+
+# PIN="123123"
+# Gives this context:
+CONTEXT="eyJwaW4iOiI5NmNhZTM1Y2U4YTliMDI0NDE3OGJmMjhlNDk2NmMyY2UxYjgzODU3MjNhOTZhNmI4Mzg4NThjZGQ2Y2EwYTFlIn0="
+
+# CONTEXT=$(NODE_PATH=`npm config get prefix`/lib/node_modules ./encodePin $PIN)
+ENDPOINT="${baseUrl}immunizationRetrieval"
+
+echo "Pin: $PIN"
+echo "Context: $CONTEXT"
+echo "Oiid: $OIID"
+echo "(valid oiid: GM29BJXKBV)"
+# echo "Endpoint: $ENDPOINT"
+
+ab -c 20 -n 250 \
+  -H "session-token: $SESSION_TOKEN" \
+  -H "x-access-token: $SUBMISSION_TOKEN" \
+  -H "Content-Type:application/json" \
+  -H "Accept:application/json, text/plain, */*" \
+  -H "OIID: $OIID" \
+  -H "immunizations-context: $CONTEXT" \
+  $ENDPOINT

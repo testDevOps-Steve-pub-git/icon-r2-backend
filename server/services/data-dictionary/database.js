@@ -15,8 +15,8 @@ module.exports = {
   unlock: unlock
 }
 
-function connect () {
-  logger.debug('Connecting to database', { processType: PROCESS_TYPE.DATA_DICT })
+function connect (processType = PROCESS_TYPE.DATA_DICT) {
+  logger.debug('Connecting to database', { processType })
   return new Promise((resolve, reject) => {
     let client = new pg.Client(config.postgres.writer)
     client.connect((err, client) => {
@@ -24,7 +24,7 @@ function connect () {
         err.message = `Database connect: ${err.message}`
         reject(err)
       } else {
-        logger.debug('Connected to database', { processType: PROCESS_TYPE.DATA_DICT })
+        logger.debug('Connected to database', { processType })
         resolve(client)
       }
     })
@@ -95,8 +95,8 @@ function unlock (client) {
   })
 }
 
-function disconnect (client) {
-  logger.debug('Disconnecting from database', { processType: PROCESS_TYPE.DATA_DICT })
+function disconnect (client, processType = PROCESS_TYPE.DATA_DICT) {
+  logger.debug('Disconnecting from database', { processType })
   return new Promise((resolve, reject) => {
     if (client) {
       client.end((err) => {

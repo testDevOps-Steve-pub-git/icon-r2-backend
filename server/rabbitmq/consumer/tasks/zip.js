@@ -8,7 +8,7 @@ const logger = require(`${__base}/server/logger`)
 
 module.exports = (files) => {
   return new Promise((resolve, reject) => {
-    if (files) {
+    if (files && files.length && files.length > 0) {
       logger.debug('Zipping uploaded files.', { processType: PROCESS_TYPE.SUBMISSION.ZIPPING })
       const outputFileName = 'iconZip'
 

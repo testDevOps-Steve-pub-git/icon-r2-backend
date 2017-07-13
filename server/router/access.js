@@ -3,7 +3,6 @@
 const pinStatus = require(`${__base}/server/routes/access/pin-status`)
 const setPin = require(`${__base}/server/routes/access/set-pin`)
 const resetPin = require(`${__base}/server/routes/access/reset-pin`)
-const hcnStatus = require(`${__base}/server/routes/access/hcn-status`)
 const validateHCN = require(`${__base}/server/routes/access/validate-hcn`)
 const validateToken = require(`${__base}/server/routes/access/validate-token`)
 const reset = require(`${__base}/server/routes/access/reset`)
@@ -14,7 +13,6 @@ module.exports = {
   pinStatus: [token.authenticateSessionToken, pinStatus, dhirRouter],
   setPin: [token.authenticateSessionToken, setPin, dhirRouter],
   resetPin: [token.authenticateSessionToken, resetPin, dhirRouter],
-  hcnStatus: [token.authenticateSessionToken, hcnStatus, dhirRouter],
   validateHCN: [token.authenticateSessionToken, validateHCN, dhirRouter],
   validateToken: [token.authenticateSessionToken, validateToken, dhirRouter],
   reset: [token.authenticateSessionToken, reset, dhirRouter]

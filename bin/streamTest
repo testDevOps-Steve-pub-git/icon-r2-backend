@@ -1,0 +1,8 @@
+./streamFile-Auth test-doc.doc application/msword
+./streamFile-Auth test-docx.docx application/vnd.openxmlformats-officedocument.wordprocessingml.document
+./streamFile-Auth test-pdf.pdf application/pdf
+./streamFile-Auth testBig.png image/png
+./streamFile-Auth test1.2MB.jpeg image/jpeg
+./streamFile-Auth testTooBig.png image/png
+./streamFile-Auth test-rtf.rtf application/rtf
+./streamFile-Auth test.txt text/plain

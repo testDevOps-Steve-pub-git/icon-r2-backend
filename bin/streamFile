@@ -1,0 +1,12 @@
+endpoint='SubmissionAttachments'
+
+curl -X POST \
+  -vvvv \
+  -H "session-token: $SESSION_TOKEN" \
+  -H "x-access-token: $SUBMISSION_TOKEN" \
+  -H "Content-Type: multipart/form-data" \
+  -H "Accept:application/json, text/plain, */*" \
+  -F "data=@test$2.png;type=image/png" \
+  -F "name=file" \
+  -F "filename=$" \
+  $baseUrl$endpoint

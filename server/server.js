@@ -1,10 +1,7 @@
 const loopback = require('loopback')
 const boot = require('loopback-boot')
-// const clamav = require('clamav.js')
 const path = require('path')
 const diehard = require('diehard')
-const bodyParser = require('body-parser')
-const multer = require('multer')
 const cfenv = require('cfenv')
 
 /**
@@ -18,10 +15,6 @@ const router = require(`${__base}/server/router`)()
 const appEnv = cfenv.getAppEnv()
 
 const app = module.exports = loopback()
-
-app.use(bodyParser.json())                           // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true }))   // for parsing application/x-www-form-urlencoded
-app.use(multer().any())                              // for parsing multipart/form-data
 
 /**
  * Set the data that will be used in datasource.json file
@@ -84,12 +77,16 @@ app.get('/api/immunizationRetrieval', router.api.immunizationRetrieval)
  * Access and PIN tool
  */
 app.get('/api/access/pin-status', router.api.access.pinStatus)
-app.get('/api/access/hcn-status', router.api.access.hcnStatus)
 app.post('/api/access/validate-hcn', router.api.access.validateHCN)
 app.post('/api/access/validate-token', router.api.access.validateToken)
 app.post('/api/access/set-pin', router.api.access.setPin)
 app.post('/api/access/reset-pin', router.api.access.resetPin)
 app.post('/api/access/reset', router.api.access.reset)
+
+app.get('/', (req, res, next) => {
+  res.status(404)
+  res.end()
+})
 
 /**
  * Server main entrypoint

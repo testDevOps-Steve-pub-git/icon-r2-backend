@@ -14,7 +14,10 @@ function getDecryptedFileObject (files, cryptoConfig) {
   return files
         .reduce((promise, file) => {
           return promise
-                .then(() => cipher.decrypt(file.fileContent, cryptoConfig))
+                .then(() => {
+                  // pass encryption separately as its only used for files and not fhir
+                  return cipher.decrypt(file.fileContent, cryptoConfig, cryptoConfig.fileEncoding)
+                })
                 .then((decryptedFileContent) => {
                   fileObject.push({
                     content: decryptedFileContent,

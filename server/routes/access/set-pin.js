@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
       oiid: req.body.oiid,
       hcn: req.body.hcn,
       email: req.body.email,
+      role: req.body.role,
       pin: req.body['immunizations-context'],
       sessionToken: req.headers['session-token']
     }

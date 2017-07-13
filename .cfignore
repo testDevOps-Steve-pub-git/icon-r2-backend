@@ -6,3 +6,4 @@ test
 local.json
 local-sample.json
 node_modules
+package-lock.json

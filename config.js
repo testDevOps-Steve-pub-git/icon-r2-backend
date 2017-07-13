@@ -49,10 +49,11 @@ module.exports = {
       'application/rtf'
     ],
     // delete this key or set it to 0 to remove attachment size limit
-    size: process.env.MAX_INDIVIDUAL_FILE_SIZE || 5 * 1024 * 1024, // 5 MB
+    size: process.env.MAX_INDIVIDUAL_FILE_SIZE || 5 * 1024 * 1024 // 5 MB
 
-    // delete this key or set it to 0 to remove attachment limit
-    limit: process.env.MAX_UPLOAD_FILES_LIMIT || 2 // max file that can be uploaded by single client
+    // Total # of files that can be upload is controlled in the database - there
+    // is a trigger on the Submission_Attachment table that limits the number of
+    // files any one user session can upload.
   },
 
   // Type of server to start.
@@ -66,9 +67,10 @@ module.exports = {
 
   crypto: {
     enabled: true, // setting this to false will disable encrpyting of data stored in the database - be careful!
-    // Never change the crypto password once it is in production or else previous encrypted information won't be able to decryt
+    // If you change this value, make sure the database is empty first or you wont be able to decrypt inflight data
     password: nconf.get('CRYPTO_PASSWORD'),
-    algorithm: 'aes-256-cbc'
+    algorithm: 'aes-256-cbc',
+    fileEncoding: 'base64'
   },
   isProduction: process.env.NODE_SERVER_PRODUCTION_MODE || false, // Change the value to true if the app is in production
   isTest: process.env.NODE_ENV === 'test',
@@ -135,12 +137,11 @@ module.exports = {
   access: {
     url: nconf.get('DHIR_ENDPOINT_ACCESS'),
     token: nconf.get('DHIR_ENDPOINT_ACCESS_TOKEN'),
-    queryString: (oiid) => `?patient.identifier=http://ca-on-panorama-immunization-id|${oiid}`,
+    queryString: (oiid) => `?Patient.identifier=http://ca-on-panorama-immunization-id|${oiid}`,
     endPoints: {
-      pinStatus: '$Status',
+      pinStatus: '$ClientStatus',
       validateHcn: '$ValidateHCN',
       setPin: '$SetPIN',
-      hcnStatus: '$HCNStatus',
       resetAccess: '$ResetAccess',
       validateToken: '$ValidateToken',
       resetPin: '$ResetPIN'

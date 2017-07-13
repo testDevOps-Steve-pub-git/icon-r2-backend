@@ -1,5 +1,6 @@
 'use strict'
 
+const debug = require('debug')('task')
 const Promise = require('bluebird')
 const getDecryptedFiles = require(`${__base}/server/rabbitmq/consumer/tasks/get-decrypted-files`)
 const sendToPhix = require(`${__base}/server/rabbitmq/consumer/tasks/send-to-phix`)
@@ -7,6 +8,7 @@ const deleteData = require(`${__base}/server/rabbitmq/consumer/tasks/delete-data
 const auditSubmission = require(`${__base}/server/rabbitmq/consumer/tasks/audit-submission`)
 const errorService = require(`${__base}/server/services/error-service`)
 const zip = require(`${__base}/server/rabbitmq/consumer/tasks/zip`)
+const scan = require(`${__base}/server/rabbitmq/consumer/tasks/virus-scan`)
 const app = require(`${__base}/server/server`)
 const cipher = require(`${__base}/server/services/crypto`)
 const config = require(`${__base}/config`)
@@ -22,16 +24,34 @@ module.exports = task()
 function task () {
   function getZipFile (transactionId) {
     return getDecryptedFiles(app, transactionId, config.crypto)
+           .then(scan)
            .then(zip)
   }
 
   function appendZipToFhir (immunObject, zipBase64) {
+    if (debug.enabled) {
+      let display = zipBase64.slice(0, 31)
+      let remainder = zipBase64.length - 32
+      if (remainder < 0) { remainder = 0 }
+
+      immunObject.payload.push({
+        'contentAttachment': {
+          'contentType': 'application/zip',
+          'data': `${display}... (${remainder} byte${remainder === 1 ? '' : 's'} truncated)`
+        }
+      })
+      debug(`Payload with redacted data: ${JSON.stringify(immunObject)}`)
+
+      immunObject.payload.pop()
+    }
+
     var zipContent = {
       'contentAttachment': {
         'contentType': 'application/zip',
         'data': zipBase64
       }
     }
+
     immunObject.payload.push(zipContent)
     return immunObject
   }

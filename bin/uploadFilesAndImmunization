@@ -2,8 +2,11 @@ source 'baseUrl'
 
 source 'tokens'
 
-source 'uploadFile'
+# source 'uploadFile'
 
-source 'uploadFile'
+# source 'uploadFile'
+
+source 'streamFile'
+source 'streamFile'
 
 source 'ImmunizationSubmission'

@@ -1,7 +1,7 @@
-OIID=$1 #"TLRHTBQ37S"
-PIN=$2 #"123123"
-HCN=$3 #"9999999999"
-EMAIL=$4 #"test@test.com"
+OIID="ZPH6BL29BP"
+PIN="123123"
+HCN="9999999999"
+EMAIL="test@test.com"
 
 ENDPOINT="${baseUrl}access/set-pin"
 
