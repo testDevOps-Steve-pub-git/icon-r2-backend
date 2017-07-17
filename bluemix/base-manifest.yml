@@ -3,7 +3,6 @@ path: ../
 memory: 2048M
 instances: 1
 disk_quota: 1024M
-buildpack: https://github.com/cloudfoundry/nodejs-buildpack
 services:
 - icon-elasticsearch
 - icon-postgresql

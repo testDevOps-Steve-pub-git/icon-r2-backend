@@ -2,6 +2,7 @@ OIID="ZPH6BL29BP"
 PIN="123123"
 HCN="9999999999"
 EMAIL="test@test.com"
+ROLE="ONESELF"
 
 ENDPOINT="${baseUrl}access/set-pin"
 
@@ -15,5 +16,5 @@ curl -X POST \
   -H "session-token: $SESSION_TOKEN" \
   -H "Content-Type:application/json" \
   -H "Accept:application/json, text/plain, */*" \
-  --data '{"oiid":"'"$OIID"'", "hcn":"'"$HCN"'", "immunizations-context":"'"$PIN"'", "email":"'"$EMAIL"'"}' \
+  --data '{"oiid":"'"$OIID"'", "role":"'"$ROLE"'", "hcn":"'"$HCN"'", "immunizations-context":"'"$PIN"'", "email":"'"$EMAIL"'"}' \
   $ENDPOINT

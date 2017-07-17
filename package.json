@@ -1,6 +1,6 @@
 {
   "name": "ICON",
-  "version": "2.24.1",
+  "version": "2.1.38",
   "main": "server/server.js",
   "scripts": {
     "lint": "standard --verbose | snazzy",
@@ -79,8 +79,8 @@
     ]
   },
   "engines": {
-    "node": "8.1.3",
-    "npm": "5.0.3"
+    "node": "8.1.4",
+    "npm": "5.3.0"
   },
   "repository": {
     "type": "",

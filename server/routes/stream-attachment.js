@@ -33,6 +33,9 @@ function disconnect () {
   db.disconnect(client, processTypes.FILE_UPLOAD)
 }
 
+// used to prevent double res writing
+let errorCaught = false
+
 module.exports = (req, res, next) => {
   metadata.decoded = req.decoded
 
@@ -45,6 +48,7 @@ module.exports = (req, res, next) => {
         const stream = client.query(copyFrom(sqlCopy))
         const busboy = new Busboy({ headers: req.headers })
         const meter = new Meter(config.attachment.size)
+
         let fileEnded = false
 
         stream.on('error', (err) => {
@@ -101,9 +105,11 @@ module.exports = (req, res, next) => {
 
         // all done!
         stream.on('end', () => {
-          res.writeHead(200, { 'Connection': 'close' })
-          res.end('OK')
-          resolve(client)
+          if (!errorCaught) {
+            res.writeHead(200, { 'Connection': 'close' })
+            res.end('OK')
+            resolve(client)
+          }
         })
 
         // pipe request -> busboy -> stream
@@ -114,8 +120,10 @@ module.exports = (req, res, next) => {
     })
   })
   .catch((err) => {
+    errorCaught = true
     Object.assign(err, metadata)
     err.statusCode = err.statusCode || statusCodes.INTERNAL_SERVER_ERROR
+    err.stack = null
     next(err)
   })
   .finally(disconnect)
