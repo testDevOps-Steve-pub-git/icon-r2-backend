@@ -170,7 +170,7 @@ module.exports = {
     authWorkflowUri: 'auth',
     anonWorkflowUri: 'anon',
     updateTimeService: {
-      enabled: true,  // setting this to false will disable the service that updates session componenet timing in Elasticsearch
+      enabled: false,  // setting this to false will disable the service that updates session componenet timing in Elasticsearch
       delay: 10000,
       typeToUpdate: 'log'
     }

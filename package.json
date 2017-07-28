@@ -1,6 +1,6 @@
 {
   "name": "ICON",
-  "version": "2.1.38",
+  "version": "2.39.2",
   "main": "server/server.js",
   "scripts": {
     "lint": "standard --verbose | snazzy",
@@ -49,7 +49,7 @@
     "strong-error-handler": "1.2.1",
     "uuid": "3.1.0",
     "winston": "2.3.1",
-    "winston-elasticsearch": "0.4.2",
+    "winston-elasticsearch": "0.5.0",
     "zip-stream": "1.2.0"
   },
   "devDependencies": {

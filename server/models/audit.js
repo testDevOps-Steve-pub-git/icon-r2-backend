@@ -20,6 +20,7 @@ module.exports = class Audit {
     this._referer = null
     this._fileCount = null
     this._isAuth = null
+    this._duration = null
   }
 
   toList () {
@@ -41,7 +42,8 @@ module.exports = class Audit {
       setLanguage: this._setLanguage,
       referer: this._referer,
       fileCount: this._fileCount,
-      isAuth: this._isAuth
+      isAuth: this._isAuth,
+      duration: this._duration
     }
   }
 
@@ -175,5 +177,13 @@ module.exports = class Audit {
 
   set isAuth (value) {
     this._isAuth = value
+  }
+
+  get duration () {
+    return this._duration
+  }
+
+  set duration (value) {
+    this._duration = value
   }
 }

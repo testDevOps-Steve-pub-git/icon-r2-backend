@@ -5,6 +5,7 @@ const logger = require(`${__base}/server/logger`)
 const errorService = require(`${__base}/server/services/error-service`)
 const PROCESS_TYPE = require(`${__base}/server/models/process-type`)
 const Promise = require('bluebird')
+const debug = require('debug')('icon:elasticsearch:tracking')
 
 // JSON.parse errors won't call the .catch block
 // So handle with try/catch and it's own logging
@@ -32,22 +33,27 @@ function getLogs (queryObject) {
     // Fire request for previous logs
     // Wait according to configuration to ensure audit was indexed
     setTimeout(() => {
-      request.post({
+      let requestObject = {
         uri: `${config.elasticSearch.url}*/_search`,
-        'content-type': 'application/json',
+        headers: {
+          'content-type': 'application/json'
+        },
         body: JSON.stringify(queryObject)
-      })
-    .then(jsonParse)
-    .then((response) => {
-      if (response.hits && response.hits.hits) {
-        resolve(response.hits.hits)
-      } else {
-        resolve([])
       }
-    })
-    .catch((err) => {
-      throw errorService.IconCustomError(err.message, PROCESS_TYPE.AUDIT_UPDATE)
-    })
+      debug(JSON.stringify(requestObject))
+
+      request.post(requestObject)
+      .then(jsonParse)
+      .then((response) => {
+        if (response.hits && response.hits.hits) {
+          resolve(response.hits.hits)
+        } else {
+          resolve([])
+        }
+      })
+      .catch((err) => {
+        reject(errorService.IconCustomError(err.message, PROCESS_TYPE.AUDIT_UPDATE))
+      })
     }, config.tracking.updateTimeService.delay)
   })
 }

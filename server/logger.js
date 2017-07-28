@@ -12,6 +12,7 @@ const getGeoIp = require(`${__base}/server/services/geoip-lookup`)
 const elasticSearchConfig = require(`${__base}/config`).elasticSearch
 const esMappingConfig = require(`${__base}/server/models/winston-elasticsearch-mapping.json`)
 const trackingConfig = require(`${__base}/config`).tracking
+const debug = require('debug')('icon:elasticsearch')
 
 winston.addColors({
   error: 'red',
@@ -31,8 +32,13 @@ const esConfig = {
   mappingTemplate: esMappingConfig,
   clientOpts: {
     host: elasticSearchConfig.url,
-    apiVersion: '2.4'
+    apiVersion: '5.x'
   }
+}
+
+// turn on elastic search tracing by adding DEBUG=icon:elasticsearch to command line
+if (debug.enabled) {
+  esConfig.clientOpts.log = 'trace'
 }
 
 // Instantiate winston auditor with transport for es output

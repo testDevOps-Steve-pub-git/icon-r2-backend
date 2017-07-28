@@ -1,102 +1,99 @@
-{ 
-  "template": "logs-*", 
-  "settings": { 
-    "number_of_shards": 1, 
-    "number_of_replicas": 0, 
-    "index": { 
-      "refresh_interval": "5s", 
-      "cache": { "field.type": "soft" }, 
-      "query": { "default_field": "message" }, 
-      "store": { "compress": { "stored": true, "tv": true } }, 
-      "routing": { "allocation.total_shards_per_node": 1 } 
-    } 
-  }, 
-  "mappings": { 
-    "_default_": { 
-      "_all": { "enabled": false, "omit_norms": true }, 
-      "_source": { "enabled": true }, 
-      "_ttl": { "enabled": true, "default": "900d" }, 
-      "properties": { 
-        "@timestamp": { "type": "date", "index": "not_analyzed" }, 
-        "@version": { "type": "string", "index": "not_analyzed" }, 
-        "message": { "type": "string", "index": "analyzed" }, 
-        "severity": { "type": "string", "index": "not_analyzed" }, 
-        "fields": { 
-          "type": "object", 
-          "properties": { 
-              "areAllCanadaImmunizations" : { 
-                "type" : "string" 
-              }, 
-              "areAllOntarioImmunizations" : { 
-                "type" : "string" 
-              }, 
-              "attemptHistory" : { 
-                "type" : "string" 
-              }, 
-              "browserName" : { 
-                "type" : "string" 
-              }, 
-              "chiSurvey" : { 
-                "type" : "string" 
-              }, 
-              "clientip" : { 
-                "type" : "string" 
-              }, 
-              "contactPhu" : { 
-                "type" : "string" 
-              }, 
-              "device" : { 
-                "type" : "string" 
-              }, 
-              "location" : { 
-                "type" : "geo_point", 
-                "ignore_malformed": true 
-              }, 
-              "message" : { 
-                "type" : "string" 
-              }, 
-              "os" : { 
-                "type" : "string" 
-              }, 
-              "phuAcronym" : { 
-                "type" : "string" 
-              }, 
-              "phuName" : { 
-                "type" : "string" 
-              }, 
-              "processType" : { 
-                "type" : "string" 
-              }, 
-              "responseStatusCode" : { 
-                "type" : "long" 
-              }, 
-              "sessionId" : { 
-                "type" : "string",
-                "index": "not_analyzed"
-              }, 
-              "setLanguage" : { 
-                "type" : "string" 
-              }, 
-              "submissionId" : { 
-                "type" : "string",
-                "index": "not_analyzed"
-              }, 
-              "timestamp" : { 
-                "type" : "date", 
-                "format" : "strict_date_optional_time||epoch_millis" 
-              }, 
-              "transitionPage" : { 
-                "type" : "string" 
-              }, 
-              "userReceivedPhuLetter" : { 
-                "type" : "string" 
+{
+  "template": "logs-*",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "index": {
+      "refresh_interval": "5s",
+      "query": { "default_field": "message" },
+      "routing": { "allocation.total_shards_per_node": 1 }
+    }
+  },
+  "mappings": {
+    "_default_": {
+      "_all": { "enabled": false, "omit_norms": true },
+      "_source": { "enabled": true },
+      "properties": {
+        "@timestamp": { "type": "date", "index": "not_analyzed" },
+        "@version": { "type": "string", "index": "not_analyzed" },
+        "message": { "type": "string", "index": "analyzed" },
+        "severity": { "type": "string", "index": "not_analyzed" },
+        "fields": {
+          "type": "object",
+          "properties": {
+              "areAllCanadaImmunizations" : {
+                "type" : "string"
               },
-              "duration" : { 
-                "type" : "long" 
+              "areAllOntarioImmunizations" : {
+                "type" : "string"
+              },
+              "attemptHistory" : {
+                "type" : "string"
+              },
+              "browserName" : {
+                "type" : "string"
+              },
+              "chiSurvey" : {
+                "type" : "string"
+              },
+              "clientip" : {
+                "type" : "string"
+              },
+              "contactPhu" : {
+                "type" : "string"
+              },
+              "device" : {
+                "type" : "string"
+              },
+              "location" : {
+                "type" : "geo_point",
+                "ignore_malformed": true
+              },
+              "message" : {
+                "type" : "string"
+              },
+              "os" : {
+                "type" : "string"
+              },
+              "phuAcronym" : {
+                "type" : "string"
+              },
+              "phuName" : {
+                "type" : "string"
+              },
+              "processType" : {
+                "type" : "string"
+              },
+              "responseStatusCode" : {
+                "type" : "long"
+              },
+              "sessionId" : {
+                "type" : "string",
+                "index": "not_analyzed"
+              },
+              "setLanguage" : {
+                "type" : "string"
+              },
+              "submissionId" : {
+                "type" : "string",
+                "index": "not_analyzed"
+              },
+              "timestamp" : {
+                "type" : "date",
+                "format" : "strict_date_optional_time||epoch_millis"
+              },
+              "transitionPage" : {
+                "type" : "string"
+              },
+              "userReceivedPhuLetter" : {
+                "type" : "string"
+              },
+              "duration" : {
+                "type" : "long"
               }
-            } 
-        } 
-      } 
-    } 
-  } 
+            }
+        }
+      }
+    }
+  }
 }

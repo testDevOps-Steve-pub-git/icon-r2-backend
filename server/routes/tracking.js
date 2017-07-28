@@ -10,16 +10,15 @@ module.exports = (req, res) => {
   Object.assign(req.headers, {
     'x-real-ip': req.connection.remoteAddress
   })
-  logger.auditLog(PROCESS_TYPES.ICON_UI, statusCodes.ACCEPTED, req.headers, req.decoded, getObject(req.body))
-  .then(updateSessionTime)
-  .then(updateComponentTime)
+  logger.auditLog(PROCESS_TYPES.ICON_UI, statusCodes.ACCEPTED, req.headers, req.decoded, getSafeAudit(req.body))
+  .then(updateSessionTime)    // NOTE: Currently disabled in config since UI is now calculating durations.
+  .then(updateComponentTime)  // NOTE: Currently disabled in config since UI is now calculating durations.
   .then(() => { res.status(statusCodes.ACCEPTED).end() })
   .catch((err) => {
     logger.error(err.message, Object.assign(err, {
       processType: PROCESS_TYPES.ICON_UI,
       decoded: req.decoded
-    })
-    )
+    }))
     res.status(statusCodes.INTERNAL_SERVER_ERROR).end()
   })
 }
@@ -45,24 +44,30 @@ function isLastPage (audit) {
     audit.transitionPage.split('/').includes(trackingConfig.endSessionPage)
 }
 
-/*
- *  function: getObject()
- *
+/**
  *  This function strips the required fields out of the body, checks if they were actually
  *  in the body, and if they are, adds them to a temporary object which is then sent to the audit logger
- *
- *  @param  {Object}      - Object representing body of request sent to api
- *  @return               - Object created from request body with required fields to be sent to audit logger
+ *  @param  {Object} body - Object representing body of request sent to api
+ *  @return {Object} - Object created from request body with required fields to be sent to audit logger
  */
-function getObject (body) {
-  let arr = ['chiSurvey', 'setLanguage', 'contactPhu', 'transitionPage', 'userReceivedPhuLetter', 'areAllOntarioImmunizations', 'areAllCanadaImmunizations']
+function getSafeAudit (body) {
+  let safeAuditKeys = [
+    'transitionPage',
+    'duration',
+    'areAllOntarioImmunizations',
+    'areAllCanadaImmunizations',
+    'chiSurvey',
+    'contactPhu',
+    'setLanguage',
+    'userReceivedPhuLetter'
+  ]
 
-  let obj = arr.reduce(function (obj, key) {
-    if (body[key]) {
-      obj[key] = body[key]
-    }
-    return obj
-  }, {})
+  // Only carry forward safe keys in the audit object.
+  let audit = safeAuditKeys
+      .reduce((obj, key) => {
+        if (body[key] !== undefined) obj[key] = body[key]
+        return obj
+      }, {})
 
-  return obj
+  return audit
 }

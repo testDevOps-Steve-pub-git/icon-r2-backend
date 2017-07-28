@@ -5,7 +5,6 @@ const config = require(`${__base}/config`)
 const processTypes = require(`${__base}/server/models/process-type`)
 const statusCodes = require(`${__base}/server/models/response-status-code`)
 const errorHandler = require(`${__base}/server/services/error-service`)
-const db = require(`${__base}/server/services/data-dictionary/database`)
 const copyFrom = require('pg-copy-streams').from
 const crypto = require('crypto')
 const uuid = require('uuid/v1')
@@ -30,16 +29,20 @@ function createCipher (config) {
 // used by finally
 let client
 function disconnect () {
-  db.disconnect(client, processTypes.FILE_UPLOAD)
+  client.release() // have to release the connection back to the pool
 }
 
 // used to prevent double res writing
 let errorCaught = false
 
+function getConnection (app) {
+  return app.models.SubmissionAttachment.getConnector().pg.connect() // this is a promise
+}
+
 module.exports = (req, res, next) => {
   metadata.decoded = req.decoded
 
-  return db.connect(processTypes.FILE_UPLOAD)
+  return getConnection(req.app)
   .then((dbClient) => {
     client = dbClient
     return new Promise((resolve, reject) => {
