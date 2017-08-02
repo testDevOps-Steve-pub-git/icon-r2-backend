@@ -44,6 +44,7 @@
     "pg-copy-streams": "1.2.0",
     "request": "2.81.0",
     "request-promise": "4.2.1",
+    "require-sql": "1.0.0",
     "stream-meter": "1.0.4",
     "stream-replace": "1.0.0",
     "strong-error-handler": "1.2.1",

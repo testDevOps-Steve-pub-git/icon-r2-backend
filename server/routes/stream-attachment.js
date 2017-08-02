@@ -1,133 +1,132 @@
 'use strict'
 
 const Promise = require('bluebird')
-const config = require(`${__base}/config`)
-const processTypes = require(`${__base}/server/models/process-type`)
-const statusCodes = require(`${__base}/server/models/response-status-code`)
-const errorHandler = require(`${__base}/server/services/error-service`)
 const copyFrom = require('pg-copy-streams').from
 const crypto = require('crypto')
 const uuid = require('uuid/v1')
 const Meter = require('stream-meter')
 const Busboy = require('busboy')
 
-const metadata = {
-  processType: processTypes.FILE_UPLOAD
-}
-const sqlCopy = 'COPY "Submission_Attachment"("Id", "Transaction_Id", "Original_Filename", "File_Mime_Type", "File_Content") FROM STDIN;'
+const config = require(`${__base}/config`)
+const processTypes = require(`${__base}/server/models/process-type`)
+const statusCodes = require(`${__base}/server/models/response-status-code`)
+const errorHandler = require(`${__base}/server/services/error-service`)
 
-function validMimeType (mimeType) {
-  return config.attachment.types.includes(mimeType)
-}
+require('require-sql')
+const COPY_FROM_STDIN = require(`${__base}/db/copy-stream-from-stdin.sql`)
+const META_DATA = { processType: processTypes.FILE_UPLOAD }
 
-function createCipher (config) {
-  return crypto
-    .createCipher(config.algorithm, config.password)
-    .setEncoding(config.fileEncoding)
-}
+/** Determines if a MIME type is permitted.
+ * @param {String} mimeType
+ * @returns {Boolean} */
+const isValidMimeType = (mimeType) => config.attachment.types.includes(mimeType)
 
-// used by finally
-let client
-function disconnect () {
-  client.release() // have to release the connection back to the pool
-}
+/** @param {Object} config @returns {Object} - the instantiated cipher */
+const createCipher = (config) => crypto
+      .createCipher(config.algorithm, config.password)
+      .setEncoding(config.fileEncoding)
 
-// used to prevent double res writing
-let errorCaught = false
+/** Gets a connection from the pool used by loopback middleware.
+ * @param {Object} app - the loopback app to consume connection pool from
+ * @returns {Promise<Object>} - a client from the pool */
+const getConnection = (app) => app.models.SubmissionAttachment
+      .getConnector().pg.connect()
 
-function getConnection (app) {
-  return app.models.SubmissionAttachment.getConnector().pg.connect() // this is a promise
-}
+/** Releases the client connection back to the pool. @param {Object} client */
+const releaseConnection = (client) => client.release()
 
 module.exports = (req, res, next) => {
-  metadata.decoded = req.decoded
+  META_DATA.decoded = req.decoded
+  let client = null // used by finally
+  let errorCaught = false // used to prevent double res writing
 
   return getConnection(req.app)
-  .then((dbClient) => {
-    client = dbClient
-    return new Promise((resolve, reject) => {
-      try {
-        const cipher = createCipher(config.crypto)
-        const stream = client.query(copyFrom(sqlCopy))
-        const busboy = new Busboy({ headers: req.headers })
-        const meter = new Meter(config.attachment.size)
+  .then((dbClient) => { client = dbClient })
+  .then(() => new Promise((resolve, reject) => {
+    try {
+      const cipher = createCipher(config.crypto)
+      const queryStream = client.query(copyFrom(COPY_FROM_STDIN))
+      const busboy = new Busboy({ headers: req.headers })
+      const meter = new Meter(config.attachment.size)
 
-        let fileEnded = false
+      let fileEnded = false
 
-        stream.on('error', (err) => {
-          let reason = err.message.split(':')[0]
-          let handler = reason ? errorHandler.IconCustomWarning : errorHandler.IconCustomError
+      // Busboy is at the top of the file processing tree.
+      busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        file.on('error', reject)
+        file.on('end', () => { fileEnded = true })
 
-          reject(handler(err.message, { statusCode: statusCodes[reason] }))
-        })
-
-        req.on('error', reject)
-        busboy.on('error', reject)
-
-        // If the file upload format is invalid, file end will not
-        // fire and the stream will not end.  Busboy finish will always
-        // fire even if the file is invalid so check for file completion
-        busboy.on('finish', () => {
-          if (!fileEnded) { reject(errorHandler.IconCustomError('Invalid file upload')) }
-        })
-
-        // limit upload to max file size
-        meter.on('error', () => {
-          reject(errorHandler.IconCustomWarning('File size exceeded', {
-            statusCode: statusCodes.PAYLOAD_TOO_LARGE
+        // check mime type
+        if (!isValidMimeType(mimetype)) {
+          reject(errorHandler.IconCustomWarning('Invalid Mime Type', {
+            statusCode: statusCodes.UNSUPPORTED_MEDIA_TYPE
           }))
-        })
+        }
 
-        // process the file
-        busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-          file.on('error', reject)
-          file.on('end', () => { fileEnded = true })
+        // stream the data
+        try {
+          queryStream.write(`${uuid()}\t`)
+          queryStream.write(`${req.decoded.txId}\t`)
+          queryStream.write(`${filename}\t`)
+          queryStream.write(`${mimetype}\t`)
 
-          // check mime type
-          if (!validMimeType(mimetype)) {
-            reject(errorHandler.IconCustomWarning('Invalid Mime Type', {
-              statusCode: statusCodes.UNSUPPORTED_MEDIA_TYPE
-            }))
-          }
+          file.pipe(meter)
+          .pipe(cipher)
+          .pipe(queryStream)
+        } catch (err) {
+          reject(err)
+        }
+      })
 
-          // stream the data
-          try {
-            stream.write(`${uuid()}\t`)
-            stream.write(`${req.decoded.txId}\t`)
-            stream.write(`${filename}\t`)
-            stream.write(`${mimetype}\t`)
+      busboy.on('error', reject)
 
-            file
-            .pipe(meter)
-            .pipe(cipher)
-            .pipe(stream)
-          } catch (err) {
-            reject(err)
-          }
-        })
+      busboy.on('finish', () => {
+        // If the file upload format is invalid, file end will not
+        // fire and the stream will not end. Busboy finish will always
+        // fire even if the file is invalid so check for file completion
+        if (!fileEnded) reject(errorHandler.IconCustomError('Invalid file upload!'))
+      })
 
-        // all done!
-        stream.on('end', () => {
-          if (!errorCaught) {
-            res.writeHead(200, { 'Connection': 'close' })
-            res.end('OK')
-            resolve(client)
-          }
-        })
+      // Meter limits the upload to a max file size.
+      meter.on('error', () => {
+        reject(errorHandler.IconCustomWarning('File size exceeded!', {
+          statusCode: statusCodes.PAYLOAD_TOO_LARGE
+        }))
+      })
 
-        // pipe request -> busboy -> stream
-        req.pipe(busboy)
-      } catch (err) {
-        reject(err)
-      }
-    })
-  })
+      // all done!
+      queryStream.on('end', () => {
+        if (!errorCaught) {
+          res.writeHead(200, { 'Connection': 'close' })
+          res.end('OK')
+          if (client) releaseConnection(client)
+          resolve()
+        }
+      })
+
+      queryStream.on('error', (err) => {
+        let [ reason ] = err.message.split(':')
+        let handler = reason
+            ? errorHandler.IconCustomWarning
+            : errorHandler.IconCustomError
+
+        reject(handler(err.message, { statusCode: statusCodes[reason] }))
+      })
+
+      req.on('error', reject)
+
+      // pipe request -> busboy -> stream
+      req.pipe(busboy)
+    } catch (err) {
+      if (client) releaseConnection(client)
+      reject(err)
+    }
+  }))
   .catch((err) => {
     errorCaught = true
-    Object.assign(err, metadata)
+    Object.assign(err, META_DATA)
     err.statusCode = err.statusCode || statusCodes.INTERNAL_SERVER_ERROR
     err.stack = null
     next(err)
   })
-  .finally(disconnect)
 }
